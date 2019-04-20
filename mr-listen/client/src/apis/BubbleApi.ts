@@ -27,8 +27,8 @@ export enum BubbleStyle {
 }
 
 export interface Bubble {
-  id: number;
-  holeId: number;
+  _id: number | string;
+  holeId: number | string;
   type: BubbleType;
   style: BubbleStyle;
   content: string;
@@ -36,9 +36,9 @@ export interface Bubble {
 }
 
 export interface Reply {
-  id: number;
-  holeId: number;
-  bubbleId: number;
+  _id: number | string;
+  holeId: number | string;
+  bubbleId: number | string;
   content: string;
   sendTime: number;
 }

@@ -23,8 +23,8 @@ export interface BubbleVO extends Bubble {
 }
 
 export interface IHole {
-  id: number;
-  userId: number;
+  _id: number | string;
+  userId: number | string;
   createTime: number;
   updateTime: number;
   title: string;

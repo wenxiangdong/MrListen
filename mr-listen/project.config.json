@@ -3,7 +3,7 @@
   "cloudfunctionRoot": "cloud/functions/",
   "projectname": "mr-listen",
   "description": "",
-  "appid": "touristappid",
+  "appid": "wx709c7e8a1ee79dce",
   "setting": {
     "urlCheck": true,
     "es6": false,
