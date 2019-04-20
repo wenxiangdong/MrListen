@@ -1,8 +1,9 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "client/dist/",
+  "cloudfunctionRoot": "cloud/functions/",
   "projectname": "mr-listen",
   "description": "",
-  "appid": "wx709c7e8a1ee79dce",
+  "appid": "touristappid",
   "setting": {
     "urlCheck": true,
     "es6": false,
