@@ -1,5 +1,5 @@
 import {Bubble, Reply} from "./BubbleApi";
-import {IHttpRequest, MockRequest} from "./HttpRequest";
+import {HttpRequest, IHttpRequest, MockRequest} from "./HttpRequest";
 import "@tarojs/async-await";
 
 export interface IHoleApi {
@@ -36,7 +36,8 @@ export interface IHole {
  */
 export class HoleApi implements IHoleApi {
 
-  constructor(private base: IHttpRequest){}
+  private base: IHttpRequest = new HttpRequest();
+  constructor(){}
 
   async createHole(): Promise<number> {
     return this.base.request("createHole");

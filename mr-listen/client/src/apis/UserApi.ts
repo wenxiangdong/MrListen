@@ -1,4 +1,4 @@
-import {IHttpRequest, MockRequest} from "./HttpRequest";
+import {HttpRequest, IHttpRequest, MockRequest} from "./HttpRequest";
 import "@tarojs/async-await";
 
 export interface IUserApi {
@@ -10,7 +10,8 @@ export interface IUserApi {
  * 真正的api
  */
 export class UserApi implements IUserApi {
-  constructor(private base: IHttpRequest) {
+  private base: IHttpRequest = new HttpRequest();
+  constructor() {
   }
 
   public async login() {

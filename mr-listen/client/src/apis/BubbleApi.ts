@@ -1,4 +1,4 @@
-import {IHttpRequest, MockRequest} from "./HttpRequest";
+import {HttpRequest, IHttpRequest, MockRequest} from "./HttpRequest";
 import "@tarojs/async-await";
 
 export interface IBubbleApi {
@@ -50,7 +50,8 @@ export interface Reply {
 export class BubbleApi implements IBubbleApi {
 
 
-  constructor(private base: IHttpRequest) {}
+  private base: IHttpRequest = new HttpRequest();
+  constructor() {}
 
   async deleteBubble(bubbleId: number): Promise<void> {
     return this.base.request("deleteBubble", {bubbleId});
