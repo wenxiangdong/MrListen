@@ -1,6 +1,7 @@
 import * as Taro from "@tarojs/taro";
 import Logger from "../utils/logger";
 import "@tarojs/async-await";
+import UploadFileResult = Taro.cloud.ICloud.UploadFileResult;
 
 export interface IHttpRequest {
   request<T>(name: string, params?: object): Promise<T>;
@@ -11,7 +12,7 @@ export interface IHttpRequest {
    * @param filePath
    * @return 新的文件地址
    */
-  uploadFile(holeId: number, filePath: string): string;
+  uploadFile(holeId: number, filePath: string): Promise<string>;
 }
 
 export class HttpRequest implements IHttpRequest{
@@ -50,9 +51,21 @@ export class HttpRequest implements IHttpRequest{
     }
   }
 
-  uploadFile(holeId: number, filePath: string): string {
+  public async uploadFile(holeId: number, filePath: string): Promise<string> {
     this.logger.info(holeId, filePath);
-    return filePath;
+    try {
+      Taro.showLoading({title: "上传文件中..."});
+      let res = await Taro.cloud.uploadFile({
+        cloudPath: `holdId/${new Date().getTime()}`,
+        filePath: filePath
+      }) as UploadFileResult;
+      return res.fileID;
+    } catch (e) {
+      this.logger.error(e);
+      throw e;
+    } finally {
+      Taro.hideLoading();
+    }
   }
 }
 
