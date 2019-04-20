@@ -4,13 +4,13 @@ import {Image} from "@tarojs/components";
 import Logger from "../../utils/logger";
 
 interface IProp {
-  src: string,
+  src?: string,
   size?: number
 }
 export default class Avatar extends Component<IProp> {
   private logger = Logger.getLogger(Avatar.name);
   render(): any {
-    const {src = "cloud://first-57afbf.6669-first-57afbf/images/avatar.jpeg", size = 150} = this.props;
+    const {src, size} = this.props;
     this.logger.info(src, size);
     return (
       <Image
@@ -19,3 +19,8 @@ export default class Avatar extends Component<IProp> {
     );
   }
 }
+
+// @ts-ignore
+Avatar.defaultProps = {
+  src: "cloud://first-57afbf.6669-first-57afbf/images/avatar.jpeg", size: 150
+};
