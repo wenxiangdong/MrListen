@@ -12,8 +12,10 @@ export default class Avatar extends Component<IProp> {
   render(): any {
     const {src, size} = this.props;
     this.logger.info(src, size);
+
     return (
       <Image
+        // @ts-ignore
         src={src}
         style={{width: size + "px", height: size + "px", borderRadius: "50%", border: "#e8eaec 1px solid"}}/>
     );

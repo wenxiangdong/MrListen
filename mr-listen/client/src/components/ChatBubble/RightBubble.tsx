@@ -7,12 +7,13 @@ import SendTime from "./SendTime";
 
 interface IProp {
   bubble: Bubble,
-  color: string
+  color: string,
+  onLongPress: (e) => void
 }
 class RightBubble extends Component<IProp> {
 
   render(): any {
-    const {bubble, color} = this.props;
+    const {bubble, color, onLongPress} = this.props;
     let bubbleContent;
     switch (bubble.type) {
       case BubbleType.TEXT:
@@ -27,7 +28,7 @@ class RightBubble extends Component<IProp> {
     }
 
     return (
-      <View className={"Right-wrapper bubble"} style={{backgroundColor: color}}>
+      <View onLongPress={onLongPress} className={"Right-wrapper bubble"} style={{backgroundColor: color}}>
         {bubbleContent}
         <SendTime time={bubble.sendTime} textColor={"white"}/>
       </View>

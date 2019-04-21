@@ -1,0 +1,41 @@
+@import "../../../app";
+.FM-cover {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .FM-wrapper {
+
+    position: absolute;
+    //padding: 10px;
+    box-sizing: border-box;
+
+    border: @border-color 2px solid;
+    box-shadow: rgba(0,0,0,.1) 0 0 10px;
+
+    .FM-item {
+      padding: 10px 20px;
+    }
+
+    .FM-item:active {
+      background-color: rgba(0,0,0,0.1);
+    }
+  }
+}
+
+//Y方向缩放动画
+.scale-in {
+  animation: h-a .2s ease-in;
+  @keyframes h-a {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+
