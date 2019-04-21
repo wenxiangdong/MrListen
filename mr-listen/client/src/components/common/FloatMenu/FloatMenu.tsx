@@ -32,6 +32,15 @@ export default class FloatMenu extends Taro.Component<IProp, IState> {
     this.initSize();
   }
 
+  shouldComponentUpdate(nextProps: Readonly<IProp>): boolean {
+    const {menuList} = this.props;
+    const nextMenuList = nextProps.menuList;
+    if (menuList !== nextMenuList || menuList.length !== nextMenuList.length) {
+      this.initSize();
+    }
+    return true;
+  }
+
   /**
    * 获取菜单组的总大小
    */

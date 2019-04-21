@@ -6,7 +6,7 @@ import "./SendTime.less";
 
 interface IProp {
   time: number,
-  textColor: string
+  textColor?: string
 }
 
 export default class SendTime extends Component<IProp> {
