@@ -1,18 +1,16 @@
 import {Component} from "@tarojs/taro";
 import * as Taro from "@tarojs/taro";
 import {Image} from "@tarojs/components";
-import Logger from "../../utils/logger";
+// import Logger from "../../utils/logger";
 
 interface IProp {
   src?: string,
   size?: number
 }
 export default class Avatar extends Component<IProp> {
-  private logger = Logger.getLogger(Avatar.name);
+  // private logger = Logger.getLogger(Avatar.name);
   render(): any {
     const {src, size} = this.props;
-    this.logger.info(src, size);
-
     return (
       <Image
         // @ts-ignore

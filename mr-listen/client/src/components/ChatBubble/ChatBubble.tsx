@@ -2,15 +2,16 @@ import "./ChatBubble.less";
 
 import {BubbleVO} from "../../apis/HoleApi";
 import {View} from "@tarojs/components";
-import RightBubble from "./RightBubble";
+import RightBubble from "./Bubble/RightBubble";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
-import LeftBubble from "./LeftBubble";
+import LeftBubble from "./Bubble/LeftBubble";
 import Avatar from "./Avatar";
 import Logger from "../../utils/logger";
 import Taro from "@tarojs/taro";
-
 interface IProp {
-  bubble: BubbleVO
+  bubble: BubbleVO,
+  onLongPressLeftBubble?: (id) => void,
+  onLongPressRightBubble?: (id) => void
 }
 export default class ChatBubble extends Taro.Component<IProp> {
 
@@ -21,9 +22,9 @@ export default class ChatBubble extends Taro.Component<IProp> {
 
   constructor(props) {
     super(props);
+    this.logger.info(props);
     this.initUserConfig();
   }
-
 
   /**
    * 获取初始化用户配置
@@ -32,48 +33,39 @@ export default class ChatBubble extends Taro.Component<IProp> {
     this.userConfig = UserConfig.getConfig();
   }
 
-  private rightBubbleMenus = [
-    {
-      label: "对自己说"
-    },
-    {
-      label: "删除"
-    }
-  ];
 
-  handleLongPressRightBubble = () => {
-    this.logger.info("右气泡被长按了");
-    Taro.showActionSheet({
-      itemList: this.rightBubbleMenus.map(menu => menu.label),
-
-    }).then(res => {
-      this.logger.info(res);
-    });
-  };
+  // handleLongPressRightBubble = (id) => {
+  //   this.logger.info("右气泡被长按了", id);
+  // };
+  //
+  // handleLongPressLeftBubble = (id) => {
+  //   this.logger.info("左气泡被长按了", id);
+  // };
 
   render(): any {
-    const {bubble} = this.props;
+    const {bubble, onLongPressLeftBubble, onLongPressRightBubble} = this.props;
     const {bubbleColor} = this.userConfig;
 
+    // 构建右边的气泡
     const rightBubbleWrapper = (
       <View className={"right-flex bubble-item"}>
         <View className={"avatar-wrapper"}>
           <Avatar size={50} />
         </View>
-        <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
+        <RightBubble bubble={bubble} color={bubbleColor} onLongPress={onLongPressRightBubble}/>
       </View>
     );
 
+    // 构建左边的气泡
     const leftBubblesWrapper =
       bubble.replyList.map((r, index) => (
           <View className={"left-flex bubble-item"} key={index}>
             <View className={"avatar-wrapper"}>
               <Avatar size={50} />
             </View>
-            <LeftBubble bubble={r} />
+            <LeftBubble bubble={r} onLongPress={onLongPressLeftBubble} />
           </View>
-        ))
-    ;
+        ));
 
     return (
       <View>

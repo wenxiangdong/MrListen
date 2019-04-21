@@ -8,15 +8,17 @@
       <change afterPath="$PROJECT_DIR$/client/src/apis/HoleApi.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/apis/UserApi.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/Bubble.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/LeftBubble.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/LeftBubble.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/RightBubble.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/RightBubble.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/SendTime.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/SendTime.tsx" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.less" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/HoleDetail/HoleDetail.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/HoleDetail/InputBar/InputBar.tsx" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.less" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.tsx" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/client/src/components/common/Upload/Upload.less" afterDir="false" />
@@ -40,10 +42,13 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble.less">
+        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/LeftBubble.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="252">
+              <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,22 +56,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+            <state relative-caret-position="672">
+              <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <element signature="e#555#605#0" />
-                <element signature="e#662#713#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.less">
+        <entry file="file://$PROJECT_DIR$/client/src/components/HoleDetail/InputBar/InputBar.tsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="224">
-              <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
+              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -74,11 +77,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/pages/try/try.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="76" column="37" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+            <state relative-caret-position="112">
+              <caret line="66" column="4" lean-forward="true" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#590#621#0" />
+                <element signature="e#1481#1656#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/pages/index/index.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="83">
+              <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+                <element signature="e#695#980#0" />
+                <element signature="e#1357#1366#0" />
               </folding>
             </state>
           </provider>
@@ -87,34 +104,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-                <element signature="e#896#933#0" />
-                <element signature="e#396#479#0" />
-              </folding>
+            <state relative-caret-position="-437">
+              <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/app.less">
+        <entry file="file://$PROJECT_DIR$/client/src/components/HoleDetail/HoleDetail.tsx">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="23" selection-start-column="23" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.tsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-              </folding>
+              <caret column="22" selection-start-column="22" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -122,8 +122,29 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="28" column="11" lean-forward="true" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
+            <state relative-caret-position="156">
+              <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -134,8 +155,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
-        <option value="TypeScript JSX File" />
         <option value="Less File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -166,40 +187,41 @@
         <option value="$PROJECT_DIR$/client/src/apis/HttpRequest.ts" />
         <option value="$PROJECT_DIR$/client/src/components/common/Upload/index.less" />
         <option value="$PROJECT_DIR$/client/src/components/common/Upload/index.tsx" />
-        <option value="$PROJECT_DIR$/client/src/pages/index/index.tsx" />
         <option value="$PROJECT_DIR$/client/src/app.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/common/Upload/Upload.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/common/Upload/Upload.less" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.ts" />
-        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.tsx" />
         <option value="$PROJECT_DIR$/client/src/utils/user-config.ts" />
-        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.less" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.less" />
-        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/Bubble.less" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.less" />
         <option value="$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.less" />
-        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.tsx" />
-        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.tsx" />
         <option value="$PROJECT_DIR$/client/src/app.less" />
-        <option value="$PROJECT_DIR$/client/src/pages/try/try.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/HoleDetail/HoleDetail.tsx" />
+        <option value="$PROJECT_DIR$/client/src/components/HoleDetail/InputBar/InputBar.tsx" />
+        <option value="$PROJECT_DIR$/client/src/pages/index/index.tsx" />
+        <option value="$PROJECT_DIR$/client/src/pages/try/try.tsx" />
         <option value="$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.less" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="x" value="-9" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -223,6 +245,13 @@
               <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="apis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -238,7 +267,24 @@
               <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
               <item name="client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="FloatMenu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="index" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
@@ -247,13 +293,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="try" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mr-listen" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mr-listen" type="b2602c69:ProjectViewProjectNode" />
@@ -277,6 +316,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -292,6 +332,9 @@
     <property name="ts.external.directory.path" value="C:\Users\DELL\project\MrListen\mr-listen\client\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DELL\project\MrListen\mr-listen\client\src\components\ChatBubble\Bubble" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\DELL\project\MrListen\mr-listen\client\src\images" />
     </key>
@@ -320,18 +363,19 @@
       <updated>1555748392438</updated>
       <workItem from="1555748394186" duration="6594000" />
       <workItem from="1555765972955" duration="11407000" />
-      <workItem from="1555824529265" duration="15000000" />
+      <workItem from="1555824529265" duration="16598000" />
+      <workItem from="1555856340739" duration="6692000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33001000" />
+    <option name="totallyTimeSpent" value="41291000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30845442" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30845442" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -344,7 +388,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="TypeScript" order="9" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.14305949" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.26628897" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -380,34 +424,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/apis/HoleApi.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-            <element signature="n#!!block;n#IHoleApi#0" />
-            <element signature="n#!!block;n#BubbleVO#0" />
-            <element signature="n#MockHoleApi#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/images/upload.svg">
       <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/apis/HttpRequest.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1092">
-          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <element signature="n#!!block;n#request#0;n#HttpRequest#0" />
-            <element signature="n#MockRequest#0" />
-            <element signature="n#!!block;n#HttpResponse#0" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/apis/UserApi.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -443,16 +461,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/pages/index/index.less">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/pages/index/index.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/utils/logger.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -518,10 +526,128 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.tsx">
+    <entry file="file://$PROJECT_DIR$/client/src/utils/user-config.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="16" column="39" selection-start-line="16" selection-start-column="39" selection-end-line="16" selection-end-column="39" />
+        <state relative-caret-position="728">
+          <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/SendTime.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/RightBubble.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/Bubble.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/node_modules/@tarojs/taro/types/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="8206" column="29" selection-start-line="8206" selection-start-column="12" selection-end-line="8206" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/app.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/LeftBubble.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/dist/npm/@tarojs/taro-weapp/dist/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="3595" column="22" selection-start-line="3595" selection-start-column="22" selection-end-line="3595" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/SendTime.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/RightBubble.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-736">
+          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/apis/HoleApi.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1284">
+          <caret line="54" column="47" lean-forward="true" selection-start-line="54" selection-start-column="47" selection-end-line="54" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+            <element signature="n#!!block;n#BubbleVO#0" />
+            <element signature="n#MockHoleApi#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble/LeftBubble.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/apis/HttpRequest.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="63" column="27" lean-forward="true" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="n#!!block;n#request#0;n#HttpRequest#0" />
+            <element signature="n#MockRequest#0" />
+            <element signature="n#!!block;n#HttpResponse#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/HoleDetail/HoleDetail.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="22" selection-start-column="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -535,124 +661,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/utils/user-config.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="728">
-          <caret line="26" column="15" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="17" column="67" selection-start-line="17" selection-start-column="67" selection-end-line="17" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/SendTime.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Avatar.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/Bubble.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/RightBubble.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/ChatBubble.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+        <state relative-caret-position="672">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
-            <element signature="e#555#605#0" />
-            <element signature="e#662#713#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/app.less">
+    <entry file="file://$PROJECT_DIR$/client/src/components/HoleDetail/InputBar/InputBar.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
+        <state relative-caret-position="224">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/pages/index/index.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83">
+          <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+            <element signature="e#695#980#0" />
+            <element signature="e#1357#1366#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/pages/try/try.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="76" column="37" selection-start-line="76" selection-start-column="37" selection-end-line="76" selection-end-column="37" />
+        <state relative-caret-position="112">
+          <caret line="66" column="4" lean-forward="true" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#590#621#0" />
+            <element signature="e#1481#1656#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/components/ChatBubble/LeftBubble.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/node_modules/@tarojs/taro/types/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="8206" column="29" selection-start-line="8206" selection-start-column="12" selection-end-line="8206" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-            <element signature="e#896#933#0" />
-            <element signature="e#396#479#0" />
-          </folding>
+        <state relative-caret-position="-437">
+          <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/src/components/common/FloatMenu/FloatMenu.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="28" column="11" lean-forward="true" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
+        <state relative-caret-position="156">
+          <caret line="18" column="16" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
         </state>
       </provider>
     </entry>

@@ -3,6 +3,9 @@ import {Component, Config} from "@tarojs/taro";
 import {View} from "@tarojs/components";
 import FloatMenu, {MenuItem} from "../../components/common/FloatMenu/FloatMenu";
 import Logger from "../../utils/logger";
+// import ChatBubble from "../../components/ChatBubble/ChatBubble";
+// import {BubbleVO} from "../../apis/HoleApi";
+// import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
 
 interface IState {
   position: number[],
@@ -32,7 +35,7 @@ export default class Try extends Component<any, IState> {
   //   }]
   // };
 
-  private readonly menus: MenuItem[] = [];
+  private menus: MenuItem[] = [];
 
   constructor(props) {
     super(props);
@@ -62,23 +65,26 @@ export default class Try extends Component<any, IState> {
     });
     this.logger.info(e);
   };
-
+  //
   private handleHideMenu = (e) => {
     e.stopPropagation();
+    // this.menus = this.menus.concat(Array.apply(null, {length: 3}).map((_, index): MenuItem=> {
+    //   return {
+    //     label: `菜单${index}`
+    //   }
+    // }));
     this.setState({showMenu: false, position: []})
   };
 
   render(): any {
-    const {position, showMenu} = this.state;
-    this.logger.info("showMenu", showMenu);
     return (
       <View onLongPress={this.handleLongPress} style={{width: "100vw", height: "100vh"}}>
         <FloatMenu
-          visible={!!position.length}
           menuList={this.menus}
-          position={position}
+          position={this.state.position}
+          onClickMenuItem={this.handleClickMenu}
           onHide={this.handleHideMenu}
-          onClickMenuItem={this.handleClickMenu}/>
+          visible={this.state.position.length !== 0}/>
       </View>
     )
   }
