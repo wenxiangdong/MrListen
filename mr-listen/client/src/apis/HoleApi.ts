@@ -15,7 +15,7 @@ export interface IHoleApi {
   updateHole(hole: IHole): Promise<void>;
 
 // get
-  getBubblesFromHole(index: number, offset: number): Promise<BubbleVO[]>;
+  getBubblesFromHole(holeId: number, index: number, offset: number): Promise<BubbleVO[]>;
 }
 
 export interface BubbleVO extends Bubble {
@@ -47,8 +47,8 @@ export class HoleApi implements IHoleApi {
     return this.base.request("deleteHole", {holeId});
   }
 
-  async getBubblesFromHole(index: number, offset: number): Promise<BubbleVO[]> {
-    return this.base.request("getBubblesFromHole", {index, offset});
+  async getBubblesFromHole(holeId: number, index: number, offset: number): Promise<BubbleVO[]> {
+    return this.base.request("getBubblesFromHole", {holeId, index, offset});
   }
 
   async getHoles(index: number, offset: number): Promise<IHole[]> {
@@ -78,7 +78,7 @@ export class MockHoleApi implements IHoleApi{
   }
 
   // @ts-ignore
-  getBubblesFromHole(index: number, offset: number): Promise<BubbleVO[]> {
+  getBubblesFromHole(holeId: number, index: number, offset: number): Promise<BubbleVO[]> {
     return this.http.success();
   }
 

@@ -96,7 +96,7 @@ class BubbleVO {
 	replyList: Reply[];
 }
 // get
-getBubblesFromHole(index: int, offset: int): BubbleVO[];
+getBubblesFromHole(holeId: int, index: int, offset: int): BubbleVO[];
 
 // post
 uploadFile(holeId: int): string;
