@@ -1,9 +1,10 @@
 import Taro from "@tarojs/taro";
 import {Bubble, BubbleType} from "../../../apis/BubbleApi";
-import {Image, Text, View} from "@tarojs/components";
+import {Block, Image, Text, View} from "@tarojs/components";
 import "./RightBubble.less";
 import SendTime from "./SendTime";
 import Listen from "../../../utils/listen";
+import zoomPng from "../../../images/zoom.png";
 
 interface IProp {
   bubble: Bubble,
@@ -22,12 +23,13 @@ class RightBubble extends Taro.Component<IProp> {
         break;
       }
       case BubbleType.PICTURE: {
-        bubbleContent = <Image
-          src={bubble.content}
-          className={"Right-image"}
-          onClick={this.handleClickImage}
-          mode={"aspectFill"}/>;
-        // bubbleContent = <View style={{backgroundImage: bubble.content}}/>;
+        bubbleContent = <Block>
+          <Image
+            src={bubble.content}
+            className={"Right-image"}
+            mode={"aspectFill"}/>
+          <Image className={"Right-zoom-icon"} src={zoomPng} onClick={this.handleClickImage}/>
+        </Block>;
         break;
       }
       case BubbleType.VOICE: {

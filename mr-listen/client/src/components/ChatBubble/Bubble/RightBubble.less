@@ -1,4 +1,5 @@
 @import "./Bubble";
+@import "../../../app";
 .Right-wrapper {
   color: white;
   /* 只有右下角是尖的 */
@@ -11,5 +12,17 @@
   .Right-image {
     max-width: 500px;
     border-radius: @bubble-radius;
+    display: inline-block;
+  }
+
+  .Right-zoom-icon {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    padding: 4px;
+    margin-left: -64px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    border: @sub-color 2px solid;
   }
 }
