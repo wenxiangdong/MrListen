@@ -8,11 +8,11 @@ export interface IHttpRequest {
 
   /**
    * 上传文件
-   * @param holeId
+   * @param folder
    * @param filePath
    * @return 新的文件地址
    */
-  uploadFile(holeId: number, filePath: string): Promise<string>;
+  uploadFile(folder, filePath: string): Promise<string>;
 }
 
 export class HttpRequest implements IHttpRequest{
@@ -47,16 +47,17 @@ export class HttpRequest implements IHttpRequest{
         throw new Error(`云函数[${name}]调用出错`);
       }
     } catch (e) {
+      this.logger.error(e);
       throw e;
     }
   }
 
-  public async uploadFile(holeId: number, filePath: string): Promise<string> {
-    this.logger.info(holeId, filePath);
+  public async uploadFile(folder, filePath: string): Promise<string> {
+    this.logger.info(folder, filePath);
     try {
       Taro.showLoading({title: "上传文件中..."});
       let res = await Taro.cloud.uploadFile({
-        cloudPath: `holdId/${new Date().getTime()}`,
+        cloudPath: `${folder}/${new Date().getTime()}`,
         filePath: filePath
       }) as UploadFileResult;
       return res.fileID;

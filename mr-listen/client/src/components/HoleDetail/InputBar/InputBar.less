@@ -1,0 +1,44 @@
+@import "../../../app";
+@bg-color: #f8f8f9;
+
+.IB-wrapper {
+  background-color: @bg-color;
+  padding: 10px;
+  border-top: @border-color 2px solid;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+
+  .IB-style-btn {
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    font-weight: bolder;
+    line-height: 40px;
+    text-align: center;
+    padding: 10px;
+    color: @sub-color;
+    border: @border-color 2px solid;
+    border-radius: 40%;
+  }
+
+  .IB-add-btn {
+    font-size: 64px;
+    font-weight: bold;
+    color: @sub-color;
+    text-align: center;
+  }
+
+  .IB-input {
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
