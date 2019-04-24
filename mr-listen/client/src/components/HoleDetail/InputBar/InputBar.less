@@ -1,9 +1,10 @@
 @import "../../../app";
 @bg-color: #f8f8f9;
-
 .IB-wrapper {
+  width: 750px;
   background-color: @bg-color;
   padding: 10px;
+  box-sizing: border-box;
   border-top: @border-color 2px solid;
 
   display: flex;
@@ -28,9 +29,13 @@
 
   .IB-add-btn {
     font-size: 64px;
+    width: 80px;
     font-weight: bold;
     color: @sub-color;
     text-align: center;
+  }
+  .close {
+    transform: rotateZ(45deg);
   }
 
   .IB-input {
@@ -40,5 +45,20 @@
     width: 100%;
     margin-left: 20px;
     margin-right: 20px;
+  }
+}
+
+.IB-toolbar {
+  width: 750px;
+  box-sizing: border-box;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20Px;
+
+  background-color: @bg-color;
+
+  .IB-grid {
+    text-align: center;
   }
 }

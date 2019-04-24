@@ -6,6 +6,9 @@ import {MenuItem} from "../../components/common/FloatMenu/FloatMenu";
 import Logger from "../../utils/logger";
 import {Bubble, BubbleType} from "../../apis/BubbleApi";
 import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
+import Recorder from "../../components/HoleDetail/InputBar/BubbleType/Recorder/Recorder";
+import BubbleTypeVoice from "../../components/HoleDetail/InputBar/BubbleType/BubbleTypeVoice";
+import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 // import ChatBubble from "../../components/ChatBubble/ChatBubble";
 // import {BubbleVO} from "../../apis/HoleApi";
 // import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
@@ -102,7 +105,8 @@ export default class Try extends Component<any, IState> {
           {/*onHide={this.handleHideMenu}*/}
           {/*visible={this.state.position.length !== 0}/>*/}
           {/*<BubbleTypePicture onSend={this.handleSend}/>*/}
-        {bubble ? <RightBubble bubble={bubble} color={"#19be6b"}/> : null}
+        {/*<Recorder/>*/}
+        <InputBar/>
       </View>
     )
   }
