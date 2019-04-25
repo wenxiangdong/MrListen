@@ -3,7 +3,7 @@ import {Block, View} from '@tarojs/components'
 import './index.less'
 import {BubbleVO, IHole} from "../../apis/HoleApi";
 import Logger from "../../utils/logger";
-import InputBar from "../../components/HoleDetail/InputBar/InputBar";
+import HoleDetail from '../../components/HoleDetail/HoleDetail';
 
 interface IState {
   hole: IHole | null,
@@ -90,10 +90,8 @@ class Index extends Component<any, IState> {
     // const chatBubblesComponents =
 
     return (
-      <View className='index'>
-        <View className={"input-bar"}>
-          <InputBar/>
-        </View>
+      <View className='index page'>
+        <HoleDetail/>
       </View>
     )
   }
