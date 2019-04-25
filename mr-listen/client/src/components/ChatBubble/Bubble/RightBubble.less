@@ -3,11 +3,27 @@
 .Right-wrapper {
   color: white;
   /* 只有右下角是尖的 */
-  border-top-left-radius: @bubble-radius;
-  border-bottom-left-radius: @bubble-radius;
-  border-top-right-radius: @bubble-radius;
+  //border-top-left-radius: @bubble-radius;
+  //border-bottom-left-radius: @bubble-radius;
+  //border-top-right-radius: @bubble-radius;
+  border-radius: @bubble-radius;
+  //overflow: hidden;
+  position: relative;
 
-  overflow: hidden;
+  &:before {
+    // 生成一个指向右边的三角形
+    position: absolute;
+    right: -8px;
+    bottom: 30px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+
+    // todo 这里的颜色是写死的，到时候再来改
+    border-left: 10px solid #19be6b;
+    border-bottom: 10px solid transparent;
+  }
 
   .Right-image {
     max-width: 500px;
@@ -25,4 +41,10 @@
     border-radius: 50%;
     border: @sub-color 2px solid;
   }
+}
+
+// 强迫刷新依赖文件（连按两次注释快捷键即可）
+.dev {
+  font-size: @font-size;
+  //font-size: 30px;
 }

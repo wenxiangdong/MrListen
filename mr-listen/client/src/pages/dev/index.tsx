@@ -4,6 +4,8 @@ import {Component} from "@tarojs/taro";
 import {View} from "@tarojs/components";
 import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
 import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
+import ChatBubble from "../../components/ChatBubble/ChatBubble";
+import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 
 
 export default class Index extends Component<any, any> {
@@ -31,6 +33,7 @@ export default class Index extends Component<any, any> {
     }
   }
 
+
   private handleLongPress = (bubble) => {
     console.log(bubble);
   };
@@ -39,10 +42,16 @@ export default class Index extends Component<any, any> {
     const {shortBubble} = this.state;
     const {longBubble} = this.state;
 
+
     return (
-      <View>
-        <RightBubble onLongPress={this.handleLongPress} bubble={shortBubble} color={'#448AFF'}/>
-        <RightBubble onLongPress={this.handleLongPress} bubble={longBubble} color={'#448AFF'}/>
+      <View className={'main-box'}>
+        <View className={'bubble-area'}>
+          <ChatBubble bubble={longBubble}/>
+          <ChatBubble bubble={shortBubble}/>
+        </View>
+        {/*<RightBubble onLongPress={this.handleLongPress} bubble={shortBubble} color={'#448AFF'}/>*/}
+        {/*<RightBubble onLongPress={this.handleLongPress} bubble={longBubble} color={'#448AFF'}/>*/}
+        <InputBar input-bar-class={'input-bar'}/>
       </View>
     )
   }
