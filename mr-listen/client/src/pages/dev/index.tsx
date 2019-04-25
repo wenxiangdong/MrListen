@@ -46,6 +46,12 @@ export default class Index extends Component<any, any> {
     return (
       <View className={'main-box'}>
         <View className={'bubble-area'}>
+          {/*<ChatBubble bubble={longBubble}/>*/}
+          {/*<ChatBubble bubble={longBubble}/>*/}
+          {/*<ChatBubble bubble={longBubble}/>*/}
+          {/*<ChatBubble bubble={longBubble}/>*/}
+          {/*<ChatBubble bubble={longBubble}/>*/}
+          {/*<ChatBubble bubble={longBubble}/>*/}
           <ChatBubble bubble={longBubble}/>
           <ChatBubble bubble={shortBubble}/>
         </View>
