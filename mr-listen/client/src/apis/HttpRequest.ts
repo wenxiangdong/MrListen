@@ -1,96 +1,156 @@
+import "@tarojs/async-await";
 import * as Taro from "@tarojs/taro";
 import Logger from "../utils/logger";
-import "@tarojs/async-await";
-import UploadFileResult = Taro.cloud.ICloud.UploadFileResult;
+import CollectionReference = Taro.cloud.DB.CollectionReference;
+import DocumentReference = Taro.cloud.DB.DocumentReference;
+import DatabaseCommand = Taro.cloud.DB.DatabaseCommand;
+import IAddResult = Taro.cloud.DB.IAddResult;
+import IRemoveResult = Taro.cloud.DB.IRemoveResult;
+import IUpdateResult = Taro.cloud.DB.IUpdateResult;
 
 export interface IHttpRequest {
-  request<T>(name: string, params?: object): Promise<T>;
+  callFunction<T>(name: string, data?: object): Promise<T>;
 
-  /**
-   * 上传文件
-   * @param folder
-   * @param filePath
-   * @return 新的文件地址
-   */
-  uploadFile(folder, filePath: string): Promise<string>;
-}
+  add(collectionName: string, data?: object): Promise<string | number>;
 
-export class HttpRequest implements IHttpRequest{
+  remove(collectionName: string, docId: string | number): Promise<void>;
 
-  private static INSTANCE;
-  public static getInstance() {
-    if (!this.INSTANCE) {
-      this.INSTANCE = new HttpRequest();
-    }
-    return this.INSTANCE;
-  }
+  update(collectionName: string, docId: string | number, data: object): Promise<void>;
 
-  private  logger = Logger.getLogger("IHttpRequest");
-  public async request<T>(name: string, params: object = {}): Promise<T> {
-    try {
-      this.logger.info(`请求【${name}】，参数：${JSON.stringify(params)}`);
-      // 调用云函数
-      const callResult = await Taro.cloud.callFunction({
-        name,
-        data: params
-      });
-      if (callResult) {
-        this.logger.info(`请求${name}得到：${JSON.stringify(callResult)}`);
-        // 解析数据
-        let httpResponse = callResult.result as HttpResponse<T>;
-        if (httpResponse.code === HttpCode.SUCCESS) {
-          return httpResponse.data;
-        } else {
-          throw httpResponse;
-        }
-      } else {
-        throw new Error(`云函数[${name}]调用出错`);
-      }
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    }
-  }
+  collection(collectionName: string): CollectionReference;
 
-  public async uploadFile(folder, filePath: string): Promise<string> {
-    this.logger.info(folder, filePath);
-    try {
-      Taro.showLoading({title: "上传文件中..."});
-      let res = await Taro.cloud.uploadFile({
-        cloudPath: `${folder}/${new Date().getTime()}`,
-        filePath: filePath
-      }) as UploadFileResult;
-      return res.fileID;
-    } catch (e) {
-      this.logger.error(e);
-      throw e;
-    } finally {
-      Taro.hideLoading();
-    }
-  }
-}
+  doc(collectionName: string, docId: string | number): DocumentReference;
 
-export class MockRequest {
-  private async timeout(time = 1000) {
-    return new Promise(resolve => {
-      setTimeout(resolve, time)
-    })
-  }
-  async success<T>(data: T = {} as T): Promise<T> {
-    await this.timeout();
-    return data;
-  }
-}
-
-export enum HttpCode {
-  SUCCESS,
-  AUTHENCATION_ERROR,
-  NOT_FOUND,
-  ERROR
+  command(): DatabaseCommand;
 }
 
 export interface HttpResponse<T> {
   code: HttpCode;
   data: T;
   message: string;
+}
+
+export enum HttpCode {
+  SUCCESS,
+  AUTHENTICATION_ERROR,
+  NOT_FOUND,
+  ERROR
+}
+
+export class HttpRequest implements IHttpRequest {
+
+  private static INSTANCE;
+
+  private constructor() {
+
+  }
+
+  static getInstance() {
+    if (!this.INSTANCE) {
+      this.INSTANCE = new HttpRequest();
+    }
+    return this.INSTANCE;
+  }
+
+
+  private logger = Logger.getLogger("IHttpRequest");
+
+  async callFunction<T>(name: string, data: object = {}): Promise<T> {
+    this.logger.info(`请求云函数[${name}]，参数：${JSON.stringify(data)}`);
+    // 调用云函数
+    const callResult = await Taro.cloud.callFunction({
+      name,
+      data
+    });
+    if (callResult) {
+      this.logger.info(`${name}获取：${JSON.stringify(callResult)}`);
+      // 解析数据
+      let httpResponse = callResult.result as HttpResponse<T>;
+      if (httpResponse.code === HttpCode.SUCCESS) {
+        return httpResponse.data;
+      } else
+        throw httpResponse;
+    } else
+      throw new Error(`云函数[${name}]调用出错`);
+  }
+
+  private database: Taro.cloud.DB.Database = Taro.cloud.database();
+
+  async add(collectionName: string, data: object = {}): Promise<string | number> {
+    data['createTime'] = this.database.serverDate();
+    let result = await this.database.collection(collectionName).add({data}) as IAddResult;
+
+    if (result)
+      return result._id;
+    else {
+      const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
+      this.logger.error(errMsg);
+      throw new Error(errMsg);
+    }
+  }
+
+  async remove(collectionName: string, docId: string): Promise<void> {
+    let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
+
+    if (!result) {
+      const errMsg = `删除 ${collectionName} ${docId} 失败`;
+      this.logger.error(errMsg);
+      throw new Error(errMsg);
+    }
+  }
+
+  async update(collectionName: string, docId: string, data: object): Promise<void> {
+    data['updateTime'] = this.database.serverDate();
+    let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
+
+    if (!result) {
+      const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;
+      this.logger.error(errMsg);
+      throw new Error(errMsg);
+    }
+  }
+
+  collection(collectionName: string): CollectionReference {
+    return this.database.collection(collectionName);
+  }
+
+  doc(collectionName: string, docId: string | number): DocumentReference {
+    return this.database.collection(collectionName).doc(docId);
+  }
+
+  command(): DatabaseCommand {
+    return this.database.command;
+  }
+}
+
+export class MockRequest {
+  private static INSTANCE;
+
+  private constructor() {
+
+  }
+
+  static getInstance() {
+    if (!this.INSTANCE) {
+      this.INSTANCE = new MockRequest();
+    }
+    return this.INSTANCE;
+  }
+
+  private async timeout(time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(resolve, time)
+    })
+  }
+
+  async success<T>(data: T = {} as T): Promise<T> {
+    await this.timeout();
+    return data;
+  }
+}
+
+export class VO {
+  _id: string | number;
+  _openid: string;
+  createTime: Date;
 }

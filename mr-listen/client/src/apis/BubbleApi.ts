@@ -1,17 +1,16 @@
-import {HttpRequest, IHttpRequest, MockRequest} from "./HttpRequest";
 import "@tarojs/async-await";
+import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 
 export interface IBubbleApi {
-  // post
 // @return Bubble.id
-  sendBubble(bubble: Bubble, holeId: number): Promise<number>;
-// post
-  deleteBubble(bubbleId): Promise<void>;
-// post
+  sendBubble(bubble: Bubble): Promise<string | number>;
+
+  deleteBubble(bubbleId: string | number): Promise<void>;
+
 // @return Reply.id
-  sendReply(content: string, bubbleId: number, holeId: number): Promise<number>;
-// post
-  deleteReply(replyId: number): Promise<void>;
+  sendReply(reply: Reply): Promise<string | number>;
+
+  deleteReply(replyId: string | number): Promise<void>;
 }
 
 export enum BubbleType {
@@ -26,21 +25,29 @@ export enum BubbleStyle {
   NORMAL
 }
 
+export interface Reply {
+  bubbleId: string | number;
+  content: string;
+}
+
+export interface ReplyVO extends VO {
+  bubbleId: string | number;
+  content: string;
+}
+
 export interface Bubble {
-  _id: number | string;
-  holeId: number | string;
+  holeId: string | number;
   type: BubbleType;
   style: BubbleStyle;
   content: string;
-  sendTime: number;
 }
 
-export interface Reply {
-  _id: number | string;
-  holeId: number | string;
-  bubbleId: number | string;
+export interface BubbleVO extends VO {
+  holeId: string | number;
+  type: BubbleType;
+  style: BubbleStyle;
   content: string;
-  sendTime: number;
+  replyList: ReplyVO[];
 }
 
 
@@ -50,25 +57,26 @@ export interface Reply {
 export class BubbleApi implements IBubbleApi {
 
 
-  private base: IHttpRequest = new HttpRequest();
-  constructor() {}
+  private base: IHttpRequest = HttpRequest.getInstance();
 
-  async deleteBubble(bubbleId: number): Promise<void> {
-    return this.base.request("deleteBubble", {bubbleId});
+  private static BUBBLE_COLLECTION: string = "bubble";
+  private static REPLY_COLLECTION: string = "reply";
+
+  public async deleteBubble(bubbleId: string | number): Promise<void> {
+    return await this.base.remove(BubbleApi.BUBBLE_COLLECTION, bubbleId);
   }
 
-  async deleteReply(replyId: number): Promise<void> {
-    return this.base.request("deleteReply", {replyId});
+  public async deleteReply(replyId: string | number): Promise<void> {
+    return await this.base.remove(BubbleApi.REPLY_COLLECTION, replyId);
   }
 
-  async sendBubble(bubble: Bubble, holeId: number): Promise<number> {
-    return this.base.request<number>("sendBubble", {bubble, holeId});
+  public async sendBubble(bubble: Bubble): Promise<string | number> {
+    return await this.base.add(BubbleApi.BUBBLE_COLLECTION, bubble);
   }
 
-  async sendReply(content: string, bubbleId: number, holeId: number): Promise<number> {
-    return this.base.request<number>("sendReply", {content, bubbleId, holeId});
+  public async sendReply(reply: Reply): Promise<string | number> {
+    return await this.base.add(BubbleApi.REPLY_COLLECTION, reply);
   }
-
 }
 
 
@@ -77,7 +85,7 @@ export class BubbleApi implements IBubbleApi {
  */
 export class MockBubbleApi implements IBubbleApi {
 
-  private http = new MockRequest();
+  private http = MockRequest.getInstance();
 
   // @ts-ignore
   deleteBubble(bubbleId): Promise<void> {
@@ -85,17 +93,17 @@ export class MockBubbleApi implements IBubbleApi {
   }
 
   // @ts-ignore
-  deleteReply(replyId: number): Promise<void> {
+  deleteReply(replyId): Promise<void> {
     return this.http.success();
   }
 
   // @ts-ignore
-  sendBubble(bubble: Bubble, holeId: number): Promise<number> {
+  sendBubble(bubble: Bubble): Promise<number> {
     return this.http.success(0);
   }
 
   // @ts-ignore
-  sendReply(content: string, bubbleId: number, holeId: number): Promise<number> {
+  sendReply(reply: Reply): Promise<number> {
     return this.http.success(0);
   }
 
