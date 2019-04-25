@@ -5,6 +5,7 @@ import Login from "../../components/login/index.weapp";
 import {BubbleVO, IHole} from "../../apis/HoleApi";
 import FloatMenu from "../../components/common/FloatMenu/FloatMenu";
 import Logger from "../../utils/logger";
+import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 
 interface IState {
   hole: IHole | null,
@@ -92,7 +93,9 @@ export default class Index extends Component<any, IState> {
 
     return (
       <View className='index'>
-        <Login/>
+        <View className={"input-bar"}>
+          <InputBar/>
+        </View>
       </View>
     )
   }

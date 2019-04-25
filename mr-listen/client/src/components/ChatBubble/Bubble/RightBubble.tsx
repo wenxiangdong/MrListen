@@ -1,9 +1,10 @@
-import * as Taro from "@tarojs/taro";
-import {Component} from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 import {Bubble, BubbleType} from "../../../apis/BubbleApi";
-import {Image, Text, View} from "@tarojs/components";
+import {Block, Image, Text, View} from "@tarojs/components";
 import "./RightBubble.less";
 import SendTime from "./SendTime";
+import Listen from "../../../utils/listen";
+import zoomPng from "../../../images/zoom.png";
 
 interface IProp {
   bubble: Bubble,
@@ -11,7 +12,7 @@ interface IProp {
   onLongPress?: (id) => void
 }
 
-class RightBubble extends Component<IProp> {
+class RightBubble extends Taro.Component<IProp> {
 
   render(): any {
     const {bubble, color} = this.props;
@@ -22,7 +23,13 @@ class RightBubble extends Component<IProp> {
         break;
       }
       case BubbleType.PICTURE: {
-        bubbleContent = <Image src={bubble.content} className={"Right-image"}/>;
+        bubbleContent = <Block>
+          <Image
+            src={bubble.content}
+            className={"Right-image"}
+            mode={"aspectFill"}/>
+          <Image className={"Right-zoom-icon"} src={zoomPng} onClick={this.handleClickImage}/>
+        </Block>;
         break;
       }
       case BubbleType.VOICE: {
@@ -43,7 +50,16 @@ class RightBubble extends Component<IProp> {
     const {onLongPress = () => null, bubble} = this.props;
     e.stopPropagation();
     onLongPress(bubble && bubble._id);
-  }
+  };
+
+  handleClickImage = () => {
+    const {bubble} = this.props;
+    Taro.previewImage({
+      urls: [bubble.content]
+    }).catch(() => {
+      Listen.message.error("预览图片失败");
+    })
+  };
 }
 
 export default RightBubble;

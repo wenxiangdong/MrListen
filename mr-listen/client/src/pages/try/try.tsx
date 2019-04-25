@@ -1,15 +1,22 @@
+import "./try.less";
 import * as Taro from "@tarojs/taro";
 import {Component, Config} from "@tarojs/taro";
 import {View} from "@tarojs/components";
-import FloatMenu, {MenuItem} from "../../components/common/FloatMenu/FloatMenu";
+import {MenuItem} from "../../components/common/FloatMenu/FloatMenu";
 import Logger from "../../utils/logger";
+import {Bubble, BubbleType} from "../../apis/BubbleApi";
+import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
+import Recorder from "../../components/HoleDetail/InputBar/BubbleType/Recorder/Recorder";
+import BubbleTypeVoice from "../../components/HoleDetail/InputBar/BubbleType/BubbleTypeVoice";
+import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 // import ChatBubble from "../../components/ChatBubble/ChatBubble";
 // import {BubbleVO} from "../../apis/HoleApi";
 // import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
 
 interface IState {
   position: number[],
-  showMenu: boolean
+  showMenu: boolean,
+  bubble: Bubble | null
 }
 
 export default class Try extends Component<any, IState> {
@@ -48,7 +55,12 @@ export default class Try extends Component<any, IState> {
 
     this.state = {
       position: [],
-      showMenu: false
+      showMenu: false,
+      bubble: {
+        // content: "cloud://first-57afbf.6669-first-57afbf/bubble-pictures/1555923852989",
+        content: "cloud://first-57afbf.6669-first-57afbf/bubble-pictures/timg (1).jpg",
+        type: BubbleType.PICTURE
+      }
     }
   }
 
@@ -76,15 +88,25 @@ export default class Try extends Component<any, IState> {
     this.setState({showMenu: false, position: []})
   };
 
+  handleSend = (bubble: Bubble) => {
+    this.setState({
+      bubble
+    });
+  };
+
   render(): any {
+    const {bubble} = this.state;
     return (
-      <View onLongPress={this.handleLongPress} style={{width: "100vw", height: "100vh"}}>
-        <FloatMenu
-          menuList={this.menus}
-          position={this.state.position}
-          onClickMenuItem={this.handleClickMenu}
-          onHide={this.handleHideMenu}
-          visible={this.state.position.length !== 0}/>
+      <View onLongPress={this.handleLongPress} className={"try-wrapper"}>
+        {/*<FloatMenu*/}
+          {/*menuList={this.menus}*/}
+          {/*position={this.state.position}*/}
+          {/*onClickMenuItem={this.handleClickMenu}*/}
+          {/*onHide={this.handleHideMenu}*/}
+          {/*visible={this.state.position.length !== 0}/>*/}
+          {/*<BubbleTypePicture onSend={this.handleSend}/>*/}
+        {/*<Recorder/>*/}
+        <InputBar/>
       </View>
     )
   }

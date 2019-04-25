@@ -1,0 +1,65 @@
+@import "../../../../../app";
+.Recorder-cover {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  background-color: rgba(0,0,0,0.05);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .Recorder-main {
+    width: 500px;
+    height: 500px;
+
+    background-color: white;
+    box-shadow: rgba(0,0,0,0.1) 0 0 5Px;
+    border-radius: 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //text-align: center;
+
+    .Recorder-item {
+      margin: 20px;
+    }
+
+    .Recorder-icon {
+      width: 250px;
+      height: 250px;
+    }
+
+
+
+    .Recorder-tip {
+      color: @sub-color;
+    }
+
+    .Recorder-time {
+      color: @sub-color;
+      font-size: 24Px;
+    }
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.recording {
+  animation: fade 3s infinite ease-in;
+}
