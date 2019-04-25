@@ -24,6 +24,10 @@ class App extends Component {
       'pages/index/index',
       'pages/dev/index',
       'pages/try/try',
+      'pages/holes/holes',
+      'pages/personal/center',
+      'pages/personal/report/report',
+      'pages/personal/setting/setting',
     ],
     window: {
       backgroundTextStyle: 'light',
