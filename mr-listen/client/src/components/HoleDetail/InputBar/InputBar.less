@@ -2,6 +2,7 @@
 @bg-color: #f8f8f9;
 .IB-wrapper {
   width: 750px;
+
   background-color: @bg-color;
   padding: 10px;
   box-sizing: border-box;
@@ -14,12 +15,14 @@
 
 
   .IB-style-btn {
+    @width: 32px;
     background-color: white;
-    width: 40px;
-    height: 40px;
-    font-size: 40px;
+    // 这样才会是正方形
+    min-width: @width;
+    height: @width;
+    font-size: @width;
     font-weight: bolder;
-    line-height: 40px;
+    line-height: @width;
     text-align: center;
     padding: 10px;
     color: @sub-color;
@@ -28,6 +31,9 @@
   }
 
   .IB-add-btn {
+    // 设置为等宽字体+号会居中
+    font-family: 'Courier New', 'Courier', monospace;
+
     font-size: 64px;
     width: 80px;
     font-weight: bold;

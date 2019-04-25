@@ -1,9 +1,7 @@
 import Taro, {Component, Config} from '@tarojs/taro'
 import {Block, View} from '@tarojs/components'
 import './index.less'
-import Login from "../../components/login/index.weapp";
 import {BubbleVO, IHole} from "../../apis/HoleApi";
-import FloatMenu from "../../components/common/FloatMenu/FloatMenu";
 import Logger from "../../utils/logger";
 import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 
@@ -16,7 +14,7 @@ interface IState {
   }
 }
 
-export default class Index extends Component<any, IState> {
+class Index extends Component<any, IState> {
 
   /**
    * 指定config的类型声明为: Taro.Config
@@ -111,3 +109,6 @@ export default class Index extends Component<any, IState> {
     });
   };
 }
+
+
+export default Index;

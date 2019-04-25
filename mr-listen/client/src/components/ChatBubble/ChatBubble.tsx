@@ -50,7 +50,7 @@ export default class ChatBubble extends Taro.Component<IProp> {
     const rightBubbleWrapper = (
       <View className={"right-flex bubble-item"}>
         <View className={"avatar-wrapper"}>
-          <Avatar size={50} />
+          <Avatar size={44}/>
         </View>
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={onLongPressRightBubble}/>
       </View>
@@ -61,7 +61,7 @@ export default class ChatBubble extends Taro.Component<IProp> {
       bubble.replyList.map((r, index) => (
           <View className={"left-flex bubble-item"} key={index}>
             <View className={"avatar-wrapper"}>
-              <Avatar size={50} />
+              <Avatar size={44}/>
             </View>
             <LeftBubble bubble={r} onLongPress={onLongPressLeftBubble} />
           </View>
