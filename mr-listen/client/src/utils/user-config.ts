@@ -25,3 +25,15 @@ class UserConfig {
 }
 
 export default new UserConfig();
+
+let bubbleColorOptions: string[] = [
+  "#3fd1ff",
+  "#19be6b",
+  "#e47f89",
+  "#6190E8",
+  "#ef475d",
+  "#d2b42c",
+  "#2C405A"
+];
+
+export {bubbleColorOptions};

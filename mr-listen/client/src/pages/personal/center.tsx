@@ -14,7 +14,6 @@ import errorPng from "../../images/success.png"
  * 可跳转到其他页面
  *   倾诉报告
  *   个人设置
- *
  * @author 张李承
  * @create 2019/4/22 23:16
  * TODO 添加跳转条的 icon

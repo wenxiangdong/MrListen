@@ -1,5 +1,6 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, OpenData} from '@tarojs/components'
+import UserAvatar from '../UserAvator/UserAvatar'
 
 import './UserInfoBar.less'
 
@@ -13,9 +14,7 @@ export default class UserInfoBar extends Component {
   render() {
     return (
       <View className={'user-info-bar'}>
-        <View className={'user-avatar-wrapper'}>
-          <OpenData type={'userAvatarUrl'}/>
-        </View>
+        <UserAvatar size={60} margin={20}/>
         <OpenData className={'normal-text sm-margin'} type={"userNickName"}/>
       </View>
     )
