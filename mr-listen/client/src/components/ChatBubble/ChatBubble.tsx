@@ -1,6 +1,6 @@
 import "./ChatBubble.less";
 
-import {BubbleVO, ReplyVO} from "../../apis/BubbleApi";
+import {BubbleVO} from "../../apis/BubbleApi";
 import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
@@ -103,16 +103,16 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   };
 
   handleDeleteReply = async (id) => {
-    this.logger.info("删除", id);
+    this.logger.info("删除回复", id);
     Listen.showLoading("删除中...");
     apiHub.bubbleApi.deleteReply(id)
       .then(() => {
         Listen.hideLoading();
         const {bubble, onUpdate} = this.props;
         bubble.replyList = bubble.replyList.filter(r => id != r._id);
-        if (typeof onUpdate === "function") {
-          onUpdate(bubble);
-        }
+        // this.logger.info("删除后", bubble);
+        this.logger.info("删除后", bubble);
+        onUpdate(bubble);
       })
       .catch(e => {
         this.logger.error(e);
@@ -132,15 +132,15 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
       createTime: new Date().getTime()
     };
     // @ts-ignore
-    bubble.replyList = [...bubble.replyList, replyVO];
+    bubble.replyList.push(replyVO);
     onUpdate(bubble);
 
     // 再后服务器发送
     try {
-      const id = await apiHub.bubbleApi.sendReply(replyVO);
       // @ts-ignore
-      replyVO._id = id;
-      this.forceUpdate();
+      replyVO._id = await apiHub.bubbleApi.sendReply({...replyVO});
+      this.logger.info("发送回复成功", replyVO);
+      onUpdate(bubble);
     } catch (e) {
       // 出错就要删除
       Listen.message.error("回复失败");
