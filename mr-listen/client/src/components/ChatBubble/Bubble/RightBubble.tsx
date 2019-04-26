@@ -1,21 +1,22 @@
 import Taro from "@tarojs/taro";
-import {Bubble, BubbleType} from "../../../apis/BubbleApi";
+import { BubbleType} from "../../../apis/BubbleApi";
 import {Block, Image, Text, View} from "@tarojs/components";
 import "./RightBubble.less";
 import SendTime from "./SendTime";
 import Listen from "../../../utils/listen";
 import zoomPng from "../../../images/zoom.png";
+import {CommonEvent} from "@tarojs/components/types/common";
 
 interface IProp {
-  bubble: Bubble,
+  bubble: any,
   color: string,
-  onLongPress?: (id) => void
+  onLongPress?: (id, e: CommonEvent) => void
 }
 
 class RightBubble extends Taro.Component<IProp> {
 
   render(): any {
-    const {bubble, color} = this.props;
+    const {bubble = {}, color} = this.props;
     let bubbleContent;
     switch (bubble.type) {
       case BubbleType.TEXT: {
@@ -41,7 +42,7 @@ class RightBubble extends Taro.Component<IProp> {
     return (
       <View onLongPress={this.handleLongPress} className={"Right-wrapper bubble"} style={{backgroundColor: color}}>
         {bubbleContent}
-        <SendTime time={bubble.sendTime} textColor={"white"}/>
+        <SendTime time={bubble.createTime} textColor={"white"}/>
       </View>
     )
   }
@@ -49,7 +50,7 @@ class RightBubble extends Taro.Component<IProp> {
   handleLongPress = (e) => {
     const {onLongPress = () => null, bubble} = this.props;
     e.stopPropagation();
-    onLongPress(bubble && bubble._id);
+    onLongPress(bubble && bubble._id, e);
   };
 
   handleClickImage = () => {

@@ -1,17 +1,17 @@
 import Taro, {Component, Config} from '@tarojs/taro'
 import {Block, View} from '@tarojs/components'
 import './index.less'
-import {BubbleVO, IHole} from "../../apis/HoleApi";
+import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
-import HoleDetail from '../../components/HoleDetail/HoleDetail';
+import ChatBubble from "../../components/ChatBubble/ChatBubble";
+import InputBar from "../../components/HoleDetail/InputBar/InputBar";
+import {apiHub} from "../../apis/ApiHub";
+import "@tarojs/async-await";
+import Listen from "../../utils/listen";
 
 interface IState {
-  hole: IHole | null,
-  bubbles: BubbleVO[],
-  floatMenus: {
-    left: any,
-    right: any
-  }
+  bubbleVOList: BubbleVO[],
+  holeId: number | string
 }
 
 class Index extends Component<any, IState> {
@@ -28,84 +28,129 @@ class Index extends Component<any, IState> {
   };
 
   state = {
-    hole: null,
-    bubbles: [],
-    floatMenus: {
-      right: {
-        menus: [
-          {label: "对过去的自己说"},
-          {label: "删除"}
-        ],
-        position: [],
-      },
-      left: {
-        menus: [
-          {label: "删除"}
-        ],
-        position: [],
-      }
-    }
+    bubbleVOList: [] as BubbleVO[],
+    holeId: ""
   };
 
   private logger = Logger.getLogger(Index.name);
 
-  componentWillMount() {
-  }
+  private SENDING_BUBBLE = "sending";
 
-  componentDidMount() {
-  }
+  private resolveBubbleWithTempFile = async (bubble: Bubble) => {
+    const url = await apiHub.fileApi.uploadFile(
+      `bubbles/${bubble.type}/${new Date().getTime()}`,
+      bubble.content
+    );
+    return {...bubble, content: url} as Bubble;
+  };
 
-  componentWillUnmount() {
-  }
-
-  componentDidShow() {
-  }
-
-  componentDidHide() {
-  }
+  // 根据类型处理raw气泡的
+  private resolveRawBubble = {
+    [BubbleType.PICTURE]: this.resolveBubbleWithTempFile,
+    [BubbleType.VOICE]: this.resolveBubbleWithTempFile,
+    [BubbleType.TEXT]: async (bubble) => bubble
+  };
 
   render() {
-    // 构造悬浮菜单
-    // const left = "left";
-    // const right = "right";
-    // const floatMenusComponents = (
-    //   <Block>
-    //     <FloatMenu
-    //       menuList={floatMenus[left].menus}
-    //       position={floatMenus[left].position}
-    //       onClickMenuItem={index => this.handleClickFloatMenu(index, left)}
-    //       onHide={() => this.handleHideFloatMenu(left)}
-    //       visible={!!floatMenus[left].position.length}/>
-    //     <FloatMenu
-    //       menuList={floatMenus[right].menus}
-    //       position={floatMenus[right].position}
-    //       onClickMenuItem={index => this.handleClickFloatMenu(index, right)}
-    //       onHide={() => this.handleHideFloatMenu(right)}
-    //       visible={!!floatMenus[right].position.length}/>
-    //   </Block>
-    // );
 
-    // 构建聊天气泡
-    // const {bubbles} = this.state;
-    // const chatBubblesComponents =
+    const {bubbleVOList} = this.state;
+
+    // 构建所有气泡
+    const bubbles = bubbleVOList
+      .filter(b => !!b)
+      .map((b, index) =>
+        <ChatBubble
+          key={index}
+          bubble={b}
+          onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
+        />);
 
     return (
-      <View className='index page'>
-        <HoleDetail/>
-      </View>
-    )
+      <Block>
+        <View className={'main-box'}>
+          <View className={"bubble-area"}>
+            {bubbles}
+          </View>
+          <InputBar onBubbling={this.handleBubbling} input-bar-class={'input-bar'}/>
+        </View>
+      </Block>
+    );
   }
 
-  handleClickFloatMenu = (index, part: string) => {
-    this.logger.info(index, part);
-  };
-  handleHideFloatMenu = (part: string) => {
-    const key = `floatMenus.${part}.position`;
+  handleBubbling = async (bubble: Bubble) => {
+    this.logger.info("接收到的bubble", bubble);
+
+    // 是否为新建的
+    let {holeId} = this.state;
+    if (!holeId) {
+      try {
+        Listen.showLoading("创建新记录中...");
+        // @ts-ignore
+        holeId = await apiHub.holeApi.createHole();
+        this.logger.info(holeId);
+        Listen.hideLoading();
+      } catch (e) {
+        Listen.hideLoading();
+        Listen.message.error("创建失败");
+        this.logger.error(e);
+        return;
+      }
+    }
+
+    // 构建气泡并先展示上去
+    const bubbleVO = {
+      _id: this.SENDING_BUBBLE,
+      holeId: holeId,
+      type: bubble.type,
+      style: bubble.style,
+      content: bubble.content,
+      createTime: new Date().getTime(),
+      replyList: []
+    };
     // @ts-ignore
-    this.setState({
-      [key]: []
-    });
+    this.setState((pre) => ({
+      bubbleVOList: [...pre.bubbleVOList, bubbleVO],
+      holeId
+    }));
+
+    // 发送气泡
+    try {
+      bubble.holeId = holeId;
+      this.logger.info("开始发送");
+      const resolveFunc = this.resolveRawBubble[bubble.type];
+      if (typeof resolveFunc === "function") {
+        bubble = await resolveFunc(bubble);
+      }
+      const id = await apiHub.bubbleApi.sendBubble(bubble);
+      // @ts-ignore
+      bubbleVO._id = id;
+      this.logger.info("发送成功", id);
+      this.forceUpdate();
+    } catch (e) {
+      // 发送错误了，就要把气泡弃置
+      const {bubbleVOList} = this.state;
+      bubbleVOList.pop();
+      this.setState({bubbleVOList});
+      this.logger.error(e);
+      Listen.message.error("发送失败");
+    }
   };
+
+  handleUpdateBubble = (bubble, index) => {
+    this.logger.info("更新", bubble, index);
+    const {bubbleVOList} = this.state;
+    if (bubble) {
+      bubbleVOList[index] = bubble;
+    } else {
+      bubbleVOList.splice(index, 1);
+    }
+    this.logger.info("更新", bubbleVOList);
+    this.setState({
+      bubbleVOList
+    });
+
+  };
+
 }
 
 

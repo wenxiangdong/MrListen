@@ -150,7 +150,7 @@ export class MockHoleApi implements IHoleApi {
   private http = MockRequest.getInstance();
 
   createHole(): Promise<string | number> {
-    return this.http.success(0);
+    return this.http.success(new Date().getTime());
   }
 
   // @ts-ignore

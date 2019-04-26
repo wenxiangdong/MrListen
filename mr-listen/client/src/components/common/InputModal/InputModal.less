@@ -1,0 +1,43 @@
+@import "../../../app";
+.IM-wrapper {
+  background-color: rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  z-index: 10000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.IM-main {
+  background-color: white;
+  padding: 20Px;
+  border-radius: 20Px;
+  text-align: center;
+
+  width: 600px;
+
+  .IM-title {
+    color: @title-color;
+    font-weight: bold;
+  }
+
+  .IM-textarea {
+    border: @border-color 1Px solid;
+    border-radius: 5Px;
+    padding: 5Px 10Px;
+    text-align: left;
+    margin: 40px 0;
+    width: calc(100% - 20Px);
+
+  }
+
+  .IM-button {
+    margin: 10px 0;
+  }
+}

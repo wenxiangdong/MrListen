@@ -1,13 +1,13 @@
 import {Component} from "@tarojs/taro";
-import {Reply} from "../../../apis/BubbleApi";
 import * as Taro from "@tarojs/taro";
 import {View, Text} from "@tarojs/components";
 import "./LeftBubble.less";
 import SendTime from "./SendTime";
+import {CommonEvent} from "@tarojs/components/types/common";
 
 interface IProp {
-  bubble: Reply,
-  onLongPress?: (id) => void // 返回这个回复的id
+  bubble: any,
+  onLongPress: (id, e?: CommonEvent) => void // 返回这个回复的id
 }
 class LeftBubble extends Component<IProp> {
   render(): any {
@@ -15,7 +15,7 @@ class LeftBubble extends Component<IProp> {
     return (
       <View className={"Left-wrapper bubble"} onLongPress={this.handleLongPress}>
         <Text className={"bubble-text"}>{bubble.content}</Text>
-        <SendTime time={bubble.sendTime}/>
+        <SendTime time={bubble.createTime}/>
       </View>
     )
   }

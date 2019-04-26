@@ -50,7 +50,15 @@ export default class InputBar extends Component<IProp, IState> {
             {/*第二种方案手动拟合动画曲线（当然只是拟合了ios，木有安卓），有点不自然，但是没有上面的错误*/}
             {/*cursor-spacing在手机点击输入框时推出键盘时使用，数值好像无所谓，我觉得安卓测试起来很可能会有问题，因为ios的机制貌似不太一样*/}
             {/*confirm-hold：点击发送后不收起*/}
-            <Input className={"IB-input"} placeholder={""} confirmType={"send"} confirm-hold={true} cursor-spacing={'32rpx'} onConfirm={this.handleConfirmInput}/>
+            <Input
+              value={this.state.text}
+              className={"IB-input"}
+              placeholder={""}
+              confirmType={"send"}
+              confirm-hold={true}
+              cursor-spacing={'32rpx'}
+              onInput={this.handleInput}
+              onConfirm={this.handleConfirmInput}/>
             {/*<Input className={"IB-input"}*/}
             {/*placeholder={""}*/}
             {/*confirmType={"send"}*/}
@@ -77,15 +85,23 @@ export default class InputBar extends Component<IProp, IState> {
     });
   };
 
+
+  handleInput = (e) => {
+    this.setState({
+      text: e.detail.value
+    })
+  };
   handleConfirmInput = (e) => {
     this.logger.info(e);
     const value = e.detail.value;
     const bubble = {
-      _id: "",
       type: BubbleType.TEXT,
       style: BubbleStyle.NORMAL,
-      content: value
+      content: value,
     } as Bubble;
     this.props.onBubbling(bubble);
+    this.setState({
+      text: ""
+    })
   }
 }

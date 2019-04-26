@@ -20,7 +20,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      
+
       'pages/index/index',
       'pages/dev/index',
       'pages/try/try',
@@ -32,7 +32,7 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     },
     cloud: true
-  }
+  };
 
   componentDidMount () {
     if (process.env.TARO_ENV === 'weapp') {

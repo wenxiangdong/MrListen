@@ -109,6 +109,6 @@ export class MockFileApi implements IFileApi {
 
   // @ts-ignore
   uploadFile(cloudPath: string, filePath: string): Promise<string> {
-    return this.http.success(0);
+    return this.http.success(filePath);
   }
 }
