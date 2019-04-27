@@ -99,12 +99,12 @@ export class MockBubbleApi implements IBubbleApi {
 
   // @ts-ignore
   sendBubble(bubble: Bubble): Promise<number> {
-    return this.http.success(0);
+    return this.http.success(new Date().getTime());
   }
 
   // @ts-ignore
   sendReply(reply: Reply): Promise<number> {
-    return this.http.success(0);
+    return this.http.success(Math.random());
   }
 
 }
