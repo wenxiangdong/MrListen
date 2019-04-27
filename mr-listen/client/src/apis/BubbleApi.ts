@@ -1,5 +1,7 @@
 import "@tarojs/async-await";
 import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
+import Cache from "./Cache";
+import IQuerySingleResult = Taro.cloud.DB.IQuerySingleResult;
 
 export interface IBubbleApi {
 // @return Bubble.id
@@ -55,27 +57,53 @@ export interface BubbleVO extends VO {
  * 真正的api
  */
 export class BubbleApi implements IBubbleApi {
-
-
   private base: IHttpRequest = HttpRequest.getInstance();
+  private cache: Cache = Cache.getInstance();
 
-  private static BUBBLE_COLLECTION: string = "bubble";
-  private static REPLY_COLLECTION: string = "reply";
+  // private CONST: IConst = Const.getInstance();
 
   public async deleteBubble(bubbleId: string | number): Promise<void> {
-    return await this.base.remove(BubbleApi.BUBBLE_COLLECTION, bubbleId);
+    //清除缓存
+    this.cache.remove(Const.BUBBLE_COLLECTION, bubbleId);
+    //删除远端数据
+    await this.base.remove(Const.BUBBLE_COLLECTION, bubbleId);
   }
 
   public async deleteReply(replyId: string | number): Promise<void> {
-    return await this.base.remove(BubbleApi.REPLY_COLLECTION, replyId);
+    this.cache.remove(Const.REPLY_COLLECTION, replyId);
+    await this.base.remove(Const.REPLY_COLLECTION, replyId);
   }
 
   public async sendBubble(bubble: Bubble): Promise<string | number> {
-    return await this.base.add(BubbleApi.BUBBLE_COLLECTION, bubble);
+    let id: string | number = await this.base.add(Const.BUBBLE_COLLECTION, bubble);
+
+    let bubbleVOResult = await this.base
+      .doc(Const.BUBBLE_COLLECTION, id)
+      .get() as IQuerySingleResult;
+
+    if (bubbleVOResult) {
+      let bubbleVO: BubbleVO = copy<BubbleVO>(bubbleVOResult.data);
+      // noinspection JSIgnoredPromiseFromCall
+      this.cache.add(Const.BUBBLE_COLLECTION, bubbleVO);
+    }
+
+    return id;
   }
 
   public async sendReply(reply: Reply): Promise<string | number> {
-    return await this.base.add(BubbleApi.REPLY_COLLECTION, reply);
+    let id: string | number = await this.base.add(Const.REPLY_COLLECTION, reply);
+
+    let replyVOResult = await this.base
+      .doc(Const.REPLY_COLLECTION, id)
+      .get() as IQuerySingleResult;
+
+    if (replyVOResult) {
+      let replyVO: ReplyVO = copy<ReplyVO>(replyVOResult.data);
+      // noinspection JSIgnoredPromiseFromCall
+      this.cache.add(Const.REPLY_COLLECTION, replyVO);
+    }
+
+    return id;
   }
 }
 
@@ -107,4 +135,8 @@ export class MockBubbleApi implements IBubbleApi {
     return this.http.success(0);
   }
 
+}
+
+function copy<T>(data: object): T {
+  return JSON.parse(JSON.stringify(data));
 }

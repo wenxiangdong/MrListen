@@ -1,5 +1,6 @@
 import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 import "@tarojs/async-await";
+import Cache from "./Cache";
 
 export interface IUserApi {
   login(): Promise<string | number>;
@@ -15,22 +16,29 @@ export interface UserVO extends VO {
  */
 export class UserApi implements IUserApi {
   private base: IHttpRequest = HttpRequest.getInstance();
-  private static USER_COLLECTION: string = "user";
+  private cache: Cache = Cache.getInstance();
 
   constructor() {
   }
 
   async login(): Promise<string | number> {
-    let exist = await this.base.collection(UserApi.USER_COLLECTION).get();
+    let exist = await this.base
+      .collection(Const.USER_COLLECTION)
+      .get();
+
+    let id: string | number;
     if (!exist) {
-      return await this.base.add(UserApi.USER_COLLECTION);
+      id = await this.base.add(Const.USER_COLLECTION);
     } else {
       let data = exist.data;
       if (!data.length)
-        return await this.base.add(UserApi.USER_COLLECTION);
+        id = await this.base.add(Const.USER_COLLECTION);
       else
-        return data[0]._id ? data[0]._id : '';
+        id = data[0]._id ? data[0]._id : '';
     }
+
+    this.cache.init();
+    return id;
   }
 }
 

@@ -21,6 +21,7 @@ interface VO {
   _id: string | number; // 插入数据 id
   _openid: string | number; // 数据创建者
   createTime: Date; // 创建时间
+  updateTime: Date; // 更新时间
 }
 
 interface UserVO extends VO {

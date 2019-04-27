@@ -39,7 +39,7 @@ export enum HttpCode {
 
 export class HttpRequest implements IHttpRequest {
 
-  private static INSTANCE;
+  private static INSTANCE: HttpRequest;
 
   private constructor() {
 
@@ -78,11 +78,12 @@ export class HttpRequest implements IHttpRequest {
 
   async add(collectionName: string, data: object = {}): Promise<string | number> {
     data['createTime'] = this.database.serverDate();
+    data['updateTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).add({data}) as IAddResult;
 
-    if (result)
+    if (result) {
       return result._id;
-    else {
+    } else {
       const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
@@ -92,7 +93,7 @@ export class HttpRequest implements IHttpRequest {
   async remove(collectionName: string, docId: string): Promise<void> {
     let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
 
-    if (!result) {
+    if (result) {
       const errMsg = `删除 ${collectionName} ${docId} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
@@ -103,7 +104,7 @@ export class HttpRequest implements IHttpRequest {
     data['updateTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
 
-    if (!result) {
+    if (result) {
       const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
@@ -153,4 +154,5 @@ export class VO {
   _id: string | number;
   _openid: string;
   createTime: Date;
+  updateTime: Date; // 更新时间
 }
