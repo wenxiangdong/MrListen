@@ -40,14 +40,14 @@ export class Setting extends Component<any, IState> {
   render() {
     return (
       <View className={'setting-view'}>
-        <View className={"setting-bar-view"}>
+        <View className={'setting-bar-view'}>
           <Text>测试开关</Text>
           <Switch checked={this.state.testSwitch} onChange={(e) => this.setState({testSwitch: e.detail.value})} />
         </View>
-        <View className={"setting-bar-view"}>
+        <View className={'setting-bar-view'}>
           <Text>气泡颜色</Text>
         </View>
-        <ScrollView scrollX={true} style={{whiteSpace: 'nowrap'}}>
+        <ScrollView className={'bubble-color-options-scroll-view'} scrollX={true}>
           {
             bubbleColorOptions.map((val, idx) =>
               <ColorPickerOption key={idx} color={val}

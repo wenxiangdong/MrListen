@@ -1,5 +1,9 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, Text} from '@tarojs/components'
+import {View, ScrollView, Button} from '@tarojs/components'
+import Logger from './../../utils/logger'
+import {apiHub} from './../../apis/ApiHub'
+
+import './holes.less'
 
 /**
  * @author 张李承
@@ -9,11 +13,15 @@ import {View, Text} from '@tarojs/components'
  * TODO 获取时加载动画 复用于获取报告信息
  * TODO 新建 删除 更新（名称 头像）
  */
-export class holes extends Component {
+export class Holes extends Component {
+
+  private logger = Logger.getLogger(Holes.name);
 
   config: Config = {
-    navigationBarTitleText: "holes"
+    navigationBarTitleText: '倾诉树洞'
   };
+
+
 
   componentWillMount() {
   }
@@ -30,10 +38,16 @@ export class holes extends Component {
   componentDidHide() {
   }
 
+  private createHole = () => {
+    this.logger.info('创建新的树洞！');
+  };
+
   render() {
     return (
       <View>
-        <Text>holes works</Text>
+        <ScrollView className={'hole-bars-scroll-view'} scrollY={true}>
+        </ScrollView>
+        <Button className={'create-hole-button'} type={"default"} onClick={this.createHole}>创建新的树洞</Button>
       </View>
     )
   }
