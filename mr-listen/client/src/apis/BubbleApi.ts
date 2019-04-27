@@ -63,15 +63,17 @@ export class BubbleApi implements IBubbleApi {
   // private CONST: IConst = Const.getInstance();
 
   public async deleteBubble(bubbleId: string | number): Promise<void> {
-    //清除缓存
-    this.cache.remove(Const.BUBBLE_COLLECTION, bubbleId);
     //删除远端数据
     await this.base.remove(Const.BUBBLE_COLLECTION, bubbleId);
+
+    //清除缓存
+    this.cache.remove(Const.BUBBLE_COLLECTION, bubbleId);
   }
 
   public async deleteReply(replyId: string | number): Promise<void> {
-    this.cache.remove(Const.REPLY_COLLECTION, replyId);
     await this.base.remove(Const.REPLY_COLLECTION, replyId);
+
+    this.cache.remove(Const.REPLY_COLLECTION, replyId);
   }
 
   public async sendBubble(bubble: Bubble): Promise<string | number> {
@@ -81,10 +83,8 @@ export class BubbleApi implements IBubbleApi {
       .doc(Const.BUBBLE_COLLECTION, id)
       .get() as IQuerySingleResult;
 
-    if (bubbleVOResult) {
-      let bubbleVO: BubbleVO = copy<BubbleVO>(bubbleVOResult.data);
-      // noinspection JSIgnoredPromiseFromCall
-      this.cache.add(Const.BUBBLE_COLLECTION, bubbleVO);
+    if (bubbleVOResult.data) {
+      this.cache.add(Const.BUBBLE_COLLECTION, Util.copyWithTimestamp(bubbleVOResult.data));
     }
 
     return id;
@@ -97,10 +97,8 @@ export class BubbleApi implements IBubbleApi {
       .doc(Const.REPLY_COLLECTION, id)
       .get() as IQuerySingleResult;
 
-    if (replyVOResult) {
-      let replyVO: ReplyVO = copy<ReplyVO>(replyVOResult.data);
-      // noinspection JSIgnoredPromiseFromCall
-      this.cache.add(Const.REPLY_COLLECTION, replyVO);
+    if (replyVOResult.data) {
+      this.cache.add(Const.REPLY_COLLECTION, Util.copyWithTimestamp<ReplyVO>(replyVOResult.data));
     }
 
     return id;
@@ -135,8 +133,4 @@ export class MockBubbleApi implements IBubbleApi {
     return this.http.success(0);
   }
 
-}
-
-function copy<T>(data: object): T {
-  return JSON.parse(JSON.stringify(data));
 }

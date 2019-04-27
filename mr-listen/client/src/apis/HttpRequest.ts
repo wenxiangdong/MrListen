@@ -153,6 +153,6 @@ export class MockRequest {
 export class VO {
   _id: string | number;
   _openid: string;
-  createTime: Date;
-  updateTime: Date; // 更新时间
+  createTime: number;
+  updateTime: number; // 更新时间
 }

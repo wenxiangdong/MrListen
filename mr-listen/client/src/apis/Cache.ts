@@ -2,7 +2,7 @@ import Logger from "../utils/logger";
 import {VO} from "./HttpRequest";
 
 export default class Cache {
-  private cache = new Map<string, VO[]>();
+  private cacheMap = new Map<string, VO[]>();
 
   private logger = Logger.getLogger("Cache");
 
@@ -22,7 +22,7 @@ export default class Cache {
 
   private set(cacheName: string, val = []): boolean {
     if (val) {
-      this.cache.set(cacheName, val);
+      this.cacheMap.set(cacheName, val);
       this.logger.info(`缓存 ${cacheName} 设置`);
       setTimeout(() => {
         this.unset(cacheName);
@@ -34,41 +34,34 @@ export default class Cache {
   }
 
   private unset(cacheName: string): void {
-    this.cache.delete(cacheName);
+    this.cacheMap.delete(cacheName);
     this.logger.info(`缓存 ${cacheName} 删除`);
   }
 
   public init() {
-    this.cache.clear();
+    this.cacheMap.clear();
     this.logger.info('初始化缓存');
   }
 
-  public add(cacheName: string, data: VO, insert: boolean = true): void {
+  public add(cacheName: string, data: VO): void {
     if (data) {
-      if (!this.cache.has(cacheName))
+      if (!this.cacheMap.has(cacheName))
         this.set(cacheName);
-      let datas = this.cache.get(cacheName);
-      if (datas) {
-        if (insert)
-          datas.push(data);
-        else
-          for (let i = 0; i < datas.length; i++)
-            if (datas[i]._id === data._id) {
-              datas[i] = data;
-              break;
-            }
+      let cache = this.cacheMap.get(cacheName);
+      if (cache) {
+        cache.push(data);
       }
       this.logger.info(`缓存 ${cacheName} 插入 ${data._id}`);
     }
   }
 
   public remove(cacheName: string, id: string | number): void {
-    if (this.cache.has(cacheName)) {
-      let datas = this.cache.get(cacheName);
-      if (datas) {
-        for (let i = 0; i < datas.length; i++)
-          if (datas[i]._id === id) {
-            delete datas[i];
+    if (this.cacheMap.has(cacheName)) {
+      let cache = this.cacheMap.get(cacheName);
+      if (cache) {
+        for (let i = 0; i < cache.length; i++)
+          if (cache[i]._id === id) {
+            delete cache[i];
             break;
           }
       }
@@ -76,10 +69,23 @@ export default class Cache {
     this.logger.info(`缓存 ${cacheName} id ${id} 删除`);
   }
 
+  public update(cacheName: string, data: VO): void {
+    if (data && this.cacheMap.has(cacheName)) {
+      let cache = this.cacheMap.get(cacheName);
+      if (cache) {
+        for (let i = 0; i < cache.length; i++)
+          if (cache[i]._id === data._id) {
+            cache[i] = data;
+            break;
+          }
+      }
+    }
+  }
+
   public collection<T extends VO>(cacheName: string): Collection<T> | null {
-    if (this.cache.has(cacheName)) {
+    if (this.cacheMap.has(cacheName)) {
       // @ts-ignore
-      return new Collection(this.cache.get(cacheName));
+      return new Collection(this.cacheMap.get(cacheName));
     } else
       return null;
   }

@@ -68,18 +68,17 @@ export class HoleApi implements IHoleApi {
       .doc(Const.HOLE_COLLECTION, id)
       .get() as IQuerySingleResult;
 
-    if (holeVOResult) {
-      let holeVO: IHoleVO = copy<IHoleVO>(holeVOResult.data);
-      // noinspection JSIgnoredPromiseFromCall
-      this.cache.add(Const.HOLE_COLLECTION, holeVO);
+    if (holeVOResult.data) {
+      this.cache.add(Const.HOLE_COLLECTION, Util.copyWithTimestamp<IHoleVO>(holeVOResult.data));
     }
 
     return id;
   }
 
   async deleteHole(holeId: string | number): Promise<void> {
+    await this.base.remove(Const.HOLE_COLLECTION, holeId);
+
     this.cache.remove(Const.HOLE_COLLECTION, holeId);
-    return await this.base.remove(Const.HOLE_COLLECTION, holeId);
   }
 
   async getBubblesFromHole(holeId: string | number, index: number, offset: number = 20): Promise<BubbleVO[]> {
@@ -88,60 +87,68 @@ export class HoleApi implements IHoleApi {
 
   private async getBubbleVOs(holeId: string | number, index: number, offset: number): Promise<BubbleVO[]> {
     let bubbleCollection = this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION);
+
     if (bubbleCollection) {
-      return bubbleCollection
+      let bubbleVOs: BubbleVO[] = bubbleCollection
         .where({holeId})
         .orderBy('createTime', false)
         .skip_limit(index * offset, offset)
         .get();
-    } else {
-      const bubbleResult = await this.base
-        .collection(Const.BUBBLE_COLLECTION)
-        .where({holeId})
-        .orderBy('createTime', 'desc')
-        .skip(index * offset)
-        .limit(offset)
-        .get() as IQueryResult;
 
-      if (!bubbleResult)
-        return [];
-
-      let bubbleVOs: BubbleVO[] = [];
-      for (let i = 0; i < bubbleResult.data.length; i++) {
-        let result = bubbleResult[i];
-        let bubbleVO: BubbleVO = copy(result);
-        this.cache.add(Const.BUBBLE_COLLECTION, copy(bubbleVO));
-        await this.getReplyVOs(bubbleVO._id)
-          .then((replyList) => {
-            bubbleVO.replyList = replyList;
-            bubbleVOs.push(bubbleVO)
-          });
-      }
-      return bubbleVOs;
+      // 成功命中缓存
+      if (bubbleVOs.length >= offset)
+        return bubbleVOs;
     }
+
+    const bubbleResult = await this.base
+      .collection(Const.BUBBLE_COLLECTION)
+      .where({holeId})
+      .orderBy('createTime', 'desc')
+      .skip(index * offset)
+      .limit(offset)
+      .get() as IQueryResult;
+
+    if (!bubbleResult.data)
+      return [];
+
+    let bubbleVOs: BubbleVO[] = [];
+    for (let data of bubbleResult.data) {
+      if (data) {
+        let bubbleVO: BubbleVO = Util.copyWithTimestamp(data);
+        this.cache.add(Const.BUBBLE_COLLECTION, Util.copy(bubbleVO));
+        bubbleVO.replyList = await this.getReplyVOs(bubbleVO._id);
+        bubbleVOs.push(bubbleVO);
+      }
+    }
+    return bubbleVOs;
   }
 
   private async getReplyVOs(bubbleId: string | number): Promise<ReplyVO[]> {
-    let cacheReplyCollection = this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION);
-    if (cacheReplyCollection) {
-      return cacheReplyCollection
-        .where({bubbleId: bubbleId})
-        .get();
-    } else {
-      let replyCollection = this.base.collection(Const.REPLY_COLLECTION);
-
-      let replyResult = await replyCollection
+    let replyCollection = this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION);
+    if (replyCollection) {
+      return replyCollection
         .where({bubbleId})
-        .orderBy('createTime', 'asc')
-        .get() as IQueryResult;
-
-      return replyResult ?
-        replyResult.data.map(result => {
-          let replyVO: ReplyVO = copy<ReplyVO>(result);
-          this.cache.add(Const.REPLY_COLLECTION, copy<ReplyVO>(replyVO));
-          return replyVO;
-        }) : [];
+        .get();
     }
+
+    let replyResult = await this.base
+      .collection(Const.REPLY_COLLECTION)
+      .where({bubbleId})
+      .orderBy('createTime', 'asc')
+      .get() as IQueryResult;
+
+    if (!replyResult.data)
+      return [];
+
+    let replyVOs: ReplyVO[] = [];
+    for (let data of replyResult.data) {
+      if (data) {
+        let replyVO: ReplyVO = Util.copyWithTimestamp<ReplyVO>(data);
+        this.cache.add(Const.REPLY_COLLECTION, Util.copy(replyVO));
+        replyVOs.push(replyVO);
+      }
+    }
+    return replyVOs;
   }
 
 
@@ -152,20 +159,23 @@ export class HoleApi implements IHoleApi {
       .doc(Const.HOLE_COLLECTION, holeId)
       .get() as IQuerySingleResult;
 
-    if (holeVOResult) {
-      let iHoleVO: IHoleVO = JSON.parse(JSON.stringify(holeVOResult.data));
-      // noinspection JSIgnoredPromiseFromCall
-      this.cache.add(Const.HOLE_COLLECTION, iHoleVO, false);
+    if (holeVOResult.data) {
+      this.cache.update(Const.HOLE_COLLECTION, Util.copyWithTimestamp<IHoleVO>(holeVOResult.data));
     }
   }
 
   async getHoles(index: number, offset: number = 20): Promise<IHoleVO[]> {
     let holeCollection = this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION);
     if (holeCollection) {
-      return holeCollection
+      let iHoleVOs: IHoleVO[] = holeCollection
         .orderBy('updateTime', false)
         .skip_limit(index * offset, offset)
         .get();
+
+      //成功命中缓存
+      if (iHoleVOs.length >= offset) {
+        return iHoleVOs;
+      }
     }
 
     //hole
@@ -176,16 +186,19 @@ export class HoleApi implements IHoleApi {
       .limit(offset)
       .get() as IQueryResult;
 
-    if (!holeResult)
+    if (!holeResult.data)
       return [];
 
-    let holeVOs: IHoleVO[] = holeResult.data.map(result => {
-      let holeVO: IHoleVO = JSON.parse(JSON.stringify(result));
-      return holeVO;
-    });
+    let iHoleVOs: IHoleVO[] = [];
+    for (let data of holeResult.data) {
+      if (data) {
+        let iHoleVO: IHoleVO = Util.copyWithTimestamp<IHoleVO>(data);
+        this.cache.add(Const.REPLY_COLLECTION, Util.copy(iHoleVO));
+        iHoleVOs.push(iHoleVO);
+      }
+    }
 
-    await holeVOs.forEach(holeVO => this.cache.add(Const.HOLE_COLLECTION, holeVO));
-    return holeVOs;
+    return iHoleVOs;
   }
 }
 
@@ -220,8 +233,4 @@ export class MockHoleApi implements IHoleApi {
     return this.http.success();
   }
 
-}
-
-function copy<T>(data: object): T {
-  return JSON.parse(JSON.stringify(data));
 }
