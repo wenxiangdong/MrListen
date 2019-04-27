@@ -5,7 +5,9 @@ import "./RightBubble.less";
 import SendTime from "./SendTime";
 import Listen from "../../../utils/listen";
 import zoomPng from "../../../images/zoom.png";
+import audioPng from "../../../images/audio.png";
 import {CommonEvent} from "@tarojs/components/types/common";
+import AudioContent from "./AudioContent";
 
 interface IProp {
   bubble: any,
@@ -34,7 +36,8 @@ class RightBubble extends Taro.Component<IProp> {
         break;
       }
       case BubbleType.VOICE: {
-        bubbleContent = <Text className={"Right-text"}>这是一段语音</Text>;
+        // bubbleContent = <Text className={"Right-text"}>这是一段语音</Text>;
+        bubbleContent = (<AudioContent content={bubble.content}/>);
         break;
       }
     }
@@ -61,6 +64,11 @@ class RightBubble extends Taro.Component<IProp> {
       Listen.message.error("预览图片失败");
     })
   };
+
+  handleClickAudio = (e) => {
+    e.stopPropagation();
+
+  }
 }
 
 export default RightBubble;
