@@ -5,22 +5,24 @@ import {Image} from "@tarojs/components";
 
 interface IProp {
   src?: string,
-  size?: number
+  size?: number,
+  margin?: number
 }
 export default class Avatar extends Component<IProp> {
   // private logger = Logger.getLogger(Avatar.name);
   render(): any {
-    const {src, size} = this.props;
+    const {src, size, margin} = this.props;
     return (
       <Image
         // @ts-ignore
         src={src}
-        style={{width: size + "px", height: size + "px", borderRadius: "50%", border: "#e8eaec 1px solid"}}/>
+        style={{width: size + "px", height: size + "px", borderRadius: "50%", border: "#e8eaec 1px solid", margin: margin + "px"}}/>
     );
   }
 }
 
 // @ts-ignore
 Avatar.defaultProps = {
-  src: "cloud://first-57afbf.6669-first-57afbf/images/avatar.jpeg", size: 150
+  src: "cloud://first-57afbf.6669-first-57afbf/images/avatar.jpeg", size: 150,
+  margin: 0
 };
