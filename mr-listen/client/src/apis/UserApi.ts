@@ -49,7 +49,7 @@ export class MockUserApi implements IUserApi {
   private http = MockRequest.getInstance();
 
   public async login(): Promise<string | number> {
-    return this.http.success();
+    return this.http.success(0);
   }
 }
 

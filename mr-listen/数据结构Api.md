@@ -84,6 +84,29 @@ class HistoryHole implements IHole {}
 
 class HistoryHoleVO implements IHoleVO {}
 
+interface Report {
+    meetTime: number;
+    holeCount: number;
+    longestDuration: number;
+    mostUsedWords: {[key: string]: number};
+    latestTime: number;
+    plusOneCount: number;
+}
+
+interface ShareHoleVO extends VO {
+    expireIn: number;
+    /**
+    * 
+    {
+        detail: IHoleVO
+        bubbleVOs: BubbleVO[]
+    }
+    */
+    snapShot: string;
+    plusOneCount: number;
+}
+
+
 
 enum HttpCode {
   SUCCESS,
@@ -145,17 +168,17 @@ interface IHoleApi {
     /**
     * @return 新树洞id
     */
-    createHole(): string;
+    createHole(): string | number;
     
     /**
     * 
-    * @param index 第几页, 第一页为0（不要设置为1）
+    * @param lastHoleId 上次获取的最后一个holeId，如果是第一次获取，请传入空：''，0 都可以
     * @param offset 该页取多少数据量，默认为20
     * @return Hole[] 树洞集合
     * 
     */
     // 根据 Hole 更新时间逆序，即最近访问的树洞返回优先级最高
-    getHoles(index: number, offset: number = 20): IHoleVO[];
+    getHoles(lastHoleId: string| number, offset: number = 20): IHoleVO[];
     
     /**
     * 
@@ -177,12 +200,10 @@ interface IHoleApi {
     /**
     * 
     * @param holeId
-    * @param index
-    * @param offset，默认20
     * @return 添加了对应 reply 的 bubble 集合
     */
-    //根据 Bubble 创建时间逆序，即最近发送的消息优先级最高，返回数组中第一个为最后发送的消息（如果 index = 0）
-    getBubblesFromHole(holeId: string | number, index: number, offset: number = 20): BubbleVO[];
+    //创建时间顺序获取
+    getBubblesFromHole(holeId: string | number): BubbleVO[];
 }
 
 interface IFileApi {
@@ -199,6 +220,15 @@ interface IFileApi {
     getTempFileURL(fileList: string[]): Promise<object[]>;
     
     deleteFile(fileList: string[]): Promise<object[]>;
+}
+
+interface ShareHoleApi {
+    
+    createShareHole(holeId: string | number, expireIn: number = -1): string | number;
+    
+    getShareHole(shareHoleId: string | number): ShareHoleVO;
+    
+    plusOneCount(shareHoleId: string | number): void;
 }
 
 ```

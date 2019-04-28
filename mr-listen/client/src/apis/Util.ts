@@ -1,9 +1,16 @@
 class Util {
-  public static copy(data) {
+  static copy(data) {
     return JSON.parse(JSON.stringify(data));
   }
 
-  public static copyWithTimestamp<T>(data: object): T {
+  static copyField(dest: object, src: object) {
+    for (let field in src) {
+      // noinspection JSUnfilteredForInLoop
+      dest[field] = src[field];
+    }
+  }
+
+  static copyWithTimestamp<T>(data: any): T {
     let copyData = this.copy(data);
     for (let field in copyData) {
       // @ts-ignore
@@ -15,6 +22,7 @@ class Util {
     }
     return copyData;
   }
+
 
   private constructor() {
   }

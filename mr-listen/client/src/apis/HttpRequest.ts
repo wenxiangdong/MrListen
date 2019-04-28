@@ -67,7 +67,7 @@ export class HttpRequest implements IHttpRequest {
       // 解析数据
       let httpResponse = callResult.result as HttpResponse<T>;
       if (httpResponse.code === HttpCode.SUCCESS) {
-        return httpResponse.data;
+        return Util.copyWithTimestamp<T>(httpResponse.data);
       } else
         throw httpResponse;
     } else
@@ -90,7 +90,7 @@ export class HttpRequest implements IHttpRequest {
     }
   }
 
-  async remove(collectionName: string, docId: string): Promise<void> {
+  async remove(collectionName: string, docId: string | number): Promise<void> {
     let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
 
     if (result) {
@@ -100,7 +100,7 @@ export class HttpRequest implements IHttpRequest {
     }
   }
 
-  async update(collectionName: string, docId: string, data: object): Promise<void> {
+  async update(collectionName: string, docId: string | number, data: object): Promise<void> {
     data['updateTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
 
