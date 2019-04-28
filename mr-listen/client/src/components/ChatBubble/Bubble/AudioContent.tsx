@@ -56,6 +56,7 @@ export default class AudioContent extends Component<IProp, IState> {
       this.audioContext.onEnded(() => {
         this.logger.info("结束");
       });
+      // @ts-ignore
       this.audioContext.onError((res) => {
         this.logger.error("出错", res);
       });

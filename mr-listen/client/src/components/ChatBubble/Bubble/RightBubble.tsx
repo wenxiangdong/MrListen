@@ -5,7 +5,6 @@ import "./RightBubble.less";
 import SendTime from "./SendTime";
 import Listen from "../../../utils/listen";
 import zoomPng from "../../../images/zoom.png";
-import audioPng from "../../../images/audio.png";
 import {CommonEvent} from "@tarojs/components/types/common";
 import AudioContent from "./AudioContent";
 
