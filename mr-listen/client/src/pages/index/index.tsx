@@ -60,6 +60,7 @@ class Index extends Component<any, IState> {
       .filter(b => !!b)
       .map((b, index) =>
         <ChatBubble
+          chat-bubble-class={'chat-bubble'}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
@@ -115,6 +116,7 @@ class Index extends Component<any, IState> {
 
     // 发送气泡
     try {
+
       bubble.holeId = holeId;
       this.logger.info("开始发送");
       const resolveFunc = this.resolveRawBubble[bubble.type];

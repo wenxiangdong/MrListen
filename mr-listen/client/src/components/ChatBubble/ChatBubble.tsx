@@ -27,6 +27,8 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
   private logger = Logger.getLogger(ChatBubble.name);
 
+  static externalClasses = ['chat-bubble-class'];
+
   constructor(props) {
     super(props);
     this.initUserConfig();
@@ -185,7 +187,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
         ));
 
     return (
-      <View>
+      <View className={'chat-bubble-class'}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

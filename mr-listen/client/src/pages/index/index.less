@@ -12,20 +12,50 @@
   left: 0;
   right: 0;
   box-sizing: border-box;
-  -webkit-transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
-  transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
 }
+//
+//.input-animation {
+//  background: white;
+//  animation: input-background .2s ease-out;
+//}
+//
+//@keyframes input-background {
+//  0% {
+//    background: #19be6b33;
+//  }
+//  30% {
+//    background: #19be6b33;
+//  }
+//  100% {
+//    background: white;
+//  }
+//}
+
 
 .main-box {
   position: relative;
 }
 
-
 .bubble-area {
   overflow-y: scroll;
 
   -webkit-overflow-scrolling: touch;
-  max-height: 100%;
   padding-bottom: 120px;
+
+  transition: height .2s ease-out;
 }
 
+.chat-bubble {
+  animation: bubble-appear .2s ease-out;
+}
+
+@keyframes bubble-appear {
+  0% {
+    transform: translateY(20px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
