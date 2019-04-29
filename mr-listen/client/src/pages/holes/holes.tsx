@@ -3,7 +3,7 @@ import {View, ScrollView, Button} from '@tarojs/components'
 import Logger from './../../utils/logger'
 import Listen from "../../utils/listen"
 import {apiHub} from './../../apis/ApiHub'
-import "@tarojs/async-await"
+import '@tarojs/async-await'
 import {IHoleVO, IHole} from './../../apis/HoleApi'
 import HoleBar from './../../components/HoleBar/HoleBar'
 
@@ -111,7 +111,7 @@ export class Holes extends Component<any, IState> {
     this.logger.info('hole click', idx);
   };
 
-  private startUpdatingHandler = (idx) => {
+  private checkInfoHandler = (idx) => {
     this.logger.info('hole start updating', idx);
   };
 
@@ -129,13 +129,15 @@ export class Holes extends Component<any, IState> {
                holeAvatarSrc={hole.avatarUrl}
                holeTitle={hole.title}
                isSetting={this.state.settingHoleIndex === idx}
-               onStartUpdating={() => this.startUpdatingHandler(idx)}
-               onStopSet={this.holeStopSetHandler}
+               onCheckInfo={() => this.checkInfoHandler(idx)}
+               onScrollToRight={this.holeStopSetHandler}
                onDelete={() => this.holeDeleteHandler(idx)}
-               onStartSet={() => this.holeStartSetHandler(idx)}
-               onClickHole={() => this.holeClickHandler(idx)}
+               onScrollToLeft={() => this.holeStartSetHandler(idx)}
+               onClick={() => this.holeClickHandler(idx)}
       />
     );
+
+    let buttonHeight = 45;
 
     return (
       <View>
@@ -144,10 +146,10 @@ export class Holes extends Component<any, IState> {
             ? <View onClick={this.coverClickHandler} className={'cover'} />
             : null
         }
-        <ScrollView className={'hole-bars-scroll-view'} scrollY={true}>
+        <ScrollView className={'hole-bars-scroll-view'} style={{height: `calc(100% + ${buttonHeight}px)`}} scrollY={true}>
           {holes}
         </ScrollView>
-        <Button className={'create-hole-button'} type={"default"} onClick={this.createHole}>创建新的树洞</Button>
+        <Button className={'create-hole-button'} style={{height: buttonHeight + 'px'}} type={"default"} onClick={this.createHole}>创建新的树洞</Button>
       </View>
     )
   }
