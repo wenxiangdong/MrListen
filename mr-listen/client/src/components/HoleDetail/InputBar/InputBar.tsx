@@ -6,6 +6,7 @@ import BubbleTypePicture from "./BubbleType/BubbleTypePicture";
 import BubbleTypeVoice from "./BubbleType/BubbleTypeVoice";
 import { Bubble, BubbleType, BubbleStyle } from "../../../apis/BubbleApi";
 import Logger from "../../../utils/logger";
+import Listen from "../../../utils/listen";
 
 interface IProp {
   onBubbling: (bubble: Bubble) => void
@@ -21,6 +22,12 @@ export default class InputBar extends Component<IProp, IState> {
   static externalClasses = ['input-bar-class'];
 
   private logger = Logger.getLogger(InputBar.name);
+
+  constructor(props) {
+    super(props);
+    this.handleConfirmInput = this.throttle(this.handleConfirmInput, this.handleInputTooFast);
+  }
+
 
   render(): any {
     const { showTool } = this.state;
@@ -107,5 +114,25 @@ export default class InputBar extends Component<IProp, IState> {
     this.setState({
       text: ""
     })
+  };
+
+  handleInputTooFast = () => {
+    Listen.message.info("你说得太快啦");
+  };
+
+
+  // 节流，让消息只能间隔一秒发出
+  throttle(method: Function, onError) {
+    const duration = 1000;
+    var pre = 0;
+    return function () {
+      let now = +new Date();
+      if (now - pre > duration) {
+        method(...arguments);
+        pre = now;
+      } else {
+        onError();
+      }
+    }
   }
 }
