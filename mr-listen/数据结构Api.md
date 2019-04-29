@@ -84,8 +84,8 @@ class HistoryHole implements IHole {}
 
 class HistoryHoleVO implements IHoleVO {}
 
-interface Report {
-    meetTime: number;
+interface ReportVO extends VO{
+    meetTime: number; 
     holeCount: number;
     longestDuration: number;
     mostUsedWords: {[key: string]: number};
@@ -94,7 +94,9 @@ interface Report {
 }
 
 interface ShareHoleVO extends VO {
-    expireIn: number;
+    // 到期时间，与 createShareHole 方法中的参数 expireIn 不同，该属性为到期时间点 expireIn 为分享树洞持续的时间（以天数为单位），比如 7 天
+    // 该属性由服务器时间和 expireIn 计算得到
+    expiryTime: number 
     /**
     * 
     {
@@ -223,7 +225,11 @@ interface IFileApi {
 }
 
 interface ShareHoleApi {
-    
+    /**
+    * 
+    * @param holeId
+    * @param expireIn 持续天数，默认为-1，表示永不过期
+    */
     createShareHole(holeId: string | number, expireIn: number = -1): string | number;
     
     getShareHole(shareHoleId: string | number): ShareHoleVO;

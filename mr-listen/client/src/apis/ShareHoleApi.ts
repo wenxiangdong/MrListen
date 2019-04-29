@@ -2,6 +2,7 @@ import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
+import * as Taro from "@tarojs/taro";
 import IQueryResult = Taro.cloud.DB.IQueryResult;
 
 export interface IShareHoleApi {
@@ -9,11 +10,12 @@ export interface IShareHoleApi {
 
   getShareHole(shareHoleId: string | number): Promise<ShareHoleVO>;
 
-  plusOneCount(shareHoleId: string | number): Promise<void>;
+  plusOne(shareHoleId: string | number): Promise<void>;
 }
 
 export interface ShareHoleVO extends VO {
-  expireIn: number;
+  expiryTime: number;
+  // expireIn: number;
   /**
    *
    {
@@ -38,7 +40,8 @@ export class ShareHoleApi implements IShareHoleApi {
 
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
       holeId,
-      expireIn,
+      // @ts-ignore
+      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn * 24 * 60 * 60 * 1000}) : -1,
       snapShot,
       plusOneCount: 0,
     })
@@ -49,11 +52,11 @@ export class ShareHoleApi implements IShareHoleApi {
     if (result.data) {
       return Util.copyWithTimestamp(result.data);
     }
-    throw new Error("未找到分享树洞")
+    throw new Error("未找到该分享树洞");
   }
 
-  async plusOneCount(shareHoleId: string | number): Promise<void> {
-    await this.base.callFunction<void>("plusOneCount", {shareHoleId});
+  async plusOne(shareHoleId: string | number): Promise<void> {
+    await this.base.callFunction<void>("plusOne", {shareHoleId});
   }
 
 }
@@ -72,7 +75,7 @@ export class MockShareHoleApi implements IShareHoleApi {
   }
 
   // @ts-ignore
-  plusOneCount(shareHoleId: string | number): Promise<void> {
+  plusOne(shareHoleId: string | number): Promise<void> {
     return this.http.success();
   }
 

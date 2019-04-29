@@ -1,4 +1,4 @@
-class Util {
+abstract class Util {
   static copy(data) {
     return JSON.parse(JSON.stringify(data));
   }
@@ -21,10 +21,6 @@ class Util {
       }
     }
     return copyData;
-  }
-
-
-  private constructor() {
   }
 }
 

@@ -1,6 +1,8 @@
-const cloud = require('wx-server-sdk')
+const cloud = require('wx-server-sdk');
 
-cloud.init()
+cloud.init();
+
+cloud.database().serverDate();
 
 
 exports.main = async () => {
@@ -9,4 +11,4 @@ exports.main = async () => {
   return {
     openid: wxContext.OPENID
   }
-}
+};

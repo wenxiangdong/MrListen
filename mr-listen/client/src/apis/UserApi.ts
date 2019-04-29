@@ -29,6 +29,14 @@ export class UserApi implements IUserApi {
     let id: string | number;
     if (!exist) {
       id = await this.base.add(Const.USER_COLLECTION);
+      await this.base.add(Const.REPORT_COLLECTION, {
+        meetTime: this.base.serverDate(),
+        holeCount: 0,
+        longestDuration: 0,
+        mostUsedWords: {},
+        latestTime: 0,
+        plusOneCount: 0,
+      });
     } else {
       let data = exist.data;
       if (!data.length)

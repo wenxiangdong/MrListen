@@ -6,6 +6,7 @@ import {BubbleApi, IBubbleApi, MockBubbleApi} from "./BubbleApi";
 import {HoleApi, IHoleApi, MockHoleApi} from "./HoleApi";
 import {FileApi, IFileApi, MockFileApi} from "./FileApi";
 import {IShareHoleApi, MockShareHoleApi, ShareHoleApi} from "./ShareHoleApi";
+import {IReportApi, MockReportApi, ReportApi} from "./ReportApi";
 
 export interface IApiHub {
   userApi: IUserApi;
@@ -13,6 +14,7 @@ export interface IApiHub {
   holeApi: IHoleApi;
   fileApi: IFileApi;
   shareHoleApi: IShareHoleApi;
+  reportApi: IReportApi;
 }
 
 class ApiHub implements IApiHub {
@@ -22,6 +24,7 @@ class ApiHub implements IApiHub {
     this.userApi = new UserApi();
     this.fileApi = new FileApi();
     this.shareHoleApi = new ShareHoleApi();
+    this.reportApi = new ReportApi();
   }
 
   bubbleApi: IBubbleApi;
@@ -29,6 +32,7 @@ class ApiHub implements IApiHub {
   userApi: IUserApi;
   fileApi: IFileApi;
   shareHoleApi: IShareHoleApi;
+  reportApi: IReportApi;
 }
 
 
@@ -39,6 +43,7 @@ class MockApiHub implements IApiHub {
     this.userApi = new MockUserApi();
     this.fileApi = new MockFileApi();
     this.shareHoleApi = new MockShareHoleApi();
+    this.reportApi = new MockReportApi();
   }
 
   bubbleApi: IBubbleApi;
@@ -46,6 +51,7 @@ class MockApiHub implements IApiHub {
   userApi: IUserApi;
   fileApi: IFileApi;
   shareHoleApi: IShareHoleApi;
+  reportApi: IReportApi;
 }
 
 const useMock = false;

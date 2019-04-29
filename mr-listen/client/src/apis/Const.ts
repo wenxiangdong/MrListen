@@ -5,4 +5,5 @@ class Const {
   static readonly HOLE_DEFAULT_AVATAR_URL: string = "";
   static readonly REPLY_COLLECTION: string = "reply";
   static readonly USER_COLLECTION: string = "user";
+  static readonly REPORT_COLLECTION: string = "report";
 }

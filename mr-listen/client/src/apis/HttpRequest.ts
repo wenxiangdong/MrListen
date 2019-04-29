@@ -7,6 +7,8 @@ import DatabaseCommand = Taro.cloud.DB.DatabaseCommand;
 import IAddResult = Taro.cloud.DB.IAddResult;
 import IRemoveResult = Taro.cloud.DB.IRemoveResult;
 import IUpdateResult = Taro.cloud.DB.IUpdateResult;
+import ServerDate = Taro.cloud.DB.ServerDate;
+import IServerDateOptions = Taro.cloud.DB.IServerDateOptions;
 
 export interface IHttpRequest {
   callFunction<T>(name: string, data?: object): Promise<T>;
@@ -22,6 +24,8 @@ export interface IHttpRequest {
   doc(collectionName: string, docId: string | number): DocumentReference;
 
   command(): DatabaseCommand;
+
+  serverDate(option?: IServerDateOptions): ServerDate;
 }
 
 export interface HttpResponse<T> {
@@ -121,6 +125,15 @@ export class HttpRequest implements IHttpRequest {
 
   command(): DatabaseCommand {
     return this.database.command;
+  }
+
+  serverDate(option?: Taro.cloud.DB.IServerDateOptions): Taro.cloud.DB.ServerDate {
+    if (option) {
+      return this.database.serverDate();
+    } else {
+      // @ts-ignore
+      return this.database.serverDate(option)
+    }
   }
 }
 
