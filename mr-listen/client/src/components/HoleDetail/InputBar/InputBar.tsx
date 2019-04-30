@@ -9,12 +9,15 @@ import Logger from "../../../utils/logger";
 import Listen from "../../../utils/listen";
 
 interface IProp {
-  onBubbling: (bubble: Bubble) => void
+  onBubbling: (bubble: Bubble) => void,
+  onFocus: (height: number) => void,  // 输入框聚焦时，即键盘弹出时的回调，参数为键盘高度
+  onBlur: () => void,
 }
 
 interface IState {
   text: string,
-  showTool: boolean
+  showTool: boolean,
+  keyboardHeight: number
 }
 
 export default class InputBar extends Component<IProp, IState> {
@@ -26,6 +29,11 @@ export default class InputBar extends Component<IProp, IState> {
   constructor(props) {
     super(props);
     this.handleConfirmInput = this.throttle(this.handleConfirmInput, this.handleInputTooFast);
+    this.state = {
+      text: "",
+      showTool: false,
+      keyboardHeight: 0
+    }
   }
 
 
@@ -65,6 +73,9 @@ export default class InputBar extends Component<IProp, IState> {
               confirm-hold={true}
               cursor-spacing={'32rpx'}
               onInput={this.handleInput}
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
+              // adjustPosition={false}
               onConfirm={this.handleConfirmInput}/>
             {/*<Input className={"IB-input"}*/}
             {/*placeholder={""}*/}
@@ -98,6 +109,28 @@ export default class InputBar extends Component<IProp, IState> {
       text: e.detail.value
     })
   };
+
+  handleInputBlur = () => {
+    const {onBlur} = this.props;
+    if (typeof onBlur === "function") {
+      onBlur();
+    }
+    this.setState({
+      keyboardHeight: 0
+    });
+  };
+
+  handleInputFocus = (e) => {
+    this.logger.info(e);
+    const {onFocus} = this.props;
+    if (typeof onFocus === "function") {
+      onFocus(e.detail.height);
+    }
+    this.setState({
+      keyboardHeight: e.detail.height
+    });
+  };
+
   handleConfirmInput = (e) => {
     this.logger.info(e);
     // 去掉前后空格

@@ -1,26 +1,49 @@
 @import "../../app";
-.index {
-  .input-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
-}
 
 .input-bar {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  //left: 0;
+  //right: 0;
+  //bottom: 0;
   box-sizing: border-box;
-  -webkit-transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
-  transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
+  //-webkit-transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
+  //transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
 }
 
 .main-box {
-  position: relative;
+  transition: top 0.25s cubic-bezier(0, .44, 0, 1);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  //background-color: blanchedalmond;
+
+
+  .white-space {
+    width: 100vh;
+    height: 50Px;
+  }
+
 
   .index-nav-bar {
+    //transition: top 0.5s ;
+    transition: top 0.25s cubic-bezier(0, .44, 0, 1);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 10000;
+
+    background-color: white;
+
     padding: 20px 40px;
 
     display: flex;
@@ -68,10 +91,9 @@
 
 
 .bubble-area {
-  overflow-y: scroll;
 
-  -webkit-overflow-scrolling: touch;
-  max-height: 100%;
-  padding-bottom: 120px;
+  min-height: calc(100vh - 100Px);
+
+  //background-color: #515a6e;
 }
 
