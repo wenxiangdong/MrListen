@@ -93,13 +93,17 @@ export default class InputBar extends Component<IProp, IState> {
   };
   handleConfirmInput = (e) => {
     this.logger.info(e);
-    const value = e.detail.value;
-    const bubble = {
-      type: BubbleType.TEXT,
-      style: BubbleStyle.NORMAL,
-      content: value,
-    } as Bubble;
-    this.props.onBubbling(bubble);
+    // 去掉前后空格
+    const value: string = e.detail.value.trim();
+    // 判消息内容是否为空
+    if (value) {
+      const bubble = {
+        type: BubbleType.TEXT,
+        style: BubbleStyle.NORMAL,
+        content: value,
+      } as Bubble;
+      this.props.onBubbling(bubble);
+    }
     this.setState({
       text: ""
     })

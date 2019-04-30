@@ -1,0 +1,27 @@
+
+.AC-bubble-audio {
+  display: flex;
+  align-items: center;
+
+  .AC-audio-icon {
+    width: 1.5em;
+    height: 1.5em;
+    margin: 0 10px;
+  }
+
+  .AC-audio-icon-play {
+    @keyframes flashing {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.2;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    animation: flasing 3s infinite ease-in-out;
+  }
+}

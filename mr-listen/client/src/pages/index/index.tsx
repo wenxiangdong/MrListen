@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {Block, View} from '@tarojs/components'
+import {Block, View, Text, Image} from '@tarojs/components'
 import './index.less'
 import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
@@ -8,6 +8,9 @@ import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 import {apiHub} from "../../apis/ApiHub";
 import "@tarojs/async-await";
 import Listen from "../../utils/listen";
+
+import clockPng from "../../images/clock.png";
+import mePng from "../../images/me.png";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -29,7 +32,8 @@ class Index extends Component<any, IState> {
 
   state = {
     bubbleVOList: [] as BubbleVO[],
-    holeId: ""
+    holeId: "",
+    title: "新会话"
   };
 
   private logger = Logger.getLogger(Index.name);
@@ -51,9 +55,15 @@ class Index extends Component<any, IState> {
     [BubbleType.TEXT]: async (bubble) => bubble
   };
 
+
+  private iconToLink = {
+    [mePng.toString()]: "me",
+    [clockPng.toString()]: "history"
+  };
+
   render() {
 
-    const {bubbleVOList} = this.state;
+    const {bubbleVOList, title} = this.state;
 
     // 构建所有气泡
     const bubbles = bubbleVOList
@@ -69,6 +79,20 @@ class Index extends Component<any, IState> {
     return (
       <Block>
         <View className={'main-box'}>
+          <View className={"index-nav-bar"}>
+            <View className={"index-avatar-wrapper"}>
+              {/*<View>*/}
+              <Text className={"index-title"}>
+                {title}
+              </Text>
+              {/*</View>*/}
+            </View>
+            <View className={"index-icon-group"}>
+              <Image src={clockPng} className={"index-icon"} onClick={() => this.handleClickIcon(clockPng.toString())}/>
+              <View className={"index-divider"}/>
+              <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
+            </View>
+          </View>
           <View className={"bubble-area"}>
             {bubbles}
           </View>
@@ -77,6 +101,16 @@ class Index extends Component<any, IState> {
       </Block>
     );
   }
+
+  handleClickIcon = (img) => {
+    const url = this.iconToLink[img];
+    Taro.navigateTo({
+      url
+    }).catch(() => {
+      this.logger.error(`跳转到${url}失败`);
+      Listen.message.error("跳转失败");
+    });
+  };
 
   handleBubbling = async (bubble: Bubble) => {
     this.logger.info("接收到的bubble", bubble);
@@ -152,6 +186,18 @@ class Index extends Component<any, IState> {
     });
 
   };
+
+  componentDidMount(): void {
+    this.logger.info(this.$router.params);
+    const params = this.$router.params;
+    const holeId = params.holeId;
+    if (holeId) {
+      this.logger.info("啊，跳转过来的啦", holeId);
+      // 存在这个参数的话，证明是从树洞列表跳转过来的，需要拿所有的气泡
+      this.setState({holeId});
+      // TODO 从api拿气泡
+    }
+  }
 
 }
 
