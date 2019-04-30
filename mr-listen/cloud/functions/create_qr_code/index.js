@@ -30,7 +30,7 @@ exports.main = async (event, context) => {
       data: null,
       message: "参数params不存在"
     }
-  };
+  }
 
   let scene = Object.keys(params)
       .map(key => `${key}=${encodeURIComponent(params[key])}`)
@@ -55,7 +55,7 @@ exports.main = async (event, context) => {
       cloudPath: path,
       fileContent: getCodeRes.buffer
     });
-    
+
     return {
       code: HttpCode.SUCCESS,
       data: uploadFileRes.fileID,
