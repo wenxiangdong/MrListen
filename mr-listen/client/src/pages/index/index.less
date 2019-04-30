@@ -34,12 +34,20 @@
 
 
 .main-box {
+
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+
   position: relative;
 
   .index-nav-bar {
+    flex: 0 0 auto;
+    width: 100vw;
     padding: 20px 40px;
-
     display: flex;
+    box-sizing: border-box;
+
     justify-content: space-between;
     align-items: stretch;
 
@@ -83,29 +91,41 @@
 }
 
 .bubble-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 20px 0;
+  box-sizing: border-box;
+  flex: 1 1 auto;
   overflow-y: scroll;
+  height: 100vh;
+  max-height: calc(100vh - 92px - 96px + 2px);
 
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 120px;
 
-  transition: height .2s ease-out;
+}
+
+.input-bar-stub {
+  height: 96px;
 }
 
 .chat-bubble {
   position: relative;
   animation: angry-bubble-appear .3s ease-out;
-  &:before {
-    content: '';
-    opacity: 0;
-    position: absolute;
-    right: 140px;
-    top: -10px;
-    width: 100vw;
-    height: 200px;
-    background: url("./../../images/dust.png") right no-repeat;
-    background-size: contain;
-    animation: angry-dust-appear .3s .25s linear;
-  }
+  //&:before {
+  //  overflow: hidden;
+  //  content: '';
+  //  opacity: 0;
+  //  position: absolute;
+  //  right: 140px;
+  //  top: -10px;
+  //  width: 100vw;
+  //  height: 200px;
+  //  background: url("./../../images/dust.png") right no-repeat;
+  //  background-size: contain;
+  //  animation: angry-dust-appear .3s .25s linear;
+  //}
 }
 
 @keyframes bubble-appear {
@@ -142,17 +162,17 @@
   }
 }
 
-
-@keyframes angry-dust-appear {
-  0% {
-    opacity: 0;
-    transform: scale(1, 1);
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.2, 1.2);
-  }
-}
+//
+//@keyframes angry-dust-appear {
+//  0% {
+//    opacity: 0;
+//    transform: scale(1, 1);
+//  }
+//  40% {
+//    opacity: 1;
+//  }
+//  100% {
+//    opacity: 0;
+//    transform: scale(1.2, 1.2);
+//  }
+//}

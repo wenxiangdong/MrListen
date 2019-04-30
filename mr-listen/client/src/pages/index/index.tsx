@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {Block, View, Text, Image} from '@tarojs/components'
+import {Block, View, Text, Image, ScrollView} from '@tarojs/components'
 import './index.less'
 import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
@@ -96,6 +96,7 @@ class Index extends Component<any, IState> {
           <View className={"bubble-area"}>
             {bubbles}
           </View>
+          <View className={'input-bar-stub'}/>
           <InputBar onBubbling={this.handleBubbling} input-bar-class={'input-bar'}/>
         </View>
       </Block>

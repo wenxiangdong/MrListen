@@ -123,7 +123,7 @@ export default class InputBar extends Component<IProp, IState> {
 
   // 节流，让消息只能间隔一秒发出
   throttle(method: Function, onError) {
-    const duration = 1000;
+    const duration = 200;
     var pre = 0;
     return function () {
       let now = +new Date();
