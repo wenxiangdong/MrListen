@@ -1,10 +1,27 @@
 @import "./Bubble";
 .Left-wrapper {
-  background-color: white;
+  background-color: #f4f4f4;
   color: #515a6e;
 
   /* 只有左下角是尖的 */
-  border-top-left-radius: @bubble-radius;
-  border-top-right-radius: @bubble-radius;
-  border-bottom-right-radius: @bubble-radius;
+  //border-top-left-radius: @bubble-radius;
+  //border-top-right-radius: @bubble-radius;
+  //border-bottom-right-radius: @bubble-radius;
+
+  border-radius: @bubble-radius;
+  position: relative;
+
+  .bubble-triangle {
+    // 生成一个指向右边的三角形
+    position: absolute;
+    left: -8px;
+    bottom: 30px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 6px solid #f4f4f4;
+    border-bottom: 10px solid transparent;
+  }
+
 }

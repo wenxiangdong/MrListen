@@ -20,7 +20,8 @@ class LeftBubble extends Component<IProp> {
     return (
       <View className={"Left-wrapper bubble"} onLongPress={this.handleLongPress}>
         <Text className={"bubble-text"}>{bubble.content}</Text>
-        <SendTime time={bubble.createTime}/>
+        <View className={'bubble-triangle'}/>
+        {/*<SendTime time={bubble.createTime}/>*/}
       </View>
     )
   }

@@ -111,8 +111,10 @@
 }
 
 .chat-bubble {
+  z-index: 2;
   position: relative;
-  animation: angry-bubble-appear .3s ease-out;
+  margin-bottom: 0;
+  animation: angry-bubble-appear .6s ease-out;
   //&:before {
   //  overflow: hidden;
   //  content: '';
@@ -141,24 +143,28 @@
 
 @keyframes angry-bubble-appear {
   0% {
-    transform: rotate(7deg) scale(1.3, 1.3) translateY(30px);
-    opacity: 0.4;
-    //box-shadow: #00000010 0 0 10px;
+    margin-bottom: -100%;
+    visibility: hidden;
   }
-  80% {
-    transform: rotate(10deg) scale(1.35, 1.35) translateY(38px);
+  25% {
+    margin-bottom: 0;
+  }
+  30% {
+    visibility: unset;
+    transform: rotate(7deg) scale(1.3, 1.3) translateY(-40px);
+    opacity: 0.5;
+  }
+  85% {
+    transform: rotate(10deg) scale(1.35, 1.35) translateY(-48px);
     opacity: 0.9;
-    //box-shadow: #00000010 0 0 30px;
   }
-  92% {
-    transform: rotate(0) scale(.9, .9) translateY(-10px);
+  94% {
+    transform: rotate(0) scale(.9, .9) translateY(10px);
     opacity: 1;
-    //box-shadow: #00000010 0 0 2px;
   }
   100% {
     transform: rotate(0) scale(1.0, 1.0) translateY(0);
     opacity: 1;
-    //box-shadow: unset;
   }
 }
 
