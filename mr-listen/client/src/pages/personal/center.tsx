@@ -23,7 +23,7 @@ export class Center extends Component {
 
   config: Config = {
     navigationBarTitleText: '个人中心',
-    navigationBarBackgroundColor: '2962FF',
+    navigationBarBackgroundColor: '#2962FF',
     navigationBarTextStyle: "white",
 
   };
