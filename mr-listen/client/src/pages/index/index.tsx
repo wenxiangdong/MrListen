@@ -118,9 +118,9 @@ class Index extends Component<any, IState> {
               <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
             </View>
           </View>
-          <View className={"bubble-area"}>
+          {/*<View className={"bubble-area"}>*/}
             {bubbles}
-          </View>
+          {/*</View>*/}
           <WhiteSpace height={50} id={"bottom-line"}/>
           <InputBar
             id={"input-bar"}
@@ -136,7 +136,7 @@ class Index extends Component<any, IState> {
   // 输入框聚集，键盘弹起
   handleFocus = (keyboardHeight) => {
     this.logger.info(keyboardHeight);
-    const pageHeight = `calc(100vh - ${keyboardHeight}px)`;
+    const pageHeight = `calc(100vh - ${keyboardHeight}px - 5px)`;  //  再减5px是为了让气泡不要太贴近输入框
     this.setState({
       pageHeight,
       top: `${keyboardHeight}px`
@@ -198,7 +198,7 @@ class Index extends Component<any, IState> {
       lastBubbleId: `bubble${pre.bubbleVOList.length}`
     }), () => { //  滚动到最下方
       Taro.pageScrollTo({
-        scrollTop: 100000
+        scrollTop: 100000000
       });
     });
 
