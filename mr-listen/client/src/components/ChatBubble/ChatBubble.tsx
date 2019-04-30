@@ -12,6 +12,7 @@ import "@tarojs/async-await";
 import {apiHub} from "../../apis/ApiHub";
 import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
+import UserAvatar from "../common/UserAvator/UserAvatar";
 
 interface IProp {
   bubble: BubbleVO,
@@ -167,7 +168,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     const rightBubbleWrapper = (
       <View className={"right-flex bubble-item"}>
         <View className={"avatar-wrapper"}>
-          <Avatar size={44}/>
+          <UserAvatar size={44} margin={0}/>
         </View>
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
       </View>

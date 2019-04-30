@@ -57,8 +57,8 @@ class Index extends Component<any, IState> {
 
 
   private iconToLink = {
-    [mePng.toString()]: "me",
-    [clockPng.toString()]: "history"
+    [mePng.toString()]: "/pages/personal/center",
+    [clockPng.toString()]: "/pages/holes/holes"
   };
 
   render() {
@@ -145,7 +145,11 @@ class Index extends Component<any, IState> {
     this.setState((pre) => ({
       bubbleVOList: [...pre.bubbleVOList, bubbleVO],
       holeId
-    }));
+    }), () => { //  滚动到最下方
+      Taro.pageScrollTo({
+        scrollTop: 100000
+      });
+    });
 
     // 发送气泡
     try {
