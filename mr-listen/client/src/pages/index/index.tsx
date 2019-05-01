@@ -45,7 +45,7 @@ class Index extends Component<any, IState> {
       bubbleVOList: [] as BubbleVO[],
       holeId: "",
       title: "新会话",
-      pageHeight: "calc(100vh - 48px)",
+      pageHeight: "100vh",
       lastBubbleId: "",
       top: 0
     };
@@ -122,8 +122,7 @@ class Index extends Component<any, IState> {
           {/*<View className={"bubble-area"}>*/}
           {bubbles}
           {/*</View>*/}
-          {/*改成padding后面做动画可能容易一点*/}
-          {/*<WhiteSpace height={50} id={"bottom-line"}/>*/}
+          <WhiteSpace height={50} id={"bottom-line"}/>
           <InputBar
             id={"input-bar"}
             onBubbling={this.handleBubbling}
@@ -138,7 +137,7 @@ class Index extends Component<any, IState> {
   // 输入框聚集，键盘弹起
   handleFocus = (keyboardHeight) => {
     this.logger.info(keyboardHeight);
-    const pageHeight = `calc(100vh - ${keyboardHeight}px - 5px)`;  //  再减5px是为了让气泡不要太贴近输入框
+    const pageHeight = `calc(100vh - ${keyboardHeight}px)`;  // (ios减5之后会有问题) 再减5px是为了让气泡不要太贴近输入框
     this.setState({
       pageHeight,
       top: `${keyboardHeight}px`
