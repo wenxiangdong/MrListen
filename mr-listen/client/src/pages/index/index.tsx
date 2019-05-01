@@ -45,9 +45,9 @@ class Index extends Component<any, IState> {
       bubbleVOList: [] as BubbleVO[],
       holeId: "",
       title: "新会话",
-      pageHeight: "100vh",
+      pageHeight: "calc(100vh - 48px - 46px)",
       lastBubbleId: "",
-      top: 0
+      top: "46px"
     };
   }
 
@@ -103,8 +103,8 @@ class Index extends Component<any, IState> {
 
     return (
       <Block>
-        <ScrollView scrollY className={'main-box'} style={{height: pageHeight, top: top}} scrollIntoView={lastBubbleId}>
-          <WhiteSpace height={50}/>
+        <ScrollView scrollY className={'main-box'} style={{height: pageHeight}} scrollIntoView={lastBubbleId}>
+          {/*<WhiteSpace height={50}/>*/}
           <View className={"index-nav-bar"} style={{top: top}}>
             <View className={"index-avatar-wrapper"}>
               {/*<View>*/}
@@ -122,7 +122,6 @@ class Index extends Component<any, IState> {
           {/*<View className={"bubble-area"}>*/}
             {bubbles}
           {/*</View>*/}
-          <WhiteSpace height={50} id={"bottom-line"}/>
           <InputBar
             id={"input-bar"}
             onBubbling={this.handleBubbling}
@@ -130,6 +129,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
+        <WhiteSpace height={48}/>
       </Block>
     );
   }
