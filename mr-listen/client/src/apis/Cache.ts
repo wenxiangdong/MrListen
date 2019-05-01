@@ -3,8 +3,25 @@ import {HttpRequest, VO} from "./HttpRequest";
 import IQuerySingleResult = Taro.cloud.DB.IQuerySingleResult;
 import IQueryResult = Taro.cloud.DB.IQueryResult;
 
+class SubCache {
+  private subs: Array<string | number> = [];
+  datas: Map<string | number, VO>;
+
+  constructor(datas: Map<string | number, VO>) {
+    this.datas = datas;
+  }
+
+  contains(sub: string | number): boolean {
+    return this.subs.indexOf(sub) > -1;
+  }
+
+  add(sub: string | number) {
+    this.subs.push(sub);
+  }
+}
+
 export default class Cache {
-  private cacheMap = new Map<string, Map<string | number, VO>>();
+  private cacheMap = new Map<string, SubCache>();
   private base = HttpRequest.getInstance();
 
   private logger = Logger.getLogger("Cache");
@@ -25,7 +42,7 @@ export default class Cache {
 
   private set(cacheName: string, val: Map<string | number, VO> = new Map<string | number, VO>()): boolean {
     if (val) {
-      this.cacheMap.set(cacheName, val);
+      this.cacheMap.set(cacheName, new SubCache(val));
       this.logger.info(`缓存 ${cacheName} 设置`);
       setTimeout(() => {
         this.unset(cacheName);
@@ -52,7 +69,7 @@ export default class Cache {
         this.set(cacheName);
       let cache = this.cacheMap.get(cacheName);
       if (cache) {
-        cache.set(data._id, data);
+        cache.datas.set(data._id, data);
       }
       this.logger.info(`缓存 ${cacheName} 插入 ${data._id}`);
     }
@@ -62,7 +79,7 @@ export default class Cache {
     if (this.cacheMap.has(cacheName) && id) {
       let cache = this.cacheMap.get(cacheName);
       if (cache) {
-        cache.delete(id);
+        cache.datas.delete(id);
       }
     }
     this.logger.info(`缓存 ${cacheName} id ${id} 删除`);
@@ -72,7 +89,7 @@ export default class Cache {
     if (data && this.cacheMap.has(cacheName)) {
       let cache = this.cacheMap.get(cacheName);
       if (cache) {
-        let cacheData = cache.get(id);
+        let cacheData = cache.datas.get(id);
         if (cacheData) {
           Util.copyField(cacheData, data);
         }
@@ -80,27 +97,42 @@ export default class Cache {
     }
   }
 
-  async collection<T extends VO>(cacheName: string): Promise<Collection<T>> {
+  /**
+   *  分段存取，例如访问 holeId 为 xxx 的 bubble 时，只获取服务端 holeId 为 xxx 的 bubble，同时对 xxx 进行记录
+   *  parentVal 代表父节点的值（如 bubble 为 holeId），默认为 'all'（全部）
+   *  condition 为 筛选条件，默认为空，即不筛选
+   */
+  async collection<T extends VO>(cacheName: string, parentVal: string | number = 'all', condition: object = {}): Promise<Collection<T>> {
     if (!this.cacheMap.has(cacheName)) {
-      let skip = 0, limit = 20;
-      let cache: Map<string | number, VO> = new Map<string | number, VO>();
-      while (true) {
-        let results = await this.base.collection(cacheName).skip(skip).limit(20).get() as IQueryResult;
-        if (results.data) {
-          let datas = results.data;
-          // @ts-ignore
-          datas.forEach(data => cache.set(data._id, Util.copyWithTimestamp<T>(data)));
-          if (datas.length < limit) {
-            break;
-          }
-          skip += limit;
-        }
-      }
-
-      this.set(cacheName, cache);
+      this.set(cacheName, new Map<string | number, VO>());
     }
+
     // @ts-ignore
-    return new Collection(cacheName, this, this.cacheMap.get(cacheName));
+    let cache = this.cacheMap.get(cacheName);
+    if (cache) {
+      if (!cache.contains('all') && !cache.contains(parentVal)) {
+        await this.getRemoteDatas(cacheName, cache.datas, condition);
+        cache.add(parentVal);
+      }
+    }
+
+    // @ts-ignore
+    return new Collection(cacheName, this, this.cacheMap.get(cacheName).datas);
+  }
+
+  private async getRemoteDatas<T>(collectionName, datas: Map<string | number, T>, condition = {}) {
+    let skip = 0, limit = 20;
+    while (true) {
+      let results = await this.base.collection(collectionName).where(condition).skip(skip).limit(limit).get() as IQueryResult;
+      if (results.data) {
+        // @ts-ignore
+        results.data.forEach(data => datas.set(data._id, Util.copyWithTimestamp<T>(data)));
+        if (results.data.length < limit) {
+          break;
+        }
+        skip += limit;
+      }
+    }
   }
 }
 
@@ -130,14 +162,6 @@ export class Collection<T extends VO> {
 
     return id;
   }
-
-  // orderBy(fieldPath: string, asc: boolean): this {
-  //   this.datas.sort((a, b) => {
-  //     let result = a[fieldPath] - b[fieldPath];
-  //     return asc ? result : -result;
-  //   });
-  //   return this;
-  // }
 
   where(condition: object): this {
     for (let entry of this.datas) {

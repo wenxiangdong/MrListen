@@ -1,37 +1,33 @@
-import {IHttpRequest, MockRequest, VO} from "./HttpRequest";
-import Cache from "./Cache";
+import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 
 export interface IReportApi {
   getReport(): Promise<ReportVO>;
 }
 
 export interface ReportVO extends VO {
+  userId: string;
   meetTime: number;
   holeCount: number;
   longestDuration: number;
-  mostUsedWords: { [key: string]: number };
+  // 数组，每个元素也为数组，元素数组第一项为词语，第二项为出现次数
+  mostUsedWords: Array<Array<string | number>>;
   latestTime: number;
   plusOneCount: number;
 }
 
 export class ReportApi implements IReportApi {
-  private cache: Cache = Cache.getInstance();
+  private base: IHttpRequest = HttpRequest.getInstance();
 
   async getReport(): Promise<ReportVO> {
-    let reportVOs = (await this.cache.collection<ReportVO>(Const.REPORT_COLLECTION)).get();
-    if (reportVOs && reportVOs.length) {
-      return reportVOs[0];
-    } else {
-      throw new Error("未找到您的报告");
-    }
+    return await this.base.callFunction<ReportVO>('get_report');
   }
 }
 
 export class MockReportApi implements IReportApi {
   // @ts-ignore
-  private http: IHttpRequest = MockRequest.getInstance();
+  private http = MockRequest.getInstance();
 
   getReport(): Promise<ReportVO> {
-    throw new Error("未找到您的报告");
+    throw this.http.success();
   }
 }

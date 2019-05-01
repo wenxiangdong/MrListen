@@ -1,5 +1,5 @@
 import "@tarojs/async-await";
-import {MockRequest, VO} from "./HttpRequest";
+import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 import Cache from "./Cache";
 
 export interface IBubbleApi {
@@ -32,6 +32,8 @@ export interface Reply {
 }
 
 export interface ReplyVO extends VO {
+  _openid: string;
+  createTime: number;
   bubbleId: string | number;
   content: string;
 }
@@ -44,6 +46,8 @@ export interface Bubble {
 }
 
 export interface BubbleVO extends VO {
+  _openid: string;
+  createTime: number;
   holeId: string | number;
   type: BubbleType;
   style: BubbleStyle;
@@ -56,6 +60,7 @@ export interface BubbleVO extends VO {
  * 真正的api
  */
 export class BubbleApi implements IBubbleApi {
+  private base: IHttpRequest = HttpRequest.getInstance();
   private cache: Cache = Cache.getInstance();
 
   async deleteBubble(bubbleId: string | number): Promise<void> {
@@ -67,10 +72,12 @@ export class BubbleApi implements IBubbleApi {
   }
 
   async sendBubble(bubble: Bubble): Promise<string | number> {
+    bubble['createTime'] = this.base.serverDate();
     return await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION)).add(bubble);
   }
 
   async sendReply(reply: Reply): Promise<string | number> {
+    reply['createTime'] = this.base.serverDate();
     return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION)).add(reply);
   }
 }

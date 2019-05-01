@@ -31,7 +31,7 @@ export class ShareHoleApi implements IShareHoleApi {
   private base: IHttpRequest = HttpRequest.getInstance();
   private cache: Cache = Cache.getInstance();
 
-  async createShareHole(holeId: string | number, expireIn: number): Promise<string | number> {
+  async createShareHole(holeId: string | number, expireIn: number = -1): Promise<string | number> {
     let snapShot = {
         detail: (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).get(),
         bubbleVOs: await apiHub.holeApi.getBubblesFromHole(holeId)
@@ -56,7 +56,7 @@ export class ShareHoleApi implements IShareHoleApi {
   }
 
   async plusOne(shareHoleId: string | number): Promise<void> {
-    await this.base.callFunction<void>("plusOne", {shareHoleId});
+    await this.base.callFunction<void>("plus_one", {shareHoleId});
   }
 
 }

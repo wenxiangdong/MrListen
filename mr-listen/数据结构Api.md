@@ -1,31 +1,17 @@
 ```typescript
-// 所有对象的创建时间属性为 createTime, 最新一次更新时间属性为 updateTime，无需设置，调用 HttpRequest 对应时自动添加，如 add 方法
-/**
-  async add(collectionName: string, data: object = {}): Promise<string | number> {
-    data['createTime'] = this.database.serverDate();
-    let result = await this.database.collection(collectionName).add({data}) as IAddResult;
-
-    if (result)
-      return result._id;
-    else {
-      const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
-      this.logger.error(errMsg);
-      throw new Error(errMsg);
-    }
-  }
-*
-*/
-
 // 所有通过直接操作数据库获取数据的 VO 的父类
+
+/**
+* 考虑到有些数据由服务器端生成，故只保留 _id
+*/
 interface VO {
   _id: string | number; // 插入数据 id
-  _openid: string | number; // 数据创建者
-  createTime: number; // 创建时间
-  updateTime: number; // 更新时间
 }
 
 interface UserVO extends VO {
-  
+    // 与 _openid 意义相同，但由于是服务端创建，故用 openid 表示，其他对象属性中的 openid 同理（服务端无法直接操作对象的 _openid 属性）
+    openid: string | number;
+    createTime: number;
 }
 
 enum BubbleType {
@@ -46,6 +32,8 @@ interface Reply {
 }
 
 interface ReplyVO extends VO {
+    _openid: string | number;
+    createTime: number;
     bubbleId: string | number;
     content: string;
 }
@@ -58,11 +46,13 @@ interface Bubble {
 }
 
 interface BubbleVO extends VO {
-  holeId: string | number;
-  type: BubbleType;
-  style: BubbleStyle;
-  content: string;
-  replyList: ReplyVO[];
+    _openid: string | number;
+    createTime: number;
+    holeId: string | number;
+    type: BubbleType;
+    style: BubbleStyle;
+    content: string;
+    replyList: ReplyVO[];
 }
 
 
@@ -72,6 +62,8 @@ interface IHole {
 }
 
 interface IHoleVO extends VO {
+    _openid: string | number;
+    createTime: number;
     title: string;
     avatarUrl: string;
 }
@@ -84,11 +76,15 @@ class HistoryHole implements IHole {}
 
 class HistoryHoleVO implements IHoleVO {}
 
-interface ReportVO extends VO{
+interface ReportVO extends VO {
+    openid: string | number;
     meetTime: number; 
     holeCount: number;
     longestDuration: number;
-    mostUsedWords: {[key: string]: number};
+    /* 数组，每个元素也为数组，元素数组第一项为词语，第二项为出现次数，如
+    * [ [ '开心', 20 ], [ '难过', 12 ] ]
+    */
+    mostUsedWords: Array<Array<string | number>>;
     latestTime: number;
     plusOneCount: number;
 }

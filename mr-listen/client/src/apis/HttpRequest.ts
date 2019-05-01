@@ -81,8 +81,6 @@ export class HttpRequest implements IHttpRequest {
   private database: Taro.cloud.DB.Database = Taro.cloud.database();
 
   async add(collectionName: string, data: object = {}): Promise<string | number> {
-    data['createTime'] = this.database.serverDate();
-    data['updateTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).add({data}) as IAddResult;
 
     if (result) {
@@ -105,7 +103,6 @@ export class HttpRequest implements IHttpRequest {
   }
 
   async update(collectionName: string, docId: string | number, data: object): Promise<void> {
-    data['updateTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
 
     if (result) {
@@ -165,7 +162,4 @@ export class MockRequest {
 
 export class VO {
   _id: string | number;
-  _openid: string;
-  createTime: number;
-  updateTime: number; // 更新时间
 }

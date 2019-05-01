@@ -1,6 +1,6 @@
 import "@tarojs/async-await";
 import {BubbleVO, ReplyVO} from "./BubbleApi";
-import {MockRequest, VO} from "./HttpRequest";
+import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 import Cache, {Collection} from "./Cache";
 
 export interface IHoleApi {
@@ -24,6 +24,8 @@ export interface IHole {
 }
 
 export interface IHoleVO extends VO {
+  _openid: string;
+  createTime: number;
   title: string;
   avatarUrl: string;
 }
@@ -48,6 +50,7 @@ class HistoryHoleVO implements IHoleVO {
  * 真正的api
  */
 export class HoleApi implements IHoleApi {
+  private base: IHttpRequest = HttpRequest.getInstance();
   private cache: Cache = Cache.getInstance();
 
   async createHole(): Promise<string | number> {
@@ -59,6 +62,7 @@ export class HoleApi implements IHoleApi {
 
     return await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
       .add({
+        createTime: this.base.serverDate(),
         title: `树洞 ${index} 号`,
         avatarUrl: Const.HOLE_DEFAULT_AVATAR_URL
       })
@@ -75,7 +79,7 @@ export class HoleApi implements IHoleApi {
   }
 
   private async getBubbleVOs(holeId: string | number): Promise<BubbleVO[]> {
-    let bubbleVOs: BubbleVO[] = await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION))
+    let bubbleVOs: BubbleVO[] = await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION, holeId, {holeId}))
       .where({holeId})
       .get()
       .sort((a, b) => {
@@ -90,7 +94,9 @@ export class HoleApi implements IHoleApi {
   }
 
   private async getReplyVOs(bubbleId: string | number): Promise<ReplyVO[]> {
-    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION)).where({bubbleId}).get();
+    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION, bubbleId, {bubbleId}))
+      .where({bubbleId})
+      .get();
   }
 
   async updateHole(holeId: string | number, hole: IHole): Promise<void> {
@@ -104,7 +110,7 @@ export class HoleApi implements IHoleApi {
       .get();
 
     iHoleVOs.sort((a, b) => {
-      let field = "updateTime";
+      let field = "createTime";
       return b[field] - a[field];
     });
 
