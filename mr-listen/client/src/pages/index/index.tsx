@@ -45,9 +45,9 @@ class Index extends Component<any, IState> {
       bubbleVOList: [] as BubbleVO[],
       holeId: "",
       title: "新会话",
-      pageHeight: "calc(100vh - 48px - 46px)",
+      pageHeight: "calc(100vh - 48px)",
       lastBubbleId: "",
-      top: "46px"
+      top: 0
     };
   }
 
@@ -88,8 +88,8 @@ class Index extends Component<any, IState> {
       .map((b, index) =>
         // @ts-ignore
         <ChatBubble
+          chat-bubble-class={"chat-bubble"}
           id={"bubble" + index}
-          chat-bubble-class={'chat-bubble'}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
@@ -103,8 +103,8 @@ class Index extends Component<any, IState> {
 
     return (
       <Block>
-        <ScrollView scrollY className={'main-box'} style={{height: pageHeight}} scrollIntoView={lastBubbleId}>
-          {/*<WhiteSpace height={50}/>*/}
+        <ScrollView scrollY className={'main-box'} style={{height: pageHeight, top: top}} scrollIntoView={lastBubbleId}>
+          <WhiteSpace height={50}/>
           <View className={"index-nav-bar"} style={{top: top}}>
             <View className={"index-avatar-wrapper"}>
               {/*<View>*/}
@@ -120,8 +120,10 @@ class Index extends Component<any, IState> {
             </View>
           </View>
           {/*<View className={"bubble-area"}>*/}
-            {bubbles}
+          {bubbles}
           {/*</View>*/}
+          {/*改成padding后面做动画可能容易一点*/}
+          {/*<WhiteSpace height={50} id={"bottom-line"}/>*/}
           <InputBar
             id={"input-bar"}
             onBubbling={this.handleBubbling}
@@ -129,7 +131,6 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        <WhiteSpace height={48}/>
       </Block>
     );
   }
@@ -199,7 +200,7 @@ class Index extends Component<any, IState> {
       lastBubbleId: `bubble${pre.bubbleVOList.length}`
     }), () => { //  滚动到最下方
       Taro.pageScrollTo({
-        scrollTop: 100000000
+        scrollTop: 100000000,
       });
     });
 

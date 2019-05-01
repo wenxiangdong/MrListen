@@ -18,6 +18,7 @@
   right: 0;
   bottom: 0;
   box-sizing: border-box;
+  padding-bottom: 92px;
 
   display: flex;
   flex-direction: column-reverse;
@@ -29,49 +30,24 @@
     width: 100vh;
     height: 50Px;
   }
-}
 
-.input-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-}
-//
-//.input-animation {
-//  background: white;
-//  animation: input-background .2s ease-out;
-//}
-//
-//@keyframes input-background {
-//  0% {
-//    background: #19be6b33;
-//  }
-//  30% {
-//    background: #19be6b33;
-//  }
-//  100% {
-//    background: white;
-//  }
-//}
-
-
-.main-box {
-
-  display: flex;
-  flex-direction: column;
-  max-height: 100%;
-
-  position: relative;
 
   .index-nav-bar {
-    flex: 0 0 auto;
-    width: 100vw;
-    padding: 20px 40px;
-    display: flex;
-    box-sizing: border-box;
+    //transition: top 0.5s ;
+    transition: top 0.25s cubic-bezier(0, .44, 0, 1);
 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 10000;
+
+    background-color: white;
+
+    padding: 20px 40px;
+
+    display: flex;
     justify-content: space-between;
     align-items: stretch;
 
@@ -114,44 +90,10 @@
   }
 }
 
-.bubble-area {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  padding: 20px 0;
-  box-sizing: border-box;
-  flex: 1 1 auto;
-  overflow-y: scroll;
-  height: 100vh;
-  max-height: calc(100vh - 92px - 96px + 2px);
-
-  -webkit-overflow-scrolling: touch;
-
-}
-
-.input-bar-stub {
-  height: 96px;
-}
-
 .chat-bubble {
-  z-index: 2;
   position: relative;
   margin-bottom: 0;
   animation: angry-bubble-appear .6s ease-out;
-  //&:before {
-  //  overflow: hidden;
-  //  content: '';
-  //  opacity: 0;
-  //  position: absolute;
-  //  right: 140px;
-  //  top: -10px;
-  //  width: 100vw;
-  //  height: 200px;
-  //  background: url("./../../images/dust.png") right no-repeat;
-  //  background-size: contain;
-  //  animation: angry-dust-appear .3s .25s linear;
-  //}
 }
 
 @keyframes bubble-appear {
