@@ -1,9 +1,33 @@
 @import "../../app";
-.index {
-  .input-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+
+.input-bar {
+  position: fixed;
+  bottom: 0;
+  //left: 0;
+  //right: 0;
+  //bottom: 0;
+  box-sizing: border-box;
+  //-webkit-transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
+  //transition: bottom 0.25s cubic-bezier(0, .44, 0, 1);
+}
+
+.main-box {
+  transition: top 0.25s cubic-bezier(0, .44, 0, 1);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  //background-color: blanchedalmond;
+
+
+  .white-space {
+    width: 100vh;
+    height: 50Px;
   }
 }
 
@@ -182,3 +206,4 @@
 //    transform: scale(1.2, 1.2);
 //  }
 //}
+

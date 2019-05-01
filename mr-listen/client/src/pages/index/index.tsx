@@ -11,10 +11,15 @@ import Listen from "../../utils/listen";
 
 import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
+import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
 
 interface IState {
   bubbleVOList: BubbleVO[],
-  holeId: number | string
+  holeId: number | string,
+  title: string,
+  pageHeight: string, // scroll view的高度，通过键盘高度计算
+  top: string,  //  scroll view 整个页面最上方的高度
+  lastBubbleId: string  // 最后一个气泡的dom id 用于scroll view滚过去
 }
 
 class Index extends Component<any, IState> {
@@ -30,11 +35,23 @@ class Index extends Component<any, IState> {
     navigationBarTitleText: '即刻倾诉'
   };
 
-  state = {
-    bubbleVOList: [] as BubbleVO[],
-    holeId: "",
-    title: "新会话"
-  };
+
+
+  constructor(props) {
+    super(props);
+    // systemInfo.
+
+    this.state = {
+      bubbleVOList: [] as BubbleVO[],
+      holeId: "",
+      title: "新会话",
+      pageHeight: "100vh",
+      lastBubbleId: "",
+      top: 0
+    };
+  }
+
+
 
   private logger = Logger.getLogger(Index.name);
 
@@ -57,29 +74,38 @@ class Index extends Component<any, IState> {
 
 
   private iconToLink = {
-    [mePng.toString()]: "me",
-    [clockPng.toString()]: "history"
+    [mePng.toString()]: "/pages/personal/center",
+    [clockPng.toString()]: "/pages/holes/holes"
   };
 
   render() {
 
-    const {bubbleVOList, title} = this.state;
+    const {bubbleVOList, title, pageHeight, lastBubbleId, top} = this.state;
 
     // 构建所有气泡
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
+        // @ts-ignore
         <ChatBubble
+          id={"bubble" + index}
           chat-bubble-class={'chat-bubble'}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
 
+
+
+    this.logger.info("render", pageHeight);
+
+
+
     return (
       <Block>
-        <View className={'main-box'}>
-          <View className={"index-nav-bar"}>
+        <ScrollView scrollY className={'main-box'} style={{height: pageHeight, top: top}} scrollIntoView={lastBubbleId}>
+          <WhiteSpace height={50}/>
+          <View className={"index-nav-bar"} style={{top: top}}>
             <View className={"index-avatar-wrapper"}>
               {/*<View>*/}
               <Text className={"index-title"}>
@@ -93,15 +119,38 @@ class Index extends Component<any, IState> {
               <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
             </View>
           </View>
-          <View className={"bubble-area"}>
+          {/*<View className={"bubble-area"}>*/}
             {bubbles}
-          </View>
-          <View className={'input-bar-stub'}/>
-          <InputBar onBubbling={this.handleBubbling} input-bar-class={'input-bar'}/>
-        </View>
+          {/*</View>*/}
+          <WhiteSpace height={50} id={"bottom-line"}/>
+          <InputBar
+            id={"input-bar"}
+            onBubbling={this.handleBubbling}
+            input-bar-class={'input-bar'}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}/>
+        </ScrollView>
       </Block>
     );
   }
+
+  // 输入框聚集，键盘弹起
+  handleFocus = (keyboardHeight) => {
+    this.logger.info(keyboardHeight);
+    const pageHeight = `calc(100vh - ${keyboardHeight}px - 5px)`;  //  再减5px是为了让气泡不要太贴近输入框
+    this.setState({
+      pageHeight,
+      top: `${keyboardHeight}px`
+    });
+  };
+
+  handleBlur = () => {
+    this.logger.info("blur");
+    this.setState({
+      pageHeight: "100vh",
+      top: "0"
+    });
+  };
 
   handleClickIcon = (img) => {
     const url = this.iconToLink[img];
@@ -146,12 +195,16 @@ class Index extends Component<any, IState> {
     // @ts-ignore
     this.setState((pre) => ({
       bubbleVOList: [...pre.bubbleVOList, bubbleVO],
-      holeId
-    }));
+      holeId,
+      lastBubbleId: `bubble${pre.bubbleVOList.length}`
+    }), () => { //  滚动到最下方
+      Taro.pageScrollTo({
+        scrollTop: 100000000
+      });
+    });
 
     // 发送气泡
     try {
-
       bubble.holeId = holeId;
       this.logger.info("开始发送");
       const resolveFunc = this.resolveRawBubble[bubble.type];
