@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, ScrollView, Button} from '@tarojs/components'
+import {View, ScrollView, Button, Text} from '@tarojs/components'
 import Logger from './../../utils/logger'
 import Listen from "../../utils/listen"
 import {apiHub} from './../../apis/ApiHub'
@@ -10,58 +10,52 @@ import HoleBar from './../../components/HoleBar/HoleBar'
 import './holes.less'
 
 interface IState {
-  holeVOList: IHoleVO[],
-  settingHoleIndex: number
+  holeVOList: IHoleVO[]
 }
 
 /**
  * 树洞列表页面
+ * TODO 修改中
  * @author 张李承
  * @create 2019/4/22 23:27
- * TODO 树洞 API 修改 mock 用于测试
  * TODO 删除
  */
 export class Holes extends Component<any, IState> {
-
-  private logger = Logger.getLogger(Holes.name);
 
   config: Config = {
     navigationBarTitleText: '倾诉树洞'
   };
 
-  constructor(props) {
-    super(props);
-    let holeVOList:IHoleVO[] = [];
-    for (let i = 0; i < 10; i++) {
-      holeVOList.push({
-        _id: i,
-        _openid: '' + i,
-        createTime: new Date(),
-        title: `树洞 ${i} 号`,
-        avatarUrl: ''
-      });
-    }
-    this.state = {
-      holeVOList,
-      settingHoleIndex: -1
-    }
-  }
+  private logger = Logger.getLogger(Holes.name);
 
+  private NO_MORE_HOLES = '暂时没有更多树洞';
+
+  private index = 0;
+  private offset = 10;
 
   componentWillMount() {
+    // 获取树洞列表
+    this.queryMoreHoles();
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
-  componentDidShow() {
-  }
-
-  componentDidHide() {
-  }
+  private queryMoreHoles = () => {
+    apiHub.holeApi.getHoles(this.index, this.offset)
+      .then((holeVOList) => {
+        if (holeVOList.length === 0) {
+          Listen.message.info(this.NO_MORE_HOLES);
+        } else {
+          this.index += holeVOList.length;
+          this.setState((prev) => {
+            return {holeVOList: [...prev.holeVOList, ...holeVOList]};
+          });
+        }
+      })
+      .catch((e) => {
+        this.logger.error(e);
+        Listen.message.error('获取树洞列表失败');
+      })
+    ;
+  };
 
   private createHole = () => {
     Taro.navigateTo({
@@ -69,20 +63,6 @@ export class Holes extends Component<any, IState> {
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
-    });
-
-    this.logger.info('创建新的树洞！');
-    // TODO 调用数据库
-    let i = this.state.holeVOList.length;
-    let newHole:IHoleVO = {
-      _id: i,
-      _openid: '' + i,
-      createTime: new Date(),
-      title: `树洞 ${i} 号`,
-      avatarUrl: ''
-    };
-    this.setState((prev) => {
-      return {holeVOList: [newHole, ...prev.holeVOList]};
     });
   };
 
@@ -94,61 +74,53 @@ export class Holes extends Component<any, IState> {
     })
       .then((res) => {
         if (res.confirm) {
-          // TODO 调用 api
-          this.setState((prev) => {
-            return {holeVOList: prev.holeVOList.splice(idx, 1)};
-          });
+          apiHub.holeApi.deleteHole(this.state.holeVOList[idx]._id)
+            .then(() => {
+              this.setState((prev) => {
+                return {holeVOList: prev.holeVOList.splice(idx, 1)};
+              });
+            })
+            .catch((e) => {
+              this.logger.error(e);
+              Listen.message.error('删除树洞失败');
+            });
         }
       })
       .catch((reason) => this.logger.error(reason));
-  };
-
-  private holeStartSetHandler = (idx) => {
-    this.logger.info('hole start set', idx);
-    this.setState(function (prev) {return {...prev, settingHoleIndex: idx};});
-  };
-
-  private holeStopSetHandler = () => {
-    this.logger.info('hole stop set');
-    this.setState(function (prev) {return {...prev, settingHoleIndex: -1};});
   };
 
   private holeClickHandler = (idx) => {
     this.logger.info('hole click', idx);
   };
 
-  private checkInfoHandler = (idx) => {
-    this.logger.info('hole start updating', idx);
-  };
+  private reset;
 
-  private coverClickHandler = () => {
-    this.logger.info('cover click');
-    this.setState({settingHoleIndex: -1});
-
+  private coverClickHandler = (e) => {
+    e.stopPropagation();
+    this.reset();
+    this.reset = null;
   };
 
   render() {
-    this.logger.info(this.state);
-
-    let holes = this.state.holeVOList.map((hole, idx) =>
-      <HoleBar key={idx}
-               holeAvatarSrc={hole.avatarUrl}
-               holeTitle={hole.title}
-               isSetting={this.state.settingHoleIndex === idx}
-               onCheckInfo={() => this.checkInfoHandler(idx)}
-               onScrollToRight={this.holeStopSetHandler}
-               onDelete={() => this.holeDeleteHandler(idx)}
-               onScrollToLeft={() => this.holeStartSetHandler(idx)}
-               onClick={() => this.holeClickHandler(idx)}
-      />
-    );
+    let holes = this.state.holeVOList && this.state.holeVOList.length
+      ? this.state.holeVOList.map((hole, idx) =>
+        <HoleBar key={hole._id}
+                 holeAvatarSrc={hole.avatarUrl}
+                 holeTitle={hole.title}
+                 onDelete={() => this.holeDeleteHandler(idx)}
+                 onClick={() => this.holeClickHandler(idx)}
+                 setReset={(reset) => {this.reset = reset}}
+        />
+      )
+    : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>
+    ;
 
     let buttonHeight = 45;
 
     return (
       <View>
         {
-          this.state.settingHoleIndex >= 0
+          this.reset
             ? <View onClick={this.coverClickHandler} className={'cover'} />
             : null
         }

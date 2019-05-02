@@ -165,7 +165,18 @@ export class MockHoleApi implements IHoleApi {
 
   // @ts-ignore
   getHoles(index: number, offset: number): Promise<IHoleVO[]> {
-    return this.http.success([]);
+    let holeVOList:IHoleVO[] = [];
+    for (let i = 0; i < offset; i++) {
+      let id = i + index;
+      holeVOList.push({
+        _id: id,
+        _openid: '' + id,
+        createTime: new Date(),
+        title: `树洞 ${id} 号`,
+        avatarUrl: ''
+      });
+    }
+    return this.http.success(holeVOList);
   }
 
   // @ts-ignore

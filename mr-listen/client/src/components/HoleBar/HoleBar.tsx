@@ -4,7 +4,6 @@ import Avatar from './../ChatBubble/Avatar'
 import '@tarojs/async-await'
 
 import deleteSrc from './../../images/failed.png'
-import infoSrc from './../../images/info.png'
 
 import './HoleBar.less'
 
@@ -13,15 +12,12 @@ interface IProp {
   holeTitle: string,
   onDelete: () => void,
   onClick: () => void,
-  onCheckInfo: () => void,
-  onScrollToLeft: () => void,
-  onScrollToRight: () => void,
-  isSetting: boolean
+  setReset: (e) => void
 }
 
 interface IState {
-  scrollLeft: number,
-  isSetting: boolean
+  isSetting: boolean,
+  isMoving: boolean
 }
 
 /**
@@ -34,9 +30,6 @@ export default class HoleBar extends Component<IProp, IState> {
   private DELETE_OPTION_BACKGROUND_COLOR = '#ed1740';
   private DELETE_OPTION_IMG_SRC = deleteSrc;
 
-  private INFO_OPTION_BACKGROUND_COLOR = '#1a82ea';
-  private INFO_OPTION_IMG_SRC = infoSrc;
-
   private height = 75;
 
   private scrollLeft = 0;
@@ -44,48 +37,36 @@ export default class HoleBar extends Component<IProp, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      scrollLeft: 0,
-      isSetting: false
+      isSetting: false,
+      isMoving: false
     };
   }
 
-  private setIsSetting = () => {
-    console.log('is setting');
-    this.setState({scrollLeft:150, isSetting: true});
-  };
-
-  private setIsNotSetting = () => {
-    console.log('is not setting');
-    this.setState({scrollLeft:0, isSetting: false});
+  private touchStartHandler = (e) => {
+    e.stopPropagation();
+    console.log('touch start');
+    this.setState({isMoving:true});
   };
 
   private touchEndHandler = (e) => {
     e.stopPropagation();
     console.log('touch end');
-    this.scrollLeft < this.height
-      ? this.setIsNotSetting()
-      : this.setIsSetting();
+    if (this.scrollLeft < 10) {
+      this.setState({isMoving:false, isSetting: false});
+    } else {
+      this.setState({isMoving:false, isSetting: true});
+    }
   };
 
-  private scrollToLowerHandler = (e) => {
-    console.log('to lower');
+  private scrollHandler = (e) => {
     e.stopPropagation();
-    this.setScrollLeft = this.setIsSetting;
-    // this.props.onScrollToLeft();
-  };
-
-  private scrollToUpperHandler = (e) => {
-    console.log('to upper');
-    e.stopPropagation();
-    this.setScrollLeft = this.setIsNotSetting;
-    // this.props.onScrollToRight();
+    this.scrollLeft = e.detail.scrollLeft;
   };
 
   private clickHandler = (e) => {
     e.stopPropagation();
-    if (this.props.isSetting) {
-      this.setState({scrollLeft:0});
-      this.props.onScrollToRight();
+    if (this.state.isSetting) {
+      this.setState({isSetting: false});
     } else {
       this.props.onClick();
     }
@@ -93,17 +74,14 @@ export default class HoleBar extends Component<IProp, IState> {
 
   private deleteHandler = (e) => {
     e.stopPropagation();
-    (this.props.isSetting) && this.props.onDelete();
+    (this.state.isSetting) && this.props.onDelete();
   };
 
-  private infoHandler = (e) => {
-    e.stopPropagation();
-    (this.props.isSetting) && this.props.onCheckInfo();
-  };
-
-  private scrollHandler = (e) => {
-    e.stopPropagation();
-    this.scrollLeft = e.detail.scrollLeft;
+  private reset = () => {
+    this.setState({
+      isSetting: false,
+      isMoving: false
+    });
   };
 
   render() {
@@ -113,50 +91,54 @@ export default class HoleBar extends Component<IProp, IState> {
         <Text>{this.props.holeTitle}</Text>
       </View>
     );
+    let deleteView = (
+      <View style={{
+        backgroundColor: this.DELETE_OPTION_BACKGROUND_COLOR,
+        position: 'relative',
+        width: this.height + 'px',
+        height: this.height + 'px',
+        top: '-100%',
+        left: '100%'
+      }}
+            onClick={this.deleteHandler}>
+        <Image className={'option-rect-image'} mode={"scaleToFill"} src={this.DELETE_OPTION_IMG_SRC}/>
+      </View>
+    );
 
-    let optionBackgroundColorArr = [
-      this.DELETE_OPTION_BACKGROUND_COLOR,
-      this.INFO_OPTION_BACKGROUND_COLOR
-    ];
-
-    let optionOnClickHandlerArr = [
-      this.deleteHandler,
-      this.infoHandler
-    ];
-
-    let optionImgSrcArr = [
-      this.DELETE_OPTION_IMG_SRC,
-      this.INFO_OPTION_IMG_SRC
-    ];
-
-    let optionRect = optionBackgroundColorArr.map((backgroundColor, idx) => {
-      return (
-        <View style={{
-                backgroundColor: backgroundColor,
-                position: 'relative',
-                width: this.height + 'px',
-                height: this.height + 'px',
-                top: - 100 * (idx + 1) + '%',
-                left: `calc(100% + ${this.height * idx}px`
-              }}
-              onClick={optionOnClickHandlerArr[idx]}>
-          <Image className={'option-rect-image'} mode={"scaleToFill"} src={optionImgSrcArr[idx]}/>
-        </View>
-      )
-    });
-
-    return (
+    let movingScrollView = (
       <ScrollView className={'hole-bar-scroll-view'}
-                  style={{height: this.height + 'px', zIndex: this.state.isSetting? 10: 4}}
-                  onClick={this.clickHandler}
+                  style={{height: this.height + 'px', zIndex: 10}}
                   onTouchEnd={this.touchEndHandler}
                   onScroll={this.scrollHandler}
                   scrollWithAnimation={true}
-                  scrollLeft={this.state.scrollLeft}
                   scrollX={true}
       >
-        {holeInfoView}{optionRect}
+        {holeInfoView}
+        {deleteView}
       </ScrollView>
+    );
+
+    let unmovingScrollView = (
+      <ScrollView className={'hole-bar-scroll-view'}
+                  style={{height: this.height + 'px', zIndex: this.state.isSetting? 10: 4}}
+                  onTouchStart={this.touchStartHandler}
+                  onClick={this.clickHandler}
+                  scrollLeft={
+                    this.state.isSetting
+                      ? this.height
+                      : 0
+                    }
+                  scrollX={true}
+      >
+        {holeInfoView}
+        {deleteView}
+      </ScrollView>
+    );
+
+    return (
+      this.state.isMoving
+        ? movingScrollView
+        : unmovingScrollView
     )
   }
 }

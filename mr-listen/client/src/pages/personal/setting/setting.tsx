@@ -39,10 +39,6 @@ export class Setting extends Component<any, IState> {
     return (
       <View className={'setting-view'}>
         <View className={'setting-bar-view'}>
-          <Text>测试开关</Text>
-          <Switch checked={this.state.testSwitch} onChange={(e) => this.setState({testSwitch: e.detail.value})} />
-        </View>
-        <View className={'setting-bar-view'}>
           <Text>气泡颜色</Text>
         </View>
         <ScrollView className={'bubble-color-options-scroll-view'} scrollX={true}>
@@ -69,6 +65,10 @@ export class Setting extends Component<any, IState> {
             )
           }
         </ScrollView>
+        <View className={'setting-bar-view'}>
+          <Text>测试开关</Text>
+          <Switch checked={this.state.testSwitch} onChange={(e) => this.setState({testSwitch: e.detail.value})} />
+        </View>
       </View>
     )
   }
