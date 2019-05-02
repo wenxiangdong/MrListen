@@ -14,6 +14,7 @@ import errorPng from "../../images/success.png"
  * 可跳转到其他页面
  *   倾诉报告
  *   个人设置
+ *   关于我们
  * @author 张李承
  * @create 2019/4/22 23:16
  * TODO 添加跳转条的 icon
@@ -34,6 +35,11 @@ export class Center extends Component {
     {
       url:'/pages/personal/setting/setting',
       name: '个人设置',
+      icon: errorPng
+    },
+    {
+      url:'/pages/personal/about/about',
+      name: '关于我们',
       icon: errorPng
     },
   ];

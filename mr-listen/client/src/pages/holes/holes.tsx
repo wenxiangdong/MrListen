@@ -15,12 +15,11 @@ interface IState {
 }
 
 /**
+ * 树洞列表页面
  * @author 张李承
  * @create 2019/4/22 23:27
- * TODO 树洞列表页面 第一次迭代要求实现
  * TODO 树洞 API 修改 mock 用于测试
- * TODO 获取时加载动画 复用于获取报告信息
- * TODO 新建 删除 更新（名称 头像）
+ * TODO 删除
  */
 export class Holes extends Component<any, IState> {
 
@@ -65,6 +64,13 @@ export class Holes extends Component<any, IState> {
   }
 
   private createHole = () => {
+    Taro.navigateTo({
+      url: '/pages/index/index'
+    }).catch((e) => {
+      this.logger.error(e);
+      Listen.message.error('跳转失败');
+    });
+
     this.logger.info('创建新的树洞！');
     // TODO 调用数据库
     let i = this.state.holeVOList.length;
