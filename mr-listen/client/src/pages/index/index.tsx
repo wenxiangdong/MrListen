@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {Block, View} from '@tarojs/components'
+import {Block, View, Text, Image, ScrollView} from '@tarojs/components'
 import './index.less'
 import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
@@ -9,9 +9,17 @@ import {apiHub} from "../../apis/ApiHub";
 import "@tarojs/async-await";
 import Listen from "../../utils/listen";
 
+import clockPng from "../../images/clock.png";
+import mePng from "../../images/me.png";
+import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
+
 interface IState {
   bubbleVOList: BubbleVO[],
-  holeId: number | string
+  holeId: number | string,
+  title: string,
+  pageHeight: string, // scroll view的高度，通过键盘高度计算
+  top: string,  //  scroll view 整个页面最上方的高度
+  lastBubbleId: string  // 最后一个气泡的dom id 用于scroll view滚过去
 }
 
 class Index extends Component<any, IState> {
@@ -27,10 +35,23 @@ class Index extends Component<any, IState> {
     navigationBarTitleText: '即刻倾诉'
   };
 
-  state = {
-    bubbleVOList: [] as BubbleVO[],
-    holeId: ""
-  };
+
+
+  constructor(props) {
+    super(props);
+    // systemInfo.
+
+    this.state = {
+      bubbleVOList: [] as BubbleVO[],
+      holeId: "",
+      title: "新会话",
+      pageHeight: "100vh",
+      lastBubbleId: "",
+      top: 0
+    };
+  }
+
+
 
   private logger = Logger.getLogger(Index.name);
 
@@ -51,31 +72,95 @@ class Index extends Component<any, IState> {
     [BubbleType.TEXT]: async (bubble) => bubble
   };
 
+
+  private iconToLink = {
+    [mePng.toString()]: "/pages/personal/center",
+    [clockPng.toString()]: "/pages/holes/holes"
+  };
+
   render() {
 
-    const {bubbleVOList} = this.state;
+    const {bubbleVOList, title, pageHeight, lastBubbleId, top} = this.state;
 
     // 构建所有气泡
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
+        // @ts-ignore
         <ChatBubble
+          chat-bubble-class={"chat-bubble"}
+          id={"bubble" + index}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
 
+
+
+    this.logger.info("render", pageHeight);
+
+
+
     return (
       <Block>
-        <View className={'main-box'}>
-          <View className={"bubble-area"}>
-            {bubbles}
+        <ScrollView scrollY className={'main-box'} style={{height: pageHeight, top: top}} scrollIntoView={lastBubbleId}>
+          <WhiteSpace height={50}/>
+          <View className={"index-nav-bar"} style={{top: top}}>
+            <View className={"index-avatar-wrapper"}>
+              {/*<View>*/}
+              <Text className={"index-title"}>
+                {title}
+              </Text>
+              {/*</View>*/}
+            </View>
+            <View className={"index-icon-group"}>
+              <Image src={clockPng} className={"index-icon"} onClick={() => this.handleClickIcon(clockPng.toString())}/>
+              <View className={"index-divider"}/>
+              <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
+            </View>
           </View>
-          <InputBar onBubbling={this.handleBubbling} input-bar-class={'input-bar'}/>
-        </View>
+          {/*<View className={"bubble-area"}>*/}
+          {bubbles}
+          {/*</View>*/}
+          <WhiteSpace height={50} id={"bottom-line"}/>
+          <InputBar
+            id={"input-bar"}
+            onBubbling={this.handleBubbling}
+            input-bar-class={'input-bar'}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}/>
+        </ScrollView>
       </Block>
     );
   }
+
+  // 输入框聚集，键盘弹起
+  handleFocus = (keyboardHeight) => {
+    this.logger.info(keyboardHeight);
+    const pageHeight = `calc(100vh - ${keyboardHeight}px)`;  // (ios减5之后会有问题) 再减5px是为了让气泡不要太贴近输入框
+    this.setState({
+      pageHeight,
+      top: `${keyboardHeight}px`
+    });
+  };
+
+  handleBlur = () => {
+    this.logger.info("blur");
+    this.setState({
+      pageHeight: "100vh",
+      top: "0"
+    });
+  };
+
+  handleClickIcon = (img) => {
+    const url = this.iconToLink[img];
+    Taro.navigateTo({
+      url
+    }).catch(() => {
+      this.logger.error(`跳转到${url}失败`);
+      Listen.message.error("跳转失败");
+    });
+  };
 
   handleBubbling = async (bubble: Bubble) => {
     this.logger.info("接收到的bubble", bubble);
@@ -110,8 +195,13 @@ class Index extends Component<any, IState> {
     // @ts-ignore
     this.setState((pre) => ({
       bubbleVOList: [...pre.bubbleVOList, bubbleVO],
-      holeId
-    }));
+      holeId,
+      lastBubbleId: `bubble${pre.bubbleVOList.length}`
+    }), () => { //  滚动到最下方
+      Taro.pageScrollTo({
+        scrollTop: 100000000,
+      });
+    });
 
     // 发送气泡
     try {
@@ -150,6 +240,18 @@ class Index extends Component<any, IState> {
     });
 
   };
+
+  componentDidMount(): void {
+    this.logger.info(this.$router.params);
+    const params = this.$router.params;
+    const holeId = params.holeId;
+    if (holeId) {
+      this.logger.info("啊，跳转过来的啦", holeId);
+      // 存在这个参数的话，证明是从树洞列表跳转过来的，需要拿所有的气泡
+      this.setState({holeId});
+      // TODO 从api拿气泡
+    }
+  }
 
 }
 

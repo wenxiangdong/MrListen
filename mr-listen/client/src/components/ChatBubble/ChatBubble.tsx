@@ -5,13 +5,13 @@ import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
 import LeftBubble from "./Bubble/LeftBubble";
-import Avatar from "./Avatar";
 import Logger from "../../utils/logger";
 import Taro from "@tarojs/taro";
 import "@tarojs/async-await";
 import {apiHub} from "../../apis/ApiHub";
 import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
+import UserAvatar from "../common/UserAvator/UserAvatar";
 
 interface IProp {
   bubble: BubbleVO,
@@ -26,6 +26,8 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   private userConfig:IUserConfig = {};  // 用户的自定义
 
   private logger = Logger.getLogger(ChatBubble.name);
+
+  static externalClasses = ['chat-bubble-class'];
 
   constructor(props) {
     super(props);
@@ -167,7 +169,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     const rightBubbleWrapper = (
       <View className={"right-flex bubble-item"}>
         <View className={"avatar-wrapper"}>
-          <Avatar size={44}/>
+          <UserAvatar size={38} margin={0}/>
         </View>
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
       </View>
@@ -178,14 +180,14 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
       bubble.replyList.map((r, index) => (
           <View className={"left-flex bubble-item"} key={index}>
             <View className={"avatar-wrapper"}>
-              <Avatar size={44}/>
+              <UserAvatar size={38} margin={0}/>
             </View>
             <LeftBubble bubble={r} onLongPress={this.handleLongPressLeftBubble} />
           </View>
         ));
 
     return (
-      <View>
+      <View className={'chat-bubble-class'}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

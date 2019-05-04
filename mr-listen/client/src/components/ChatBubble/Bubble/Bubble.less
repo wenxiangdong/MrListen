@@ -1,9 +1,9 @@
 //气泡共有的样式
-@bubble-radius: 20px;
+@bubble-radius: 25px;
 
 // 根据真机显示效果坐的一点修改，默认应该是32px
 // 在实际手机上英文断行等等也有问题（单词直接被截断）
-@font-size: 30px;
+@font-size: 32px;
 
 .bubble {
   font-size: @font-size;
@@ -13,14 +13,14 @@
   //word-break: break-all;
   text-wrap: normal;
 
-  padding: 10px 20px;
+  padding: 16px 20px;
 
-  box-shadow: rgba(0,0,0,0.1) 0 5px 10px;
+  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
 }
 
 .bubble-text {
   text-align: justify;
-  //word-break: break-all;
+  word-break: break-all;
   word-wrap: break-word;
   text-wrap: normal;
 }

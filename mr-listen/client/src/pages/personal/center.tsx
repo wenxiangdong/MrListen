@@ -23,7 +23,10 @@ import errorPng from "../../images/success.png"
 export class Center extends Component {
 
   config: Config = {
-    navigationBarTitleText: '个人中心'
+    navigationBarTitleText: '个人中心',
+    navigationBarBackgroundColor: '#2962FF',
+    navigationBarTextStyle: "white",
+
   };
 
   private navigatorBarPropArr: NavigatorBarProp[] = [
@@ -47,7 +50,9 @@ export class Center extends Component {
   render() {
     return (
       <View className={'center-view'}>
-        <UserInfoBar/>
+        <View className={'user-bar-box'}>
+          <UserInfoBar/>
+        </View>
         <View className={'navigator-bars-wrapper'}>
           {this.navigatorBarPropArr.map((p, idx) => <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>)}
         </View>
