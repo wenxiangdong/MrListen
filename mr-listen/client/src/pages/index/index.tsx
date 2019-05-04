@@ -12,6 +12,7 @@ import Listen from "../../utils/listen";
 import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
+import FullScreenEmoji from "../../components/FullScreenAnimation/FullScreenEmoji";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -83,19 +84,18 @@ class Index extends Component<any, IState> {
     const {bubbleVOList, title, pageHeight, lastBubbleId, top} = this.state;
 
     // 构建所有气泡
+    let bubbleVOListLength = bubbleVOList.length;
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
         // @ts-ignore
         <ChatBubble
-          chat-bubble-class={"chat-bubble"}
+          chat-bubble-class={index === bubbleVOListLength - 1 ? "chat-bubble" : ""}
           id={"bubble" + index}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
-
-
 
     this.logger.info("render", pageHeight);
 
@@ -103,9 +103,9 @@ class Index extends Component<any, IState> {
 
     return (
       <Block>
-        <ScrollView scrollY className={'main-box'} style={{height: pageHeight, top: top}} scrollIntoView={lastBubbleId}>
+        <ScrollView scrollY className={'main-box'} style={{height: pageHeight}} scrollIntoView={lastBubbleId}>
           <WhiteSpace height={50}/>
-          <View className={"index-nav-bar"} style={{top: top}}>
+          <View className={"index-nav-bar"}>
             <View className={"index-avatar-wrapper"}>
               {/*<View>*/}
               <Text className={"index-title"}>
@@ -130,6 +130,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
+        <FullScreenEmoji content={"😊"}/>
       </Block>
     );
   }
@@ -141,6 +142,12 @@ class Index extends Component<any, IState> {
     this.setState({
       pageHeight,
       top: `${keyboardHeight}px`
+    }, () => {
+      // todo 不知道为什么这里并不会触发
+      console.log('键盘弹起，触发滚动键盘高度效果');
+      Taro.pageScrollTo({
+        scrollTop: keyboardHeight,
+      });
     });
   };
 
@@ -199,7 +206,7 @@ class Index extends Component<any, IState> {
       lastBubbleId: `bubble${pre.bubbleVOList.length}`
     }), () => { //  滚动到最下方
       Taro.pageScrollTo({
-        scrollTop: 100000000,
+        scrollTop: 100000000
       });
     });
 

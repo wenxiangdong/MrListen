@@ -2,6 +2,7 @@
 @bg-color: #f8f8f9;
 .IB-wrapper {
   width: 750px;
+  position: relative;
 
   background-color: @bg-color;
   padding: 10px;
@@ -52,6 +53,15 @@
     margin-left: 20px;
     margin-right: 20px;
   }
+  &:after {
+    content: '';
+    width: 100vw;
+    height: 600px;
+    position: absolute;
+    bottom: -600px;
+    box-sizing: border-box;
+    background: @bg-color;
+  }
 }
 
 .IB-toolbar {
@@ -67,4 +77,10 @@
   .IB-grid {
     text-align: center;
   }
+}
+
+.keyboard-stub {
+  transition: height 0.25s cubic-bezier(0, 1, 0, 1);
+  background: @bg-color;
+  display: block;
 }
