@@ -35,8 +35,8 @@ export default class BubbleTypeVoice extends Taro.Component<IProp, IState> {
    * @param content
    */
   private createBubble(content): Bubble {
-    //@ts-ignore
     return {
+      // @ts-ignore
       _id: "",
       holeId: "",
       content: content,

@@ -14,6 +14,10 @@ export default class BubbleTypePicture extends Taro.Component<IProp> {
 
   private logger = Logger.getLogger(BubbleTypePicture.name);
 
+  componentDidMount(): void {
+    this.logger.info("mount");
+  }
+
   render() {
     return (
       <View className={"BT-wrapper"} onClick={this.handleClick}>
@@ -27,7 +31,9 @@ export default class BubbleTypePicture extends Taro.Component<IProp> {
    * @param content
    */
   private createBubble(content): Bubble {
+
     return {
+      // @ts-ignore
       _id: "",
       holeId: "",
       content: content,
