@@ -11,6 +11,7 @@ import Listen from "../../utils/listen";
 
 import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
+import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
 import FullScreenEmoji from "../../components/FullScreenAnimation/FullScreenEmoji";
 
@@ -48,7 +49,7 @@ class Index extends Component<any, IState> {
       title: "新会话",
       pageHeight: "100vh",
       lastBubbleId: "",
-      top: 0
+      top: "0"
     };
   }
 
@@ -73,11 +74,38 @@ class Index extends Component<any, IState> {
     [BubbleType.TEXT]: async (bubble) => bubble
   };
 
-
-  private iconToLink = {
-    [mePng.toString()]: "/pages/personal/center",
-    [clockPng.toString()]: "/pages/holes/holes"
+  private iconToAction = {
+    [mePng.toString()]: () => {
+      let url = "/pages/personal/center";
+      Taro.navigateTo({
+        url
+      }).catch(() => {
+        this.logger.error(`跳转到${url}失败`);
+        Listen.message.error("跳转失败");
+      });
+    },
+    [clockPng.toString()]: () => {
+      let url = "/pages/holes/holes";
+      Taro.navigateTo({
+        url
+      }).catch(() => {
+        this.logger.error(`跳转到${url}失败`);
+        Listen.message.error("跳转失败");
+      });
+    },
+    [sharePng.toString()]: () => {
+      const {holeId} = this.state;
+      let url = `/pages/share/index${holeId ? ("?holeId=" + holeId) : ""}`;
+      this.logger.info("url", url);
+      Taro.navigateTo({
+        url
+      }).catch(() => {
+        this.logger.error(`跳转到${url}失败`);
+        Listen.message.error("跳转失败");
+      });
+    }
   };
+
 
   render() {
 
@@ -117,14 +145,15 @@ class Index extends Component<any, IState> {
               <Image src={clockPng} className={"index-icon"} onClick={() => this.handleClickIcon(clockPng.toString())}/>
               <View className={"index-divider"}/>
               <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
+              <View className={"index-divider"}/>
+              <Image src={sharePng} className={"index-icon"} onClick={() => this.handleClickIcon(sharePng.toString())}/>
             </View>
           </View>
           {/*<View className={"bubble-area"}>*/}
           {bubbles}
           {/*</View>*/}
-          <WhiteSpace height={50} id={"bottom-line"}/>
+          <WhiteSpace height={50}/>
           <InputBar
-            id={"input-bar"}
             onBubbling={this.handleBubbling}
             input-bar-class={'input-bar'}
             onBlur={this.handleBlur}
@@ -159,14 +188,18 @@ class Index extends Component<any, IState> {
     });
   };
 
-  handleClickIcon = (img) => {
-    const url = this.iconToLink[img];
-    Taro.navigateTo({
-      url
-    }).catch(() => {
-      this.logger.error(`跳转到${url}失败`);
-      Listen.message.error("跳转失败");
-    });
+  handleClickIcon = (img: string) => {
+    // const url = this.iconToLink[img];
+    // Taro.navigateTo({
+    //   url
+    // }).catch(() => {
+    //   this.logger.error(`跳转到${url}失败`);
+    //   Listen.message.error("跳转失败");
+    // });
+    const action = this.iconToAction[img];
+    if (typeof action === "function") {
+      action();
+    }
   };
 
   handleBubbling = async (bubble: Bubble) => {

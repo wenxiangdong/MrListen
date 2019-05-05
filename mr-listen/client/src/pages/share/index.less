@@ -1,0 +1,117 @@
+@import "../../app";
+
+@page-padding: 20px;
+
+.share-container {
+  padding: @page-padding;
+  background-position: center;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+.share-save-time-wrapper {
+
+  border: @border-color 1Px solid;
+  border-radius: 20Px;
+  padding: 20Px;
+  background-color: white;
+  margin: 10Px 0;
+
+  @line-height: 2em;
+
+  .share-title {
+    @size: 20Px;
+
+    color: @title-color;
+    font-size: @size;
+    display: flex;
+    align-items: center;
+
+    .share-icon {
+      width: @size * 1.5;
+      height: @size * 1.5;
+      margin: 0 10px;
+    }
+  }
+
+  .share-picker-indicator {
+    height: @line-height;
+  }
+
+  .share-picker-view {
+    height: 350px;
+    text-align: center;
+
+
+    .share-picker-item {
+      color: @content-color;
+      line-height: @line-height;
+    }
+  }
+
+}
+
+
+.share-btn {
+  background-color: transparent;
+  //background-image: linear-gradient( 135deg, #FFE985 10%, #FA742B 100%);
+  background-image: linear-gradient( 135deg, #81FBB8 1%, #28C76F 100%);
+  color: white;
+  border: none;
+  outline: none;
+}
+
+.share-btn:before {
+  border: transparent;
+  outline: none;
+}
+
+.share-btn-hover {
+  background-image: linear-gradient( 135deg, #28C76F 20%, #81FBB8 100%);
+  //transform: translateY(3Px);/
+}
+
+.share-code-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.2);
+
+  padding: @page-padding;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+
+  .share-code-img {
+    box-shadow: rgba(0,0,0,0.2) 0 0 5Px;
+  }
+
+  .share-code-item {
+    margin: 10px 0;
+  }
+
+  .share-button {
+    width: 80%;
+    vertical-align: center;
+  }
+
+  .share-icon {
+    width: 1em;
+    height: 1em;
+    margin-right: 1em;
+  }
+}
+
+.share-cancel-icon {
+  position: fixed;
+  width: 1em;
+  height: 1em;
+  top: 1em;
+  right: 1em;
+}
+
