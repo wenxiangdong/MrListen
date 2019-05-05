@@ -142,7 +142,18 @@ export class MockHoleApi implements IHoleApi {
 
   // @ts-ignore
   getHoles(lastHoleId: string | number, offset: number): Promise<IHoleVO[]> {
-    return this.http.success([]);
+    let holeVOList: IHoleVO[] = [];
+    for (let i = 1; i <= offset; i++) {
+      let id = (typeof lastHoleId == 'number')? i + Number(lastHoleId): `${i}${lastHoleId}`;
+      holeVOList.push({
+        _id: id,
+        _openid: '' + id,
+        createTime: new Date().getTime(),
+        title: `树洞 ${id} 号`,
+        avatarUrl: ''
+      })
+    }
+    return this.http.success(holeVOList);
   }
 
   // @ts-ignore

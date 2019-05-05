@@ -2,7 +2,7 @@ import Taro, {Component, Config} from '@tarojs/taro'
 import {View, ScrollView, Button, Text} from '@tarojs/components'
 
 import Logger from './../../utils/logger'
-import Listen from "../../utils/listen"
+import Listen from '../../utils/listen'
 import {apiHub} from '../../apis/ApiHub'
 import {IHoleVO} from '../../apis/HoleApi'
 import HoleBar from './../../components/HoleBar/HoleBar'
@@ -29,10 +29,12 @@ export class Holes extends Component<any, IState> {
 
   private logger = Logger.getLogger(Holes.name);
 
-  private index = 0;
+  private lastHoleId: string | number = 0;
   private offset = 10;
 
   private buttonHeight = 45;
+  private isQuery = false;
+  private scrollToLower = false;
 
   constructor(props) {
     super(props);
@@ -45,22 +47,37 @@ export class Holes extends Component<any, IState> {
   }
 
   private queryMoreHoles = () => {
-    apiHub.holeApi.getHoles(this.index, this.offset)
-      .then((holeVOList) => {
-        if (holeVOList.length === 0) {
-          Listen.message.info(this.NO_MORE_HOLES);
-        } else {
-          this.index += holeVOList.length;
-          this.setState((prev) => {
-            return {holeVOSet: [...prev.holeVOSet, ...holeVOList]};
-          });
-        }
-      })
-      .catch((e) => {
-        this.logger.error(e);
-        Listen.message.error('获取树洞列表失败');
-      })
-    ;
+    if (!this.isQuery) {
+      this.isQuery = true;
+      apiHub.holeApi.getHoles(this.lastHoleId, this.offset)
+        .then((holeVOList) => {
+          if (holeVOList.length === 0) {
+            Listen.message.info(this.NO_MORE_HOLES);
+          } else {
+            this.lastHoleId = holeVOList[holeVOList.length - 1]._id;
+            this.setState((prev) => {
+              return {holeVOSet: [...prev.holeVOSet, ...holeVOList]};
+            });
+          }
+          this.isQuery = false;
+          this.scrollToLower = false;
+        })
+        .catch((e) => {
+          this.logger.error(e);
+          Listen.message.error('获取树洞列表失败');
+          this.isQuery = false;
+          this.scrollToLower = false;
+        })
+      ;
+    }
+  };
+
+  private handleScrollToLower = () => {
+    if (this.scrollToLower) {
+      this.queryMoreHoles();
+    } else {
+      this.scrollToLower = true;
+    }
   };
 
   /**
@@ -105,8 +122,10 @@ export class Holes extends Component<any, IState> {
 
   private handleClickHole = (hole) => {
     // TODO 跳转到的页面还没有写 需要更新
+    let url = '/pages/holes/update/update';
+    // let url = '/pages/index/index';
     Taro.navigateTo({
-      url: `/pages/index/index?holeId=${hole._id}`,
+      url: `${url}?hole=${JSON.stringify(hole)}`
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
@@ -129,13 +148,13 @@ export class Holes extends Component<any, IState> {
     return (
       <View>
         <ScrollView className={'hole-bars-scroll-view'}
-                    lowerThreshold={20}
-                    onScrollToLower={this.queryMoreHoles}
+                    lowerThreshold={1}
+                    onScrollToLower={this.handleScrollToLower}
                     scrollY={true}>
           {holes}
           <Button style={{height: this.buttonHeight + 'px', opacity: 0}} />
         </ScrollView>
-        <Button className={'create-hole-button'} style={{height: this.buttonHeight + 'px'}} type={"default"} onClick={this.handleCreateHole}>创建新的树洞</Button>
+        <Button className={'create-hole-button'} style={{height: this.buttonHeight + 'px'}} type={'default'} onClick={this.handleCreateHole}>创建新的树洞</Button>
       </View>
     )
   }
