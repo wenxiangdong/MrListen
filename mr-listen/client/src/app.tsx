@@ -20,7 +20,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-
+      'pages/share/index',
       'pages/index/index',
       'pages/dev/index',
       'pages/try/try',
@@ -28,6 +28,7 @@ class App extends Component {
       'pages/personal/center',
       'pages/personal/report/report',
       'pages/personal/setting/setting',
+
     ],
     window: {
       backgroundTextStyle: 'light',
