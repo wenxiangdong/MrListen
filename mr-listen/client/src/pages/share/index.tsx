@@ -5,6 +5,8 @@ import Logger from "../../utils/logger";
 import timePng from "../../images/time.png";
 import savePng from "../../images/save.png";
 import cancelPng from "../../images/cancel.png";
+import userConfig from "../../utils/user-config";
+import ShareCanvas from "../../components/ShareCanvas/ShareCanvas";
 
 interface IState {
   // saveTime: number,
@@ -71,6 +73,12 @@ export default class Index extends Component<any, IState> {
     });
   };
 
+  handleGetUserInfo = (res) => {
+    this.logger.info(res);
+    const userInfo = res.detail.userInfo;
+    userConfig.setConfig(userInfo);
+  };
+
   render(): any {
     const {selectedSaveTimeIndex, qrCode} = this.state;
 
@@ -90,6 +98,9 @@ export default class Index extends Component<any, IState> {
           </PickerView>
         </View>
         <View>
+          <Button openType={"getUserInfo"} onGetUserInfo={this.handleGetUserInfo}>授权使用用户头像及昵称</Button>
+        </View>
+        <View>
           <Button className={"share-btn"} hoverClass={"share-btn-hover"} onClick={this.handleClickShare}>开始制作分享</Button>
           {/*<Button type={"primary"} onClick={this.handleClickShare}>开始制作分享</Button>*/}
         </View>
@@ -98,11 +109,7 @@ export default class Index extends Component<any, IState> {
 
     const qrCodeSection = (
       <View className={"share-code-wrapper"}>
-        <Image className={"share-code-img share-code-item"} src={qrCode}/>
-        <Button className={"share-code-item share-button"}>
-          <Image className={"share-icon"} src={savePng}/>
-          保存到相册
-        </Button>
+        <ShareCanvas/>
         <Image className={"share-cancel-icon"} src={cancelPng} onClick={this.handleClickCancel}/>
       </View>
     );
