@@ -25,6 +25,7 @@ export class FileApi implements IFileApi {
       // noinspection JSIgnoredPromiseFromCall
       Taro.showLoading({title: "上传文件中..."});
       let res = await Taro.cloud.uploadFile({
+        //@ts-ignore
         cloudPath: `${cloudPath}/${new Date().getTime()}`,
         filePath: filePath
       }) as UploadFileResult;

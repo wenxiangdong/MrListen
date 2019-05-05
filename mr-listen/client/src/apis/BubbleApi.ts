@@ -1,5 +1,6 @@
 import "@tarojs/async-await";
 import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
+import Cache from "./Cache";
 
 export interface IBubbleApi {
 // @return Bubble.id
@@ -31,6 +32,8 @@ export interface Reply {
 }
 
 export interface ReplyVO extends VO {
+  _openid: string;
+  createTime: number;
   bubbleId: string | number;
   content: string;
 }
@@ -43,6 +46,8 @@ export interface Bubble {
 }
 
 export interface BubbleVO extends VO {
+  _openid: string;
+  createTime: number;
   holeId: string | number;
   type: BubbleType;
   style: BubbleStyle;
@@ -55,27 +60,25 @@ export interface BubbleVO extends VO {
  * 真正的api
  */
 export class BubbleApi implements IBubbleApi {
-
-
   private base: IHttpRequest = HttpRequest.getInstance();
+  private cache: Cache = Cache.getInstance();
 
-  private static BUBBLE_COLLECTION: string = "bubble";
-  private static REPLY_COLLECTION: string = "reply";
-
-  public async deleteBubble(bubbleId: string | number): Promise<void> {
-    return await this.base.remove(BubbleApi.BUBBLE_COLLECTION, bubbleId);
+  async deleteBubble(bubbleId: string | number): Promise<void> {
+    await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION)).doc(bubbleId).remove();
   }
 
-  public async deleteReply(replyId: string | number): Promise<void> {
-    return await this.base.remove(BubbleApi.REPLY_COLLECTION, replyId);
+  async deleteReply(replyId: string | number): Promise<void> {
+    await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION)).doc(replyId).remove();
   }
 
-  public async sendBubble(bubble: Bubble): Promise<string | number> {
-    return await this.base.add(BubbleApi.BUBBLE_COLLECTION, bubble);
+  async sendBubble(bubble: Bubble): Promise<string | number> {
+    bubble['createTime'] = this.base.serverDate();
+    return await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION)).add(bubble);
   }
 
-  public async sendReply(reply: Reply): Promise<string | number> {
-    return await this.base.add(BubbleApi.REPLY_COLLECTION, reply);
+  async sendReply(reply: Reply): Promise<string | number> {
+    reply['createTime'] = this.base.serverDate();
+    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION)).add(reply);
   }
 }
 

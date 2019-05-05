@@ -7,6 +7,8 @@ import DatabaseCommand = Taro.cloud.DB.DatabaseCommand;
 import IAddResult = Taro.cloud.DB.IAddResult;
 import IRemoveResult = Taro.cloud.DB.IRemoveResult;
 import IUpdateResult = Taro.cloud.DB.IUpdateResult;
+import ServerDate = Taro.cloud.DB.ServerDate;
+import IServerDateOptions = Taro.cloud.DB.IServerDateOptions;
 
 export interface IHttpRequest {
   callFunction<T>(name: string, data?: object): Promise<T>;
@@ -22,6 +24,8 @@ export interface IHttpRequest {
   doc(collectionName: string, docId: string | number): DocumentReference;
 
   command(): DatabaseCommand;
+
+  serverDate(option?: IServerDateOptions): ServerDate;
 }
 
 export interface HttpResponse<T> {
@@ -39,7 +43,7 @@ export enum HttpCode {
 
 export class HttpRequest implements IHttpRequest {
 
-  private static INSTANCE;
+  private static INSTANCE: HttpRequest;
 
   private constructor() {
 
@@ -67,7 +71,7 @@ export class HttpRequest implements IHttpRequest {
       // 解析数据
       let httpResponse = callResult.result as HttpResponse<T>;
       if (httpResponse.code === HttpCode.SUCCESS) {
-        return httpResponse.data;
+        return Util.copyWithTimestamp<T>(httpResponse.data);
       } else
         throw httpResponse;
     } else
@@ -77,33 +81,31 @@ export class HttpRequest implements IHttpRequest {
   private database: Taro.cloud.DB.Database = Taro.cloud.database();
 
   async add(collectionName: string, data: object = {}): Promise<string | number> {
-    data['createTime'] = this.database.serverDate();
     let result = await this.database.collection(collectionName).add({data}) as IAddResult;
 
-    if (result)
+    if (result) {
       return result._id;
-    else {
+    } else {
       const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
     }
   }
 
-  async remove(collectionName: string, docId: string): Promise<void> {
+  async remove(collectionName: string, docId: string | number): Promise<void> {
     let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
 
-    if (!result) {
+    if (result) {
       const errMsg = `删除 ${collectionName} ${docId} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
     }
   }
 
-  async update(collectionName: string, docId: string, data: object): Promise<void> {
-    data['updateTime'] = this.database.serverDate();
+  async update(collectionName: string, docId: string | number, data: object): Promise<void> {
     let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
 
-    if (!result) {
+    if (result) {
       const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;
       this.logger.error(errMsg);
       throw new Error(errMsg);
@@ -120,6 +122,15 @@ export class HttpRequest implements IHttpRequest {
 
   command(): DatabaseCommand {
     return this.database.command;
+  }
+
+  serverDate(option?: Taro.cloud.DB.IServerDateOptions): Taro.cloud.DB.ServerDate {
+    if (option) {
+      return this.database.serverDate();
+    } else {
+      // @ts-ignore
+      return this.database.serverDate(option)
+    }
   }
 }
 
@@ -151,6 +162,4 @@ export class MockRequest {
 
 export class VO {
   _id: string | number;
-  _openid: string;
-  createTime: Date;
 }

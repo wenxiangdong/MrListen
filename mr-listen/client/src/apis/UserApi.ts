@@ -15,22 +15,9 @@ export interface UserVO extends VO {
  */
 export class UserApi implements IUserApi {
   private base: IHttpRequest = HttpRequest.getInstance();
-  private static USER_COLLECTION: string = "user";
-
-  constructor() {
-  }
 
   async login(): Promise<string | number> {
-    let exist = await this.base.collection(UserApi.USER_COLLECTION).get();
-    if (!exist) {
-      return await this.base.add(UserApi.USER_COLLECTION);
-    } else {
-      let data = exist.data;
-      if (!data.length)
-        return await this.base.add(UserApi.USER_COLLECTION);
-      else
-        return data[0]._id ? data[0]._id : '';
-    }
+    return this.base.callFunction<string | number>('login');
   }
 }
 
@@ -41,7 +28,7 @@ export class MockUserApi implements IUserApi {
   private http = MockRequest.getInstance();
 
   public async login(): Promise<string | number> {
-    return this.http.success();
+    return this.http.success(0);
   }
 }
 

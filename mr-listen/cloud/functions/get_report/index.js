@@ -1,3 +1,5 @@
+// 云函数入口文件
+
 const cloud = require('wx-server-sdk');
 
 cloud.init();
@@ -11,34 +13,27 @@ const HttpCode = {
     ERROR: 3
 };
 
-
+// 云函数入口函数
 exports.main = async () => {
-    const {OPENID} = cloud.getWXContext();
     try {
-        let userCollection = db.collection('user');
-
-        let user;
-
-        if ((user = userCollection.doc(OPENID))) {
+        const {OPENID} = cloud.getWXContext();
+        let reportVOs = await db.collection('report').where({
+            openid: OPENID
+        }).get().data;
+        if (reportVOs && reportVOs.length) {
             return {
                 code: HttpCode.SUCCESS,
-                data: user._id,
+                data: reportVOs[0],
                 message: ''
             }
         } else {
             return {
-                code: HttpCode.SUCCESS,
-                data: await userCollection.add({
-                    data: {
-                        openid: OPENID,
-                        createTime: db.serverDate()
-                    }
-                })._id,
-                message: ''
+                code: HttpCode.NOT_FOUND,
+                data: null,
+                message: '您的报告还未产生'
             }
         }
     } catch (e) {
-        console.log(e.errMsg);
         return {
             code: HttpCode.ERROR,
             data: null,

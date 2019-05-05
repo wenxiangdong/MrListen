@@ -1,19 +1,21 @@
 import "@tarojs/async-await";
 import {BubbleVO, ReplyVO} from "./BubbleApi";
 import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
-import ICountResult = Taro.cloud.DB.ICountResult;
-import IQueryResult = Taro.cloud.DB.IQueryResult;
+import Cache, {Collection} from "./Cache";
 
 export interface IHoleApi {
   createHole(): Promise<string | number>;
 
-  getHoles(index: number, offset: number): Promise<IHoleVO[]>;
+  // getHoles(index: number, offset?: number): Promise<IHoleVO[]>;
+  getHoles(lastHoleId: string | number, offset?: number): Promise<IHoleVO[]>;
 
   deleteHole(holeId: string | number): Promise<void>;
 
   updateHole(holeId: string | number, hole: IHole): Promise<void>;
 
-  getBubblesFromHole(holeId: string | number, index: number, offset: number): Promise<BubbleVO[]>;
+  // getBubblesFromHole(holeId: string | number, index: number, offset?: number): Promise<BubbleVO[]>;
+
+  getBubblesFromHole(holeId: string | number): Promise<BubbleVO[]>;
 }
 
 export interface IHole {
@@ -22,6 +24,8 @@ export interface IHole {
 }
 
 export interface IHoleVO extends VO {
+  _openid: string;
+  createTime: number;
   title: string;
   avatarUrl: string;
 }
@@ -46,99 +50,72 @@ class HistoryHoleVO implements IHoleVO {
  * 真正的api
  */
 export class HoleApi implements IHoleApi {
-
   private base: IHttpRequest = HttpRequest.getInstance();
-  private static HOLE_COLLECTION: string = "hole";
-  private static HOLE_DEFAULT_AVATAR_URL = "";
-  private static BUBBLE_COLLECTION: string = "bubble";
-  private static REPLY_COLLECTION: string = "reply";
+  private cache: Cache = Cache.getInstance();
 
   async createHole(): Promise<string | number> {
-    let count = await this.base.collection(HoleApi.HOLE_COLLECTION).count() as ICountResult;
-    let index: number = count ? count.total + 1 : 1;
-    return await this.base.add(HoleApi.HOLE_COLLECTION, {
-      title: `树洞 ${index} 号`,
-      avatarUrl: HoleApi.HOLE_DEFAULT_AVATAR_URL
-    });
+    let count = (await this.cache
+      .collection<IHoleVO>(Const.HOLE_COLLECTION))
+      .count();
+
+    let index: number = count + 1;
+
+    return await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+      .add({
+        createTime: this.base.serverDate(),
+        title: `树洞 ${index} 号`,
+        avatarUrl: Const.HOLE_DEFAULT_AVATAR_URL
+      })
   }
 
   async deleteHole(holeId: string | number): Promise<void> {
-    return await this.base.remove(HoleApi.HOLE_COLLECTION, holeId);
+    await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+      .doc(holeId)
+      .remove();
   }
 
-  async getBubblesFromHole(holeId: string | number, index: number, offset: number): Promise<BubbleVO[]> {
-    //bubble
-    const bubbleCollection = this.base.collection(HoleApi.BUBBLE_COLLECTION);
+  async getBubblesFromHole(holeId: string | number): Promise<BubbleVO[]> {
+    return this.getBubbleVOs(holeId);
+  }
 
-    let bubbleResult = await bubbleCollection
+  private async getBubbleVOs(holeId: string | number): Promise<BubbleVO[]> {
+    let bubbleVOs: BubbleVO[] = await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION, holeId, {holeId}))
       .where({holeId})
-      .orderBy('createTime', 'desc')
-      .skip(index * offset)
-      .limit(offset)
-      .get() as IQueryResult;
+      .get()
+      .sort((a, b) => {
+        let field = "createTime";
+        return a[field] - b[field];
+      });
 
-    if (!bubbleResult)
-      return [];
-
-    let bubbleVOs: BubbleVO[] = bubbleResult.data.map(result => {
-        let bubbleVO: BubbleVO =
-          {
-            _id: result._id ? result._id : '',
-            _openid: result.openid, createTime: result.createTime, content: result.content,
-            holeId: result.holeId, replyList: result.replyList, style: result.style, type: result.style,
-          };
-        return bubbleVO;
-      }
-    );
-
-    //reply
-    const replyCollection = this.base.collection(HoleApi.REPLY_COLLECTION);
-
-    await bubbleVOs.forEach(async bubbleVO => {
-      let replyResult = await replyCollection
-        .where({bubbleId: bubbleVO._id})
-        .orderBy('createTime', 'asc')
-        .get() as IQueryResult;
-
-      bubbleVO.replyList = replyResult ?
-        replyResult.data.map(result => {
-          let replyVO: ReplyVO =
-            {
-              _id: result._id ? result._id : '',
-              _openid: result._openid, bubbleId: result.bubbleId, content: result.content, createTime: result.createTime
-            };
-          return replyVO;
-        }) : [];
-    });
-
+    for (let bubbleVO of bubbleVOs) {
+      bubbleVO.replyList = await this.getReplyVOs(bubbleVO._id);
+    }
     return bubbleVOs;
   }
 
-
-  async updateHole(holeId: string | number, hole: IHole): Promise<void> {
-    return await this.base.update(HoleApi.HOLE_COLLECTION, holeId, hole);
+  private async getReplyVOs(bubbleId: string | number): Promise<ReplyVO[]> {
+    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION, bubbleId, {bubbleId}))
+      .where({bubbleId})
+      .get();
   }
 
-  async getHoles(index: number, offset: number): Promise<IHoleVO[]> {
-    //hole
-    const holeCollection = this.base.collection(HoleApi.HOLE_COLLECTION);
-    let holeResult = await holeCollection
-      .orderBy('updateTime', 'desc')
-      .skip(index * offset)
-      .limit(offset)
-      .get() as IQueryResult;
+  async updateHole(holeId: string | number, hole: IHole): Promise<void> {
+    await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).update(hole);
+  }
 
-    if (!holeResult)
-      return [];
+  async getHoles(lastHoleId: string | number, offset: number = 20): Promise<IHoleVO[]> {
+    let iHoleCollection: Collection<IHoleVO> = await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION);
 
-    return holeResult.data.map(result => {
-      let holeVO: IHoleVO =
-        {
-          _id: result._id ? result._id : '',
-          _openid: result._openid, avatarUrl: result.avatarUrl, createTime: result.createTime, title: result.title
-        };
-      return holeVO;
+    let iHoleVOs: IHoleVO[] = (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+      .get();
+
+    iHoleVOs.sort((a, b) => {
+      let field = "createTime";
+      return b[field] - a[field];
     });
+
+    let start: number = lastHoleId ? iHoleVOs.indexOf(iHoleCollection.doc(lastHoleId).get()) : 0;
+    return iHoleVOs.slice(start, start + offset);
   }
 }
 
@@ -150,7 +127,7 @@ export class MockHoleApi implements IHoleApi {
   private http = MockRequest.getInstance();
 
   createHole(): Promise<string | number> {
-    return this.http.success(new Date().getTime());
+    return this.http.success(0);
   }
 
   // @ts-ignore
@@ -159,24 +136,13 @@ export class MockHoleApi implements IHoleApi {
   }
 
   // @ts-ignore
-  getBubblesFromHole(holeId: number, index: number, offset: number): Promise<BubbleVO[]> {
+  getBubblesFromHole(holeId: number): Promise<BubbleVO[]> {
     return this.http.success([]);
   }
 
   // @ts-ignore
-  getHoles(index: number, offset: number): Promise<IHoleVO[]> {
-    let holeVOList:IHoleVO[] = [];
-    for (let i = 0; i < offset; i++) {
-      let id = i + index;
-      holeVOList.push({
-        _id: id,
-        _openid: '' + id,
-        createTime: new Date(),
-        title: `树洞 ${id} 号`,
-        avatarUrl: ''
-      });
-    }
-    return this.http.success(holeVOList);
+  getHoles(lastHoleId: string | number, offset: number): Promise<IHoleVO[]> {
+    return this.http.success([]);
   }
 
   // @ts-ignore

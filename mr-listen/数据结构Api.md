@@ -1,30 +1,17 @@
 ```typescript
-// 所有对象的创建时间属性为 createTime, 最新一次更新时间属性为 updateTime，无需设置，调用 HttpRequest 对应时自动添加，如 add 方法
-/**
-  async add(collectionName: string, data: object = {}): Promise<string | number> {
-    data['createTime'] = this.database.serverDate();
-    let result = await this.database.collection(collectionName).add({data}) as IAddResult;
-
-    if (result)
-      return result._id;
-    else {
-      const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
-      this.logger.error(errMsg);
-      throw new Error(errMsg);
-    }
-  }
-*
-*/
-
 // 所有通过直接操作数据库获取数据的 VO 的父类
+
+/**
+* 考虑到有些数据由服务器端生成，故只保留 _id
+*/
 interface VO {
   _id: string | number; // 插入数据 id
-  _openid: string | number; // 数据创建者
-  createTime: Date; // 创建时间
 }
 
 interface UserVO extends VO {
-  
+    // 与 _openid 意义相同，但由于是服务端创建，故用 openid 表示，其他对象属性中的 openid 同理（服务端无法直接操作对象的 _openid 属性）
+    openid: string | number;
+    createTime: number;
 }
 
 enum BubbleType {
@@ -45,6 +32,8 @@ interface Reply {
 }
 
 interface ReplyVO extends VO {
+    _openid: string | number;
+    createTime: number;
     bubbleId: string | number;
     content: string;
 }
@@ -57,11 +46,13 @@ interface Bubble {
 }
 
 interface BubbleVO extends VO {
-  holeId: string | number;
-  type: BubbleType;
-  style: BubbleStyle;
-  content: string;
-  replyList: ReplyVO[];
+    _openid: string | number;
+    createTime: number;
+    holeId: string | number;
+    type: BubbleType;
+    style: BubbleStyle;
+    content: string;
+    replyList: ReplyVO[];
 }
 
 
@@ -71,6 +62,8 @@ interface IHole {
 }
 
 interface IHoleVO extends VO {
+    _openid: string | number;
+    createTime: number;
     title: string;
     avatarUrl: string;
 }
@@ -82,6 +75,35 @@ class HoleVO implements IHoleVO {}
 class HistoryHole implements IHole {}
 
 class HistoryHoleVO implements IHoleVO {}
+
+interface ReportVO extends VO {
+    openid: string | number;
+    meetTime: number; 
+    holeCount: number;
+    longestDuration: number;
+    /* 数组，每个元素也为数组，元素数组第一项为词语，第二项为出现次数，如
+    * [ [ '开心', 20 ], [ '难过', 12 ] ]
+    */
+    mostUsedWords: Array<Array<string | number>>;
+    latestTime: number;
+    plusOneCount: number;
+}
+
+interface ShareHoleVO extends VO {
+    // 到期时间，与 createShareHole 方法中的参数 expireIn 不同，该属性为到期时间点 expireIn 为分享树洞持续的时间（以天数为单位），比如 7 天
+    // 该属性由服务器时间和 expireIn 计算得到
+    expiryTime: number 
+    /**
+    * 
+    {
+        detail: IHoleVO
+        bubbleVOs: BubbleVO[]
+    }
+    */
+    snapShot: string;
+    plusOneCount: number;
+}
+
 
 
 enum HttpCode {
@@ -144,17 +166,17 @@ interface IHoleApi {
     /**
     * @return 新树洞id
     */
-    createHole(): string;
+    createHole(): string | number;
     
     /**
     * 
-    * @param index 第几页, 第一页为0（不要设置为1）
+    * @param lastHoleId 上次获取的最后一个holeId，如果是第一次获取，请传入空：''，0 都可以
     * @param offset 该页取多少数据量，默认为20
     * @return Hole[] 树洞集合
     * 
     */
     // 根据 Hole 更新时间逆序，即最近访问的树洞返回优先级最高
-    getHoles(index: number, offset: number = 20): IHoleVO[];
+    getHoles(lastHoleId: string| number, offset: number = 20): IHoleVO[];
     
     /**
     * 
@@ -176,12 +198,10 @@ interface IHoleApi {
     /**
     * 
     * @param holeId
-    * @param index
-    * @param offset，默认20
     * @return 添加了对应 reply 的 bubble 集合
     */
-    //根据 Bubble 创建时间逆序，即最近发送的消息优先级最高，返回数组中第一个为最后发送的消息（如果 index = 0）
-    getBubblesFromHole(holeId: string | number, index: number, offset: number = 20): BubbleVO[];
+    //创建时间顺序获取
+    getBubblesFromHole(holeId: string | number): BubbleVO[];
 }
 
 interface IFileApi {
@@ -198,6 +218,19 @@ interface IFileApi {
     getTempFileURL(fileList: string[]): Promise<object[]>;
     
     deleteFile(fileList: string[]): Promise<object[]>;
+}
+
+interface ShareHoleApi {
+    /**
+    * 
+    * @param holeId
+    * @param expireIn 持续天数，默认为-1，表示永不过期
+    */
+    createShareHole(holeId: string | number, expireIn: number = -1): string | number;
+    
+    getShareHole(shareHoleId: string | number): ShareHoleVO;
+    
+    plusOneCount(shareHoleId: string | number): void;
 }
 
 ```
