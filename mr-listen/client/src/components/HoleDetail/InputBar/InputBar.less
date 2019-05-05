@@ -65,7 +65,7 @@
 }
 
 .IB-toolbar {
-  width: 750px;
+  width: 100vw;
   box-sizing: border-box;
   padding: 20px;
   display: grid;
@@ -73,9 +73,11 @@
   grid-gap: 30Px;
 
   background-color: @bg-color;
+  //background-color: transparent;
 
   .IB-grid {
     text-align: center;
+    z-index: 1000000000;
   }
 }
 

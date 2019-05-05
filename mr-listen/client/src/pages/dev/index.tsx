@@ -6,6 +6,7 @@ import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
 import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
 import ChatBubble from "../../components/ChatBubble/ChatBubble";
 import InputBar from "../../components/HoleDetail/InputBar/InputBar";
+import BubbleTypePicture from "../../components/HoleDetail/InputBar/BubbleType/BubbleTypePicture";
 
 
 export default class Index extends Component<any, any> {
@@ -58,6 +59,7 @@ export default class Index extends Component<any, any> {
         {/*<RightBubble onLongPress={this.handleLongPress} bubble={shortBubble} color={'#448AFF'}/>*/}
         {/*<RightBubble onLongPress={this.handleLongPress} bubble={longBubble} color={'#448AFF'}/>*/}
         <InputBar input-bar-class={'input-bar'}/>
+        {/*<BubbleTypePicture />*/}
       </View>
     )
   }
