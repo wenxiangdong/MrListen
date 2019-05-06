@@ -10,7 +10,14 @@ interface IState {
   canvasHeight: number
 }
 
-export default class ShareCanvas extends Component<any, IState> {
+interface IProp {
+  text: string,
+  expireIn: number,
+  holeId: string | number,
+  onError: () => void
+}
+
+export default class ShareCanvas extends Component<IProp, IState> {
 
 
   private CANVAS_ID = "post";
@@ -36,16 +43,22 @@ export default class ShareCanvas extends Component<any, IState> {
     this.canvasUtil = new CanvasUtil(this.CANVAS_ID, this.$scope, this.canvasWidth, this.canvasHeight, this.UNIT);
   }
 
-  async componentDidMount(): void {
+  async componentDidMount() {
+    const {holeId, expireIn, onError} = this.props;
     try {
+      Listen.showLoading("加工中...");
       await this.canvasUtil.drawBackground();
-      await this.canvasUtil.drawQRCode("pages/share/index", {a: 1});
-      await this.canvasUtil.drawAvatar();
-      await this.canvasUtil.drawNickName();
+      await this.canvasUtil.drawQRCode(holeId, expireIn);
+      await this.canvasUtil.drawExtraText(this.props.text);
       this.forceUpdate();
     } catch (e) {
       Listen.message.error("制图失败");
       this.logger.error(e);
+      if (typeof onError === "function") {
+        onError();
+      }
+    } finally {
+      Listen.hideLoading();
     }
     // this.canvasUtil.drawBackground()
     //   .then(() => {
@@ -86,8 +99,9 @@ export default class ShareCanvas extends Component<any, IState> {
   };
 
   render(): any {
+
     return (
-      <View>
+      <View className={"SC-wrapper"}>
         <Canvas style={{width: this.canvasWidth + "px", height: this.canvasHeight + "px"}} canvasId={this.CANVAS_ID}/>
         <View className={"SC-btn"} style={{width: this.canvasWidth + "px"}} onClick={this.handleClickSave}>
           保存到相册后分享到朋友圈

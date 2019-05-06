@@ -1,8 +1,8 @@
 import * as Taro from "@tarojs/taro";
 import "@tarojs/async-await";
-import Listen from "./listen";
 import userConfig from "./user-config";
 import Logger from "./logger";
+import {apiHub} from "../apis/ApiHub";
 
 export default class CanvasUtil {
 
@@ -34,20 +34,20 @@ export default class CanvasUtil {
     });
   }
 
-  public async drawQRCode(page, params) {
+  public async drawQRCode(holeId, expireIn) {
     if (!this.ctx) {
       throw new Error("canvas context未初始化");
     }
 
-    let url = await this.getQRCodeTempPath();
+    let url = await this.getQRCodeTempPath(holeId, expireIn);
     this.logger.info(url);
     // url = await this.getImage(url);
-    this.logger.info(page, params, "code url", url);
+    this.logger.info(holeId, expireIn, "code url", url);
     const oX = this.canvasWidth / 2;
-    const oY = this.canvasHeigth / 2;
+    const oY = 250 * this.unit;
     const r = 250 * this.unit / 2;
     const dX = oX - r;
-    const dY = oY - r + 25 * this.unit;
+    const dY = oY - r;
     this.ctx.drawImage(url, dX, dY, r * 2, r * 2);
     this.ctx.draw(true, () => {
       this.logger.info("draw code success");
@@ -74,24 +74,27 @@ export default class CanvasUtil {
     const url = this.getImage(config.avatarUrl);
     // @ts-ignore
     this.ctx.drawImage(url, x, y, r * 2, r * 2);
-    this.ctx.draw(true, () => {
-      this.logger.info("draw avatar success");
-    });
+    // this.ctx.draw(true, () => {
+    //   this.logger.info("draw avatar success");
+    // });
     this.ctx.restore();
   }
 
-  public drawNickName() {
+  public drawExtraText(text) {
     if (!this.ctx) {
       return;
+    }
+    if (!text) {
+      text = "窥探你的心"
     }
     this.ctx.save();
     const fontSize = 18 * this.unit;
     this.ctx.setFontSize(fontSize);
     this.ctx.setFillStyle("#000000");
-    const x = 100 * this.unit;
-    const y = 450 * this.unit + fontSize + 10 * this.unit;
+    const x = 50 * this.unit;
+    const y = 450 * this.unit + fontSize / 2;
     // @ts-ignore
-    this.ctx.fillText(userConfig.getConfig().nickName, x, y);
+    this.ctx.fillText(text, x, y);
     this.ctx.draw(true);
     this.ctx.restore();
   }
@@ -117,9 +120,11 @@ export default class CanvasUtil {
     })
   }
 
-  private async getQRCodeTempPath() {
+  private async getQRCodeTempPath(holeId, expireIn) {
+    const fileID = await apiHub.shareHoleApi.createShareHole(holeId, expireIn);
     const res = await Taro.cloud.downloadFile({
-      fileID: "cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844"
+      // @ts-ignore
+      fileID
     });
     // @ts-ignore
     return res.tempFilePath;
@@ -134,10 +139,15 @@ export default class CanvasUtil {
   }
 
   private async getImage(url) {
-    const res = await Taro.downloadFile({
-      url
-    });
-    return res.tempFilePath;
+    try {
+      const res = await Taro.downloadFile({
+        url
+      });
+      return res.tempFilePath;
+    } catch (e) {
+      this.logger.info("get Image", e);
+      throw e;
+    }
   }
 
 }

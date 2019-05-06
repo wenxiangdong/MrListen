@@ -17,6 +17,8 @@
   background-color: white;
   margin: 10Px 0;
 
+  box-sizing: border-box;
+
   @line-height: 2em;
 
   .share-title {
@@ -76,7 +78,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.5);
 
   padding: @page-padding;
 
@@ -115,5 +117,17 @@
   border-radius: 50%;
   padding: 5Px;
   border: black 1Px solid;
+}
+
+.share-input {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px 30px;
+  border: @border-color 1Px solid;
+  margin: 10Px auto;
+}
+
+.share-input-error {
+  border-color: tomato;
 }
 
