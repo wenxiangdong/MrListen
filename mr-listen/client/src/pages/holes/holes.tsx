@@ -25,6 +25,10 @@ export class Holes extends Component<any, IState> {
     navigationBarTitleText: '倾诉树洞'
   };
 
+  private UPDATE_HOLE_URL = '/pages/holes/update/update';
+  // TODO 跳转到的页面还没有写 需要更新
+  private USE_HOLE_URL = '/pages/holes/update/update';
+  private NEW_HOLE_URL = '/pages/index/index';
   private NO_MORE_HOLES = '暂时没有更多树洞';
 
   private logger = Logger.getLogger(Holes.name);
@@ -83,7 +87,7 @@ export class Holes extends Component<any, IState> {
    */
   private handleCreateHole = () => {
     Taro.navigateTo({
-      url: '/pages/index/index'
+      url: this.NEW_HOLE_URL
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
@@ -92,40 +96,38 @@ export class Holes extends Component<any, IState> {
 
   private handleDeleteHole = (hole) => {
     let idx = this.state.holeVOSet.indexOf(hole);
-    this.logger.info('hole delete', idx);
     if (idx >= 0) {
-      Taro.showModal({
-        title: '提示',
-        content: `确认删除树洞 ${hole.title}`
-      })
-        .then((res) => {
-          if (res.confirm) {
-            Listen.showLoading('删除中');
-            apiHub.holeApi.deleteHole(hole._id)
-              .then(() => {
-                this.setState((prev) => {
-                  prev.holeVOSet.splice(idx, 1);
-                  return {holeVOSet: prev.holeVOSet};
-                });
-                Listen.hideLoading();
-              })
-              .catch((e) => {
-                this.logger.error(e);
-                Listen.hideLoading();
-                Listen.message.error('删除树洞失败');
-              });
-          }
+      this.logger.info('hole delete', idx);
+      Listen.showLoading('删除中');
+      apiHub.holeApi.deleteHole(hole._id)
+        .then(() => {
+          this.setState((prev) => {
+            prev.holeVOSet.splice(idx, 1);
+            return {holeVOSet: prev.holeVOSet};
+          });
+          Listen.hideLoading();
+          this.forceUpdate();
         })
-        .catch((reason) => this.logger.error(reason));
+        .catch((e) => {
+          this.logger.error(e);
+          Listen.hideLoading();
+          Listen.message.error('删除树洞失败');
+        });
     }
   };
 
   private handleClickHole = (hole) => {
-    // TODO 跳转到的页面还没有写 需要更新
-    let url = '/pages/holes/update/update';
-    // let url = '/pages/index/index';
     Taro.navigateTo({
-      url: `${url}?hole=${JSON.stringify(hole)}`
+      url: `${this.USE_HOLE_URL}?hole=${JSON.stringify(hole)}`
+    }).catch((e) => {
+      this.logger.error(e);
+      Listen.message.error('跳转失败');
+    });
+  };
+
+  private handleUpdateHole = (hole) => {
+    Taro.navigateTo({
+      url: `${this.UPDATE_HOLE_URL}?hole=${JSON.stringify(hole)}`
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
@@ -140,6 +142,7 @@ export class Holes extends Component<any, IState> {
                  holeTitle={hole.title}
                  onDelete={() => this.handleDeleteHole(hole)}
                  onClick={() => this.handleClickHole(hole)}
+                 onUpdate={() => this.handleUpdateHole(hole)}
         />
       )
     : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>
