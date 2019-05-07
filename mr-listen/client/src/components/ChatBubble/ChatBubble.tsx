@@ -12,14 +12,7 @@ import {apiHub} from "../../apis/ApiHub";
 import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
 import UserAvatar from "../common/UserAvator/UserAvatar";
-
-
-// 气泡风格与其类名的对应
-const bubbleStyleClassName = {
-  [BubbleStyle.NORMAL]: "bubble-normal",
-  [BubbleStyle.HAPPY]: "bubble-happy",
-  [BubbleStyle.ANGRY]: "bubble-angry"
-};
+import BubbleStyleConfig from "../../utils/bubble-style-config";
 
 interface IProp {
   bubble: BubbleVO,
@@ -187,7 +180,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
     return (
       // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
-      <View className={`chat-bubble-class ${bubbleStyleClassName[bubble.style]}`}>
+      <View className={`chat-bubble-class ${BubbleStyleConfig[bubble.style].className}`}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

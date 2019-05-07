@@ -6,6 +6,7 @@ import BubbleTypeVoice from "./BubbleType/BubbleTypeVoice";
 import {Bubble, BubbleStyle, BubbleType} from "../../../apis/BubbleApi";
 import Logger from "../../../utils/logger";
 import Listen from "../../../utils/listen";
+import BubbleStyleConfig from "../../../utils/bubble-style-config";
 
 interface IProp {
   onBubbling: (bubble: Bubble) => void,
@@ -25,22 +26,6 @@ export default class InputBar extends Component<IProp, IState> {
   static externalClasses = ['input-bar-class'];
 
   private logger = Logger.getLogger(InputBar.name);
-
-  // 气泡风格菜单项
-  private bubbleStyleMenus = {
-    [BubbleStyle.NORMAL]: {
-      icon: "N",
-      label: "N（正常）"
-    },
-    [BubbleStyle.ANGRY]: {
-      icon: "A",
-      label: "A（不平）"
-    },
-    [BubbleStyle.HAPPY]: {
-      icon: "H",
-      label: "H（开心）"
-    }
-  };
 
   constructor(props) {
     super(props);
@@ -76,7 +61,7 @@ export default class InputBar extends Component<IProp, IState> {
           <View className={"IB-wrapper"}>
             <View className={"IB-style-btn IB-btn"} onClick={this.handleClickStyleButton}>
               {/*H*/}
-              {this.bubbleStyleMenus[bubbleStyle].icon}
+              {BubbleStyleConfig[bubbleStyle].icon}
             </View>
             <Input
               value={this.state.text}
@@ -111,8 +96,8 @@ export default class InputBar extends Component<IProp, IState> {
 
   // 点输入框左侧的风格按钮
   handleClickStyleButton = () => {
-    const keys = Object.keys(this.bubbleStyleMenus);
-    const itemList = keys.map(key => this.bubbleStyleMenus[key].label);
+    const keys = Object.keys(BubbleStyleConfig);
+    const itemList = keys.map(key => BubbleStyleConfig[key].label);
     Taro.showActionSheet({
       itemList
     }).then(({tapIndex}) => {
