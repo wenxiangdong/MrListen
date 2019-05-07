@@ -1,0 +1,52 @@
+.outside-shown-box {
+  z-index: -50;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-box {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.relative-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@liftoff: 0.2s;
+@keep-flying: .8s;
+@explode: .5s;
+
+
+// 未爆炸的烟花
+.liftoff-firework-box {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.liftoff-firework {
+  position: absolute;
+  bottom: 100px;
+  width: 10px;
+  height: 20px;
+  background-color: black;
+  animation: liftoff @liftoff infinite ease-out;
+}
+
+@keyframes liftoff {
+  0% {
+    transform: translateY(0);
+  }
+  100%{
+    transform: translateY(-500px);
+  }
+}
+
+

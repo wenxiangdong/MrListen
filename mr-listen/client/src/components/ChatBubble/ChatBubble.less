@@ -35,8 +35,8 @@
 
   &:before {
     content: '';
-    height: 1px;
-    width: 1px;
+    height: 2px;
+    width: 2px;
     box-shadow: 0 0 1000px 1000px #00000055;
     opacity: 1;
     background-color: transparent;
@@ -46,6 +46,7 @@
     visibility: hidden;
     animation: angry-bubble-shadow @time ease-out;
   }
+
 }
 
 .bubble-normal {
@@ -98,7 +99,7 @@
   0% {
     visibility: hidden;
     opacity: 0.5;
-    transform: translate(-150px, 20px);
+    transform: translate(-150px, -20px);
   }
   30% {
     visibility: unset;

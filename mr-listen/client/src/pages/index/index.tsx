@@ -13,7 +13,8 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-import FullScreenEmoji from "../../components/FullScreenAnimation/FullScreenEmoji";
+import FullScreenEmoji from "../../components/FullScreenAnimation/FullScreenEmoji/FullScreenEmoji";
+import Fireworks from "../../components/FullScreenAnimation/Fireworks/FireWorks";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -158,7 +159,8 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        <FullScreenEmoji content={"😊"}/>
+        <Fireworks/>
+        <FullScreenEmoji content={'😊'}/>
       </Block>
     );
   }
