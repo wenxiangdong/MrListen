@@ -13,6 +13,7 @@ import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
 import UserAvatar from "../common/UserAvator/UserAvatar";
 import BubbleStyleConfig from "../../utils/bubble-style-config";
+import FullScreenEmojiFactory from "../FullScreenAnimation/FullScreenEmojiFactory";
 
 interface IProp {
   bubble: BubbleVO,
@@ -164,6 +165,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
           <UserAvatar size={38} margin={0}/>
         </View>
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
+        <FullScreenEmojiFactory bubble={bubble}/>
       </View>
     );
 

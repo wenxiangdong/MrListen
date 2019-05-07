@@ -1,7 +1,8 @@
-import FullScreenEmoji from "./FullScreenEmoji";
+// import FullScreenEmoji from "./FullScreenEmoji";
 import Taro from "@tarojs/taro";
 import Logger from "../../utils/logger";
 import {Bubble} from "../../apis/BubbleApi";
+import FullScreenEmoji from "./FullScreenEmoji/FullScreenEmoji";
 
 interface IProp {
   // bubbleContent: string,
@@ -25,9 +26,6 @@ export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState
     "😮": ["天了", "天呐", "我的天", "my god"],
     "👍": ["赞", "好棒", "真棒"]
   };
-
-  // 动画最大时间
-  static MAX_TIME = 2000;
 
   private logger = Logger.getLogger(FullScreenEmojiFactory.name);
 
@@ -56,13 +54,12 @@ export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState
     });
     this.logger.info("match", targetKey);
     if (targetKey) {
-      this.countDown();
       return <FullScreenEmoji content={targetKey}/>
     }
   }
 
 
-    shouldComponentUpdate(nextProps: Readonly<IProp>, nextState: Readonly<IState>, nextContext: any): boolean {
+    shouldComponentUpdate(nextProps: Readonly<IProp>): boolean {
       if (nextProps.bubble !== this.props.bubble) {
         this.logger.info("diff bubble");
         return true;

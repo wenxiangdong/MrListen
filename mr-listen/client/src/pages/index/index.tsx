@@ -13,7 +13,6 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-import FullScreenEmojiFactory from "../../components/FullScreenAnimation/FullScreenEmojiFactory";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -162,7 +161,6 @@ class Index extends Component<any, IState> {
             onFocus={this.handleFocus}/>
         </ScrollView>
         {/*<FullScreenEmoji content={"😊"}/>*/}
-        <FullScreenEmojiFactory bubble={lastBubble}/>
       </Block>
     );
   }
