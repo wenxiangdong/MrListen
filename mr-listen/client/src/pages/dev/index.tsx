@@ -7,6 +7,7 @@ import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
 import ChatBubble from "../../components/ChatBubble/ChatBubble";
 import InputBar from "../../components/HoleDetail/InputBar/InputBar";
 import BubbleTypePicture from "../../components/HoleDetail/InputBar/BubbleType/BubbleTypePicture";
+import Playback from "../../components/Playback/Playback";
 
 
 export default class Index extends Component<any, any> {
@@ -40,25 +41,9 @@ export default class Index extends Component<any, any> {
   };
 
   render(): any {
-    const {shortBubble} = this.state;
-    const {longBubble} = this.state;
-
-
     return (
       <View className={'main-box'}>
-        <View className={'bubble-area'}>
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          {/*<ChatBubble bubble={longBubble}/>*/}
-          <ChatBubble bubble={longBubble}/>
-          <ChatBubble bubble={shortBubble}/>
-        </View>
-        {/*<RightBubble onLongPress={this.handleLongPress} bubble={shortBubble} color={'#448AFF'}/>*/}
-        {/*<RightBubble onLongPress={this.handleLongPress} bubble={longBubble} color={'#448AFF'}/>*/}
-        <InputBar input-bar-class={'input-bar'}/>
+        <Playback holeId={"hole"}/>
         {/*<BubbleTypePicture />*/}
       </View>
     )

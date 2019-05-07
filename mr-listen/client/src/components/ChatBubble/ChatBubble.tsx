@@ -17,7 +17,8 @@ import FullScreenEmojiFactory from "../FullScreenAnimation/FullScreenEmojiFactor
 
 interface IProp {
   bubble: BubbleVO,
-  onUpdate: (bubble) => void
+  onUpdate?: (bubble) => void,
+  hideAvatar?: boolean
 }
 interface IState {
   showInputModal: boolean
@@ -50,6 +51,10 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
   handleLongPressRightBubble = async (id) => {
     this.logger.info("右气泡被长按了", id);
+    // 如果没有更新回调，则不做任何事
+    if (!this.props.onUpdate) {
+      return;
+    }
     let tapIndex = -1;
     try {
       tapIndex = (await Taro.showActionSheet({
@@ -67,6 +72,10 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
   handleLongPressLeftBubble = async (id) => {
     this.logger.info("左气泡被长按了", id);
+    // 如果没有更新回调，则不做任何事
+    if (!this.props.onUpdate) {
+      return;
+    }
     try {
       await Taro.showActionSheet({
         itemList: ["删除"]
@@ -151,7 +160,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   };
 
   render(): any {
-    const {bubble} = this.props;
+    const {bubble, hideAvatar} = this.props;
     const {showInputModal} = this.state;
     const {bubbleColor} = this.userConfig;
 
@@ -161,9 +170,9 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     // @ts-ignore
     const rightBubbleWrapper = (
       <View className={`right-flex bubble-item`}>
-        <View className={"avatar-wrapper"}>
+        {hideAvatar ? null :(<View className={"avatar-wrapper"}>
           <UserAvatar size={38} margin={0}/>
-        </View>
+        </View>)}
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
         <FullScreenEmojiFactory bubble={bubble}/>
       </View>
@@ -173,9 +182,9 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     const leftBubblesWrapper =
       bubble.replyList.map((r, index) => (
           <View className={"left-flex bubble-item"} key={index}>
-            <View className={"avatar-wrapper"}>
+            {hideAvatar ? null :(<View className={"avatar-wrapper"}>
               <UserAvatar size={38} margin={0}/>
-            </View>
+            </View>)}
             <LeftBubble bubble={r} onLongPress={this.handleLongPressLeftBubble} />
           </View>
         ));

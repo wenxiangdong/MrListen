@@ -1,0 +1,44 @@
+@import "../../app";
+
+.Playback-control-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+  padding: 20px;
+
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background-color: @bg-color;
+
+
+  .Playback-control {
+    margin: 0 20px;
+
+    .Playback-main-control {
+      @main-size: 100px;
+      width: @main-size;
+      height: @main-size;
+    }
+    .Playback-second-control {
+      @second-size: 48px;
+      width: @second-size;
+      height: @second-size;
+    }
+
+    .Playback-backward {
+      transform: rotateZ(180deg);
+    }
+  }
+
+  .Playback-control-hover {
+    @move: 4px;
+    transform: translate(@move, @move);
+  }
+
+}
