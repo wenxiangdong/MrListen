@@ -34,7 +34,6 @@ export class Holes extends Component<any, IState> {
 
   private buttonHeight = 45;
   private isQuery = false;
-  private scrollToLower = false;
 
   constructor(props) {
     super(props);
@@ -49,35 +48,33 @@ export class Holes extends Component<any, IState> {
   private queryMoreHoles = () => {
     if (!this.isQuery) {
       this.isQuery = true;
+      Listen.showLoading('获取中');
       apiHub.holeApi.getHoles(this.lastHoleId, this.offset)
         .then((holeVOList) => {
           if (holeVOList.length === 0) {
+            Listen.hideLoading();
             Listen.message.info(this.NO_MORE_HOLES);
           } else {
             this.lastHoleId = holeVOList[holeVOList.length - 1]._id;
             this.setState((prev) => {
               return {holeVOSet: [...prev.holeVOSet, ...holeVOList]};
             });
+            Listen.hideLoading();
           }
           this.isQuery = false;
-          this.scrollToLower = false;
         })
         .catch((e) => {
           this.logger.error(e);
+          Listen.hideLoading();
           Listen.message.error('获取树洞列表失败');
           this.isQuery = false;
-          this.scrollToLower = false;
         })
       ;
     }
   };
 
   private handleScrollToLower = () => {
-    if (this.scrollToLower) {
-      this.queryMoreHoles();
-    } else {
-      this.scrollToLower = true;
-    }
+    this.queryMoreHoles();
   };
 
   /**
@@ -103,15 +100,18 @@ export class Holes extends Component<any, IState> {
       })
         .then((res) => {
           if (res.confirm) {
+            Listen.showLoading('删除中');
             apiHub.holeApi.deleteHole(hole._id)
               .then(() => {
                 this.setState((prev) => {
                   prev.holeVOSet.splice(idx, 1);
                   return {holeVOSet: prev.holeVOSet};
                 });
+                Listen.hideLoading();
               })
               .catch((e) => {
                 this.logger.error(e);
+                Listen.hideLoading();
                 Listen.message.error('删除树洞失败');
               });
           }
