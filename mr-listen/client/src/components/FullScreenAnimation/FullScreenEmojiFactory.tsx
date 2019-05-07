@@ -24,7 +24,10 @@ export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState
     "😂": ["好笑", "笑死", "哈哈"],
     "🤔": ["我想想", "考虑", "..."],
     "😮": ["天了", "天呐", "我的天", "my god"],
-    "👍": ["赞", "好棒", "真棒"]
+    "👍": ["赞", "好棒", "真棒"],
+    "❄️": ["好冷", "温度低"],
+    "💥": ["生气", "怒"],
+    "🌈": ["彩虹", "gay"]
   };
 
   private logger = Logger.getLogger(FullScreenEmojiFactory.name);
