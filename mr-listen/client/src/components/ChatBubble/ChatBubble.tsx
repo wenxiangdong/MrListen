@@ -1,6 +1,6 @@
 import "./ChatBubble.less";
 
-import {BubbleStyle, BubbleVO} from "../../apis/BubbleApi";
+import {BubbleVO} from "../../apis/BubbleApi";
 import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
