@@ -13,8 +13,7 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-import FullScreenEmoji from "../../components/FullScreenAnimation/FullScreenEmoji/FullScreenEmoji";
-import Fireworks from "../../components/FullScreenAnimation/Fireworks/FireWorks";
+import FullScreenEmojiFactory from "../../components/FullScreenAnimation/FullScreenEmojiFactory";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -22,7 +21,8 @@ interface IState {
   title: string,
   pageHeight: string, // scroll view的高度，通过键盘高度计算
   top: string,  //  scroll view 整个页面最上方的高度
-  lastBubbleId: string  // 最后一个气泡的dom id 用于scroll view滚过去
+  lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去
+  lastBubble: Bubble | undefined
 }
 
 class Index extends Component<any, IState> {
@@ -50,7 +50,8 @@ class Index extends Component<any, IState> {
       title: "新会话",
       pageHeight: "100vh",
       lastBubbleId: "",
-      top: "0"
+      top: "0",
+      lastBubble: undefined
     };
   }
 
@@ -111,21 +112,22 @@ class Index extends Component<any, IState> {
 
   render() {
 
-    const {bubbleVOList, title, pageHeight, lastBubbleId, top} = this.state;
+    const {bubbleVOList, title, pageHeight, lastBubbleId, lastBubble} = this.state;
+    this.logger.info("last bubble", lastBubble);
 
     // 构建所有气泡
+    let bubbleVOListLength = bubbleVOList.length;
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
         // @ts-ignore
         <ChatBubble
+          chat-bubble-class={index === bubbleVOListLength - 1 ? "chat-bubble" : ""}
           id={"bubble" + index}
           key={index}
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
-
-    this.logger.info("render", pageHeight);
 
 
 
@@ -159,8 +161,8 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        <Fireworks/>
-        <FullScreenEmoji content={'😊'}/>
+        {/*<FullScreenEmoji content={"😊"}/>*/}
+        <FullScreenEmojiFactory bubble={lastBubble}/>
       </Block>
     );
   }
@@ -231,7 +233,8 @@ class Index extends Component<any, IState> {
     this.setState((pre) => ({
       bubbleVOList: [...pre.bubbleVOList, bubbleVO],
       holeId,
-      lastBubbleId: `bubble${pre.bubbleVOList.length}`
+      lastBubbleId: `bubble${pre.bubbleVOList.length}`,
+      lastBubble: {...bubble}
     }), () => { //  滚动到最下方
       Taro.pageScrollTo({
         scrollTop: 100000000
