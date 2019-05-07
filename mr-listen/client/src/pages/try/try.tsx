@@ -9,6 +9,7 @@ import RightBubble from "../../components/ChatBubble/Bubble/RightBubble";
 import Recorder from "../../components/HoleDetail/InputBar/BubbleType/Recorder/Recorder";
 import BubbleTypeVoice from "../../components/HoleDetail/InputBar/BubbleType/BubbleTypeVoice";
 import InputBar from "../../components/HoleDetail/InputBar/InputBar";
+import ShareCanvas from "../../components/ShareCanvas/ShareCanvas";
 // import ChatBubble from "../../components/ChatBubble/ChatBubble";
 // import {BubbleVO} from "../../apis/HoleApi";
 // import {BubbleStyle, BubbleType} from "../../apis/BubbleApi";
@@ -88,25 +89,11 @@ export default class Try extends Component<any, IState> {
     this.setState({showMenu: false, position: []})
   };
 
-  handleSend = (bubble: Bubble) => {
-    this.setState({
-      bubble
-    });
-  };
-
   render(): any {
-    const {bubble} = this.state;
+
     return (
       <View onLongPress={this.handleLongPress} className={"try-wrapper"}>
-        {/*<FloatMenu*/}
-          {/*menuList={this.menus}*/}
-          {/*position={this.state.position}*/}
-          {/*onClickMenuItem={this.handleClickMenu}*/}
-          {/*onHide={this.handleHideMenu}*/}
-          {/*visible={this.state.position.length !== 0}/>*/}
-          {/*<BubbleTypePicture onSend={this.handleSend}/>*/}
-        {/*<Recorder/>*/}
-        <InputBar/>
+        <ShareCanvas/>
       </View>
     )
   }

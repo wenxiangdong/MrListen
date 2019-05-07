@@ -20,12 +20,13 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/holes/holes',
-      'pages/holes/update/update',
       'pages/index/index',
       'pages/share/index',
-      'pages/dev/index',
       'pages/try/try',
+
+
+      'pages/dev/index',
+      'pages/holes/holes',
       'pages/personal/center',
       'pages/personal/report/report',
       'pages/personal/setting/setting',
