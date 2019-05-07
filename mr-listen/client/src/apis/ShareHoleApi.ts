@@ -3,6 +3,8 @@ import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
 import * as Taro from "@tarojs/taro";
+import Const from "./Const";
+import Util from "./Util";
 import IQueryResult = Taro.cloud.DB.IQueryResult;
 
 export interface IShareHoleApi {
@@ -39,7 +41,6 @@ export class ShareHoleApi implements IShareHoleApi {
     ;
 
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
-      holeId,
       // @ts-ignore
       expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn * 24 * 60 * 60 * 1000}) : -1,
       snapShot,
@@ -66,7 +67,7 @@ export class MockShareHoleApi implements IShareHoleApi {
 
   // @ts-ignore
   createShareHole(holeId: string | number, expireIn: number): Promise<string | number> {
-    return this.http.success("cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844");
+    return this.http.success(0);
   }
 
   // @ts-ignore

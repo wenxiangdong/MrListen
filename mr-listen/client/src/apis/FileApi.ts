@@ -5,14 +5,13 @@ import UploadFileResult = Taro.cloud.ICloud.UploadFileResult;
 import DeleteFileResult = Taro.cloud.ICloud.DeleteFileResult;
 import DownloadFileResult = Taro.cloud.ICloud.DownloadFileResult;
 import GetTempFileURLResult = Taro.cloud.ICloud.GetTempFileURLResult;
-import GetTempFileURLResultItem = Taro.cloud.ICloud.GetTempFileURLResultItem;
 
 export interface IFileApi {
   uploadFile(cloudPath: string, filePath: string): Promise<string>;
 
   downloadFile(fileID: string): Promise<string>;
 
-  getTempFileURL(fileList: string[]): Promise<GetTempFileURLResultItem[]>;
+  getTempFileURL(fileList: string[]): Promise<object[]>;
 
   deleteFile(fileList: string[]): Promise<object[]>;
 }
@@ -27,7 +26,7 @@ export class FileApi implements IFileApi {
       Taro.showLoading({title: "上传文件中..."});
       let res = await Taro.cloud.uploadFile({
         //@ts-ignore
-        cloudPath: `${cloudPath}/${new Date().getTime()}`,
+        cloudPath: `${cloudPath}/${new Date().getTime()}${Math.random()}`,
         filePath: filePath
       }) as UploadFileResult;
       return res.fileID;
@@ -73,7 +72,7 @@ export class FileApi implements IFileApi {
     }
   }
 
-  async getTempFileURL(fileList: string[]): Promise<GetTempFileURLResultItem[]> {
+  async getTempFileURL(fileList: string[]): Promise<object[]> {
     this.logger.info(`获取文件真实链接，云文件 ID 列表 ${JSON.stringify(fileList)}`);
     try {
       // noinspection JSIgnoredPromiseFromCall

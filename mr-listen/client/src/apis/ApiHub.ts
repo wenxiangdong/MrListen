@@ -41,7 +41,6 @@ class MockApiHub implements IApiHub {
     this.bubbleApi = new MockBubbleApi();
     this.holeApi = new MockHoleApi();
     this.userApi = new MockUserApi();
-    // @ts-ignore
     this.fileApi = new MockFileApi();
     this.shareHoleApi = new MockShareHoleApi();
     this.reportApi = new MockReportApi();

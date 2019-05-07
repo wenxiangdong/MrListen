@@ -17,7 +17,7 @@ export class UserApi implements IUserApi {
   private base: IHttpRequest = HttpRequest.getInstance();
 
   async login(): Promise<string | number> {
-    return this.base.callFunction<string | number>('login');
+    return await this.base.callFunction<string | number>('login');
   }
 }
 
