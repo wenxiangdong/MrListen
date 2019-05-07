@@ -1,27 +1,22 @@
-abstract class Util {
+export default abstract class Util {
   static copy(data) {
     return JSON.parse(JSON.stringify(data));
   }
 
-  static copyField(dest: object, src: object) {
-    for (let field in src) {
-      // noinspection JSUnfilteredForInLoop
-      dest[field] = src[field];
-    }
-  }
-
-  static copyWithTimestamp<T>(data: any): T {
-    let copyData = this.copy(data);
+  static copyWithTimestamp<T>(data): T {
+    let copyData = Util.copy(data);
     for (let field in copyData) {
-      // @ts-ignore
-      // noinspection JSUnfilteredForInLoop
-      if (copyData[field] instanceof Date) {
-        // noinspection JSUnfilteredForInLoop
-        copyData[field] = copyData[field].getTime();
+      if (typeof copyData[field] === 'string') {
+        try {
+          // @ts-ignore
+          let date = new Date(copyData[field]);
+          if (date.getTime())
+            copyData[field] = date.getTime();
+        } catch (e) {
+
+        }
       }
     }
     return copyData;
   }
 }
-
-

@@ -1,7 +1,8 @@
 import "@tarojs/async-await";
 import {BubbleVO, ReplyVO} from "./BubbleApi";
-import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
-import Cache, {Collection} from "./Cache";
+import {MockRequest, VO} from "./HttpRequest";
+import Cache from "./Cache";
+import Const from "./Const";
 
 export interface IHoleApi {
   createHole(): Promise<string | number>;
@@ -50,7 +51,6 @@ class HistoryHoleVO implements IHoleVO {
  * 真正的api
  */
 export class HoleApi implements IHoleApi {
-  private base: IHttpRequest = HttpRequest.getInstance();
   private cache: Cache = Cache.getInstance();
 
   async createHole(): Promise<string | number> {
@@ -62,8 +62,7 @@ export class HoleApi implements IHoleApi {
 
     return await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
       .add({
-        createTime: this.base.serverDate(),
-        title: `树洞 ${index} 号`,
+        title: `树洞${index}号`,
         avatarUrl: Const.HOLE_DEFAULT_AVATAR_URL
       })
   }
@@ -79,13 +78,10 @@ export class HoleApi implements IHoleApi {
   }
 
   private async getBubbleVOs(holeId: string | number): Promise<BubbleVO[]> {
-    let bubbleVOs: BubbleVO[] = await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION, holeId, {holeId}))
+    let bubbleVOs: BubbleVO[] = await (await this.cache.collection<BubbleVO>(Const.BUBBLE_COLLECTION))
       .where({holeId})
-      .get()
-      .sort((a, b) => {
-        let field = "createTime";
-        return a[field] - b[field];
-      });
+      .orderBy('createTime', 'asc')
+      .get();
 
     for (let bubbleVO of bubbleVOs) {
       bubbleVO.replyList = await this.getReplyVOs(bubbleVO._id);
@@ -94,8 +90,9 @@ export class HoleApi implements IHoleApi {
   }
 
   private async getReplyVOs(bubbleId: string | number): Promise<ReplyVO[]> {
-    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION, bubbleId, {bubbleId}))
+    return await (await this.cache.collection<ReplyVO>(Const.REPLY_COLLECTION))
       .where({bubbleId})
+      .orderBy('createTime', 'asc')
       .get();
   }
 
@@ -104,17 +101,20 @@ export class HoleApi implements IHoleApi {
   }
 
   async getHoles(lastHoleId: string | number, offset: number = 20): Promise<IHoleVO[]> {
-    let iHoleCollection: Collection<IHoleVO> = await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION);
-
-    let iHoleVOs: IHoleVO[] = (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+    let iHoleVOs: IHoleVO[] = await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+      .orderBy('createTime', 'desc')
       .get();
 
-    iHoleVOs.sort((a, b) => {
-      let field = "createTime";
-      return b[field] - a[field];
-    });
-
-    let start: number = lastHoleId ? iHoleVOs.indexOf(iHoleCollection.doc(lastHoleId).get()) : 0;
+    let start = 0;
+    if (lastHoleId) {
+      for (let i = 0, length = iHoleVOs.length; i < length; i++) {
+        let value = iHoleVOs[i];
+        if (value._id === lastHoleId) {
+          start = i + 1;
+          break;
+        }
+      }
+    }
     return iHoleVOs.slice(start, start + offset);
   }
 }
@@ -144,7 +144,7 @@ export class MockHoleApi implements IHoleApi {
   getHoles(lastHoleId: string | number, offset: number): Promise<IHoleVO[]> {
     let holeVOList: IHoleVO[] = [];
     for (let i = 1; i <= offset; i++) {
-      let id = (typeof lastHoleId == 'number')? i + Number(lastHoleId): `${i}${lastHoleId}`;
+      let id = (typeof lastHoleId == 'number') ? i + Number(lastHoleId) : `${i}${lastHoleId}`;
       holeVOList.push({
         _id: id,
         _openid: '' + id,
