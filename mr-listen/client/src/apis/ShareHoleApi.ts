@@ -66,7 +66,7 @@ export class MockShareHoleApi implements IShareHoleApi {
 
   // @ts-ignore
   createShareHole(holeId: string | number, expireIn: number): Promise<string | number> {
-    return this.http.success(0);
+    return this.http.success("cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844");
   }
 
   // @ts-ignore
