@@ -28,7 +28,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
   private logger = Logger.getLogger(ChatBubble.name);
 
-  static externalClasses = ['chat-bubble-class'];
+  // static externalClasses = ['chat-bubble-class'];
 
   constructor(props) {
     super(props);
@@ -180,7 +180,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
     return (
       // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
-      <View className={`chat-bubble-class ${BubbleStyleConfig[bubble.style].className}`}>
+      <View className={`${BubbleStyleConfig[bubble.style].className}`}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

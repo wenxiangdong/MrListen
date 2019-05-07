@@ -9,17 +9,17 @@ interface IBubbleConfigItem {
 const BubbleStyleConfig: {[key: string]: IBubbleConfigItem} = {
   [BubbleStyle.NORMAL]: {
     icon: "N",
-    label: "N（正常）",
+    label: "N - 正常",
     className: "bubble-normal"
   },
   [BubbleStyle.ANGRY]: {
     icon: "A",
-    label: "A（不平）",
+    label: "A - 不平",
     className: "bubble-angry"
   },
   [BubbleStyle.HAPPY]: {
     icon: "H",
-    label: "H（开心）",
+    label: "H - 开心",
     className: "bubble-happy"
   }
 };

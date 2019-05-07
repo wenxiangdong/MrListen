@@ -113,13 +113,11 @@ class Index extends Component<any, IState> {
     const {bubbleVOList, title, pageHeight, lastBubbleId, top} = this.state;
 
     // 构建所有气泡
-    let bubbleVOListLength = bubbleVOList.length;
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
         // @ts-ignore
         <ChatBubble
-          chat-bubble-class={index === bubbleVOListLength - 1 ? "chat-bubble" : ""}
           id={"bubble" + index}
           key={index}
           bubble={b}
