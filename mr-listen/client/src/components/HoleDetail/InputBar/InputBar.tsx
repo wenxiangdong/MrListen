@@ -1,10 +1,9 @@
 import "./InputBar.less";
-import * as Taro from "@tarojs/taro";
-import { Input, View, Block } from "@tarojs/components";
-import { Component } from "@tarojs/taro";
+import Taro, {Component} from "@tarojs/taro";
+import {Block, Input, View} from "@tarojs/components";
 import BubbleTypePicture from "./BubbleType/BubbleTypePicture";
 import BubbleTypeVoice from "./BubbleType/BubbleTypeVoice";
-import { Bubble, BubbleType, BubbleStyle } from "../../../apis/BubbleApi";
+import {Bubble, BubbleStyle, BubbleType} from "../../../apis/BubbleApi";
 import Logger from "../../../utils/logger";
 import Listen from "../../../utils/listen";
 
@@ -17,7 +16,8 @@ interface IProp {
 interface IState {
   text: string,
   showTool: boolean,
-  keyboardHeight: number
+  keyboardHeight: number,
+  bubbleStyle: BubbleStyle
 }
 
 export default class InputBar extends Component<IProp, IState> {
@@ -26,28 +26,44 @@ export default class InputBar extends Component<IProp, IState> {
 
   private logger = Logger.getLogger(InputBar.name);
 
+  // 气泡风格菜单项
+  private bubbleStyleMenus = {
+    [BubbleStyle.NORMAL]: {
+      icon: "N",
+      label: "N（正常）"
+    },
+    [BubbleStyle.ANGRY]: {
+      icon: "A",
+      label: "A（不平）"
+    },
+    [BubbleStyle.HAPPY]: {
+      icon: "H",
+      label: "H（开心）"
+    }
+  };
+
   constructor(props) {
     super(props);
     this.handleConfirmInput = this.throttle(this.handleConfirmInput, this.handleInputTooFast);
     this.state = {
       text: "",
       showTool: false,
-      keyboardHeight: 0
+      keyboardHeight: 0,
+      bubbleStyle: BubbleStyle.NORMAL
     }
   }
 
 
   render(): any {
-    const { showTool } = this.state;
-    const { onBubbling } = this.props;
+    const {showTool, bubbleStyle} = this.state;
 
     const toolsPanel = (
       <View className={"IB-toolbar"}>
         <View className={"IB-grid"}>
-          <BubbleTypePicture onSend={onBubbling} />
+          <BubbleTypePicture onSend={this.handleSpecialBubbling}/>
         </View>
         <View className={"IB-grid"}>
-          <BubbleTypeVoice onSend={onBubbling} />
+          <BubbleTypeVoice onSend={this.handleSpecialBubbling}/>
         </View>
       </View>
     );
@@ -58,8 +74,9 @@ export default class InputBar extends Component<IProp, IState> {
       <Block>
         <View className={"input-bar-class"}>
           <View className={"IB-wrapper"}>
-            <View className={"IB-style-btn IB-btn"}>
-              H
+            <View className={"IB-style-btn IB-btn"} onClick={this.handleClickStyleButton}>
+              {/*H*/}
+              {this.bubbleStyleMenus[bubbleStyle].icon}
             </View>
             <Input
               value={this.state.text}
@@ -92,6 +109,22 @@ export default class InputBar extends Component<IProp, IState> {
     });
   };
 
+  // 点输入框左侧的风格按钮
+  handleClickStyleButton = () => {
+    const keys = Object.keys(this.bubbleStyleMenus);
+    const itemList = keys.map(key => this.bubbleStyleMenus[key].label);
+    Taro.showActionSheet({
+      itemList
+    }).then(({tapIndex}) => {
+      const bubbleStyle = tapIndex;
+      this.logger.info("select", bubbleStyle);
+      this.setState({
+        bubbleStyle: tapIndex
+      })
+    }).catch((e) => {
+      this.logger.info("选择", e);
+    })
+  };
 
   handleInput = (e) => {
     this.setState({
@@ -128,7 +161,7 @@ export default class InputBar extends Component<IProp, IState> {
     if (value) {
       const bubble = {
         type: BubbleType.TEXT,
-        style: BubbleStyle.NORMAL,
+        style: this.state.bubbleStyle,
         content: value,
       } as Bubble;
       this.props.onBubbling(bubble);
@@ -140,6 +173,15 @@ export default class InputBar extends Component<IProp, IState> {
 
   handleInputTooFast = () => {
     Listen.message.info("你说得太快啦");
+  };
+
+  // 图片或语音气泡的冒泡
+  handleSpecialBubbling = (bubble: Bubble) => {
+    // 为其设置风格
+    bubble.style = this.state.bubbleStyle;
+    if (typeof this.props.onBubbling === "function") {
+      this.props.onBubbling(bubble);
+    }
   };
 
 

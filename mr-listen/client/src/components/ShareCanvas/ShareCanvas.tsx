@@ -49,6 +49,7 @@ export default class ShareCanvas extends Component<IProp, IState> {
       Listen.showLoading("加工中...");
       await this.canvasUtil.drawBackground();
       await this.canvasUtil.drawQRCode(holeId, expireIn);
+      // await this.canvasUtil.drawAvatar();  // 画头像一直出错我也不知道为什么
       await this.canvasUtil.drawExtraText(this.props.text);
       this.forceUpdate();
     } catch (e) {

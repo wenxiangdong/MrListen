@@ -1,6 +1,6 @@
 import "./ChatBubble.less";
 
-import {BubbleVO} from "../../apis/BubbleApi";
+import {BubbleStyle, BubbleVO} from "../../apis/BubbleApi";
 import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
@@ -12,6 +12,14 @@ import {apiHub} from "../../apis/ApiHub";
 import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
 import UserAvatar from "../common/UserAvator/UserAvatar";
+
+
+// 气泡风格与其类名的对应
+const bubbleStyleClassName = {
+  [BubbleStyle.NORMAL]: "bubble-normal",
+  [BubbleStyle.HAPPY]: "bubble-happy",
+  [BubbleStyle.ANGRY]: "bubble-angry"
+};
 
 interface IProp {
   bubble: BubbleVO,
@@ -78,15 +86,6 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   handleReplyBubble = (id) => {
     this.logger.info("回复", id);
     this.setState({showInputModal: true});
-    // const {bubble, onUpdate} = this.props;
-    // if (!Array.isArray(bubble.replyList)) {
-    //   bubble.replyList = [];
-    // }
-    // bubble.replyList.push({content: "reply", bubbleId: bubble._id, _id: Math.random()} as ReplyVO);
-    // // this.forceUpdate();
-    // if (typeof onUpdate === "function") {
-    //   onUpdate(bubble);
-    // }
   };
 
   handleDeleteBubble = async (id) => {
@@ -167,7 +166,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     // 构建右边的气泡
     // @ts-ignore
     const rightBubbleWrapper = (
-      <View className={"right-flex bubble-item"}>
+      <View className={`right-flex bubble-item`}>
         <View className={"avatar-wrapper"}>
           <UserAvatar size={38} margin={0}/>
         </View>
@@ -187,7 +186,8 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
         ));
 
     return (
-      <View className={'chat-bubble-class'}>
+      // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
+      <View className={`chat-bubble-class ${bubbleStyleClassName[bubble.style]}`}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

@@ -189,14 +189,8 @@ class Index extends Component<any, IState> {
     });
   };
 
+  // 点击上方菜单图标
   handleClickIcon = (img: string) => {
-    // const url = this.iconToLink[img];
-    // Taro.navigateTo({
-    //   url
-    // }).catch(() => {
-    //   this.logger.error(`跳转到${url}失败`);
-    //   Listen.message.error("跳转失败");
-    // });
     const action = this.iconToAction[img];
     if (typeof action === "function") {
       action();

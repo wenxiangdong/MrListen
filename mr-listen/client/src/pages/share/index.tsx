@@ -142,20 +142,25 @@ export default class Index extends Component<any, IState> {
           </View>
         </View>
 
-        {userInfoGot
-          ? (
-            <View>
-              <Button className={"share-btn"} hoverClass={"share-btn-hover"}
-                      onClick={this.handleClickShare}>开始制作分享</Button>
-              {/*<Button type={"primary"} onClick={this.handleClickShare}>开始制作分享</Button>*/}
-            </View>
-          )
-          : (
-            <View>
-              <Button className={"share-btn"} openType={"getUserInfo"}
-                      onGetUserInfo={this.handleGetUserInfo}>授权使用用户头像及昵称</Button>
-            </View>
-          )}
+        <View>
+          <Button className={"share-btn"} hoverClass={"share-btn-hover"}
+                  onClick={this.handleClickShare}>开始制作分享</Button>
+        </View>
+
+        {/*{userInfoGot*/}
+          {/*? (*/}
+            {/*<View>*/}
+              {/*<Button className={"share-btn"} hoverClass={"share-btn-hover"}*/}
+                      {/*onClick={this.handleClickShare}>开始制作分享</Button>*/}
+              {/*/!*<Button type={"primary"} onClick={this.handleClickShare}>开始制作分享</Button>*!/*/}
+            {/*</View>*/}
+          {/*)*/}
+          {/*: (*/}
+            {/*<View>*/}
+              {/*<Button className={"share-btn"} openType={"getUserInfo"}*/}
+                      {/*onGetUserInfo={this.handleGetUserInfo}>授权使用用户头像及昵称</Button>*/}
+            {/*</View>*/}
+          {/*)}*/}
 
 
       </Block>
