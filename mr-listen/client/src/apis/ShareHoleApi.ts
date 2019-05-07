@@ -72,7 +72,7 @@ export class MockShareHoleApi implements IShareHoleApi {
 
   // @ts-ignore
   getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
-    return this.http.success(null);
+    return this.http.success("cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844");
   }
 
   // @ts-ignore

@@ -22,9 +22,9 @@ export enum BubbleType {
 }
 
 export enum BubbleStyle {
-  TITLE,
-  STRONG,
-  NORMAL
+  NORMAL,
+  ANGRY,
+  HAPPY
 }
 
 export interface Reply {
