@@ -1,3 +1,4 @@
+import "@tarojs/async-await";
 import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 
 export interface IReportApi {
@@ -28,6 +29,16 @@ export class MockReportApi implements IReportApi {
   private http = MockRequest.getInstance();
 
   getReport(): Promise<ReportVO> {
-    throw this.http.success();
+    let report:ReportVO = {
+      _id: '',
+      userId: 'userId',
+      meetTime: new Date().getTime(),
+      holeCount: (Math.random() * 10) >>> 0,
+      longestDuration: ((Math.random() * 10) >>> 0),
+      mostUsedWords: [['测试',10]],
+      latestTime: new Date().getTime(),
+      plusOneCount: (Math.random() * 10) >>> 0
+    };
+    return this.http.success(report);
   }
 }
