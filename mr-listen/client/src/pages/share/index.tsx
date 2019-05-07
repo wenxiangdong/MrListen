@@ -31,7 +31,10 @@ export default class Index extends Component<any, IState> {
     this.logger.info(this.$router);
     const holdId = this.$router.params.holeId;
     if (!holdId) {
-      Taro.navigateBack();
+      Taro.navigateBack()
+        .then(() => {
+          Listen.message.info("没有任何倾诉哦");
+        });
     }
     this.state = {
       // saveTime: this.saveTimes[0].value,
@@ -61,9 +64,6 @@ export default class Index extends Component<any, IState> {
       value: 7 * 24 * 60 * 60 * 1000
     },
   ];
-
-
-
 
 
   handleChangePickerTime = (e) => {
@@ -135,7 +135,7 @@ export default class Index extends Component<any, IState> {
           </View>
           <View>
             <Input
-              className={"share-input" + (inputText.length > 15 ? " share-input-error" : "") }
+              className={"share-input" + (inputText.length > 15 ? " share-input-error" : "")}
               placeholder={"不超过15字(可留空)"}
               value={inputText}
               onInput={this.handleInputChange}/>
