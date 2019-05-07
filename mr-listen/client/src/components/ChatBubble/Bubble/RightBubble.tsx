@@ -1,8 +1,7 @@
 import Taro from "@tarojs/taro";
-import { BubbleType} from "../../../apis/BubbleApi";
+import {BubbleType} from "../../../apis/BubbleApi";
 import {Block, Image, Text, View} from "@tarojs/components";
 import "./RightBubble.less";
-import SendTime from "./SendTime";
 import Listen from "../../../utils/listen";
 import zoomPng from "../../../images/zoom.png";
 import {CommonEvent} from "@tarojs/components/types/common";
@@ -43,7 +42,7 @@ class RightBubble extends Taro.Component<IProp> {
 
     return (
       <Block>
-        <View onLongPress={this.handleLongPress} className={"Right-wrapper bubble"} style={{backgroundColor: color}}>
+        <View onLongPress={this.handleLongPress} className={`Right-wrapper bubble`} style={{backgroundColor: color}}>
           {bubbleContent}
           <View className={'bubble-triangle'} style={{
             borderLeft: '6px solid '+ color

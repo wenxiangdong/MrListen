@@ -60,14 +60,14 @@ export default class CanvasUtil {
     }
 
     this.ctx.save();
-    this.ctx.beginPath();
+    // this.ctx.beginPath();
 
     const r = 32 * this.unit;
     const x = 20 * this.unit;
     const y = 450 * this.unit - r;
 
-    this.ctx.arc(x + r, y + r, r, 0, 2 * Math.PI, false);
-    this.ctx.clip();
+    // this.ctx.arc(x + r, y + r, r, 0, 2 * Math.PI, false);
+    // this.ctx.clip();
 
     const config = userConfig.getConfig();
     this.logger.info(config);

@@ -12,6 +12,8 @@ import {apiHub} from "../../apis/ApiHub";
 import Listen from "../../utils/listen";
 import InputModal from "../../components/common/InputModal/InputModal";
 import UserAvatar from "../common/UserAvator/UserAvatar";
+import BubbleStyleConfig from "../../utils/bubble-style-config";
+import FullScreenEmojiFactory from "../FullScreenAnimation/FullScreenEmojiFactory";
 
 interface IProp {
   bubble: BubbleVO,
@@ -27,7 +29,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
   private logger = Logger.getLogger(ChatBubble.name);
 
-  static externalClasses = ['chat-bubble-class'];
+  // static externalClasses = ['chat-bubble-class'];
 
   constructor(props) {
     super(props);
@@ -78,15 +80,6 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   handleReplyBubble = (id) => {
     this.logger.info("回复", id);
     this.setState({showInputModal: true});
-    // const {bubble, onUpdate} = this.props;
-    // if (!Array.isArray(bubble.replyList)) {
-    //   bubble.replyList = [];
-    // }
-    // bubble.replyList.push({content: "reply", bubbleId: bubble._id, _id: Math.random()} as ReplyVO);
-    // // this.forceUpdate();
-    // if (typeof onUpdate === "function") {
-    //   onUpdate(bubble);
-    // }
   };
 
   handleDeleteBubble = async (id) => {
@@ -167,11 +160,12 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     // 构建右边的气泡
     // @ts-ignore
     const rightBubbleWrapper = (
-      <View className={"right-flex bubble-item"}>
+      <View className={`right-flex bubble-item`}>
         <View className={"avatar-wrapper"}>
           <UserAvatar size={38} margin={0}/>
         </View>
         <RightBubble bubble={bubble} color={bubbleColor} onLongPress={this.handleLongPressRightBubble}/>
+        <FullScreenEmojiFactory bubble={bubble}/>
       </View>
     );
 
@@ -187,7 +181,8 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
         ));
 
     return (
-      <View className={'chat-bubble-class'}>
+      // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
+      <View className={`${BubbleStyleConfig[bubble.style].className}`}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

@@ -1,6 +1,9 @@
 .outside-shown-box {
   z-index: -50;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
   width: 100vw;
   height: 100vh;
@@ -22,14 +25,14 @@
   position: absolute;
   height: 100%;
   opacity: 0;
-  animation: first-group 3s .25s infinite ease-in;
+  animation: first-group 3s .25s ease-in;
 }
 
 .first-group-emoji {
-  font-size: 70px;
+  font-size: 80px;
   z-index: -20;
   position: absolute;
-  animation: first-group-each 3s .25s infinite ease-in;
+  animation: first-group-each 3s .25s ease-in;
 }
 
 @keyframes first-group-each {
@@ -37,7 +40,7 @@
     transform: scale(1, 1);
   }
   100% {
-    transform: scale(2, 2);
+    transform: scale(1.5, 1.5);
   }
 }
 
@@ -63,14 +66,14 @@
   position: absolute;
   height: 100%;
   opacity: 0;
-  animation: second-group 3s infinite ease-in;
+  animation: second-group 3s ease-in;
 }
 
 .second-group-emoji {
   z-index: -30;
-  font-size: 40px;
+  font-size: 50px;
   position: absolute;
-  animation: second-group-each 3s infinite ease-in;
+  animation: second-group-each 3s ease-in;
 }
 
 @keyframes second-group-each {
@@ -78,7 +81,7 @@
     transform: scale(1, 1);
   }
   100% {
-    transform: scale(2, 2);
+    transform: scale(1.5, 1.5);
   }
 }
 
@@ -104,14 +107,14 @@
   position: absolute;
   height: 100%;
   opacity: 0;
-  animation: third-group 3s .7s infinite ease-in;
+  animation: third-group 3s .7s ease-in;
 }
 
 .third-group-emoji {
   z-index: -10;
   font-size: 200px;
   position: absolute;
-  //animation: third-group-each 3s infinite ease-in;
+  //animation: third-group-each 3s ease-in;
 }
 
 @keyframes third-group-each {

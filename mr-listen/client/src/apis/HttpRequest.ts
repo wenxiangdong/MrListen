@@ -1,6 +1,7 @@
 import "@tarojs/async-await";
 import * as Taro from "@tarojs/taro";
 import Logger from "../utils/logger";
+import Util from "./Util";
 import CollectionReference = Taro.cloud.DB.CollectionReference;
 import DocumentReference = Taro.cloud.DB.DocumentReference;
 import DatabaseCommand = Taro.cloud.DB.DatabaseCommand;
@@ -60,55 +61,79 @@ export class HttpRequest implements IHttpRequest {
   private logger = Logger.getLogger("IHttpRequest");
 
   async callFunction<T>(name: string, data: object = {}): Promise<T> {
-    this.logger.info(`请求云函数[${name}]，参数：${JSON.stringify(data)}`);
+    this.logger.info(`请求云函数【${name}】，参数：${JSON.stringify(data)}`);
     // 调用云函数
-    const callResult = await Taro.cloud.callFunction({
-      name,
-      data
-    });
-    if (callResult) {
-      this.logger.info(`${name}获取：${JSON.stringify(callResult)}`);
-      // 解析数据
-      let httpResponse = callResult.result as HttpResponse<T>;
-      if (httpResponse.code === HttpCode.SUCCESS) {
-        return Util.copyWithTimestamp<T>(httpResponse.data);
+    try {
+      const callResult = await Taro.cloud.callFunction({
+        name,
+        data
+      });
+      if (callResult) {
+        // 解析数据
+        let httpResponse = callResult.result as HttpResponse<T>;
+        // this.logger.info(`【${name}】获取：${JSON.stringify(httpResponse)}`);
+        if (httpResponse.code === HttpCode.SUCCESS) {
+          return Util.copyWithTimestamp<T>(httpResponse.data);
+        } else
+          throw httpResponse;
       } else
-        throw httpResponse;
-    } else
-      throw new Error(`云函数[${name}]调用出错`);
+        throw new Error(`云函数[${name}]调用出错`);
+    } catch (e) {
+      throw e;
+    }
   }
 
   private database: Taro.cloud.DB.Database = Taro.cloud.database();
 
   async add(collectionName: string, data: object = {}): Promise<string | number> {
-    let result = await this.database.collection(collectionName).add({data}) as IAddResult;
+    try {
+      delete data['_id'];
+      delete data['_openid'];
 
-    if (result) {
-      return result._id;
-    } else {
-      const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
-      this.logger.error(errMsg);
-      throw new Error(errMsg);
+      data['createTime'] = this.database.serverDate();
+
+      let result = await this.database.collection(collectionName).add({data}) as IAddResult;
+
+      if (result) {
+        return result._id;
+      } else {
+        const errMsg = `插入 ${collectionName} ${JSON.stringify(data)} 失败`;
+        this.logger.error(errMsg);
+        throw new Error(errMsg);
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
   async remove(collectionName: string, docId: string | number): Promise<void> {
-    let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
+    try {
+      let result = await this.database.collection(collectionName).doc(docId).remove() as IRemoveResult;
 
-    if (result) {
-      const errMsg = `删除 ${collectionName} ${docId} 失败`;
-      this.logger.error(errMsg);
-      throw new Error(errMsg);
+      if (!result) {
+        const errMsg = `删除 ${collectionName} ${docId} 失败`;
+        this.logger.error(errMsg);
+        throw new Error(errMsg);
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
   async update(collectionName: string, docId: string | number, data: object): Promise<void> {
-    let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
+    try {
+      delete data['_id'];
+      delete data['_openid'];
 
-    if (result) {
-      const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;
-      this.logger.error(errMsg);
-      throw new Error(errMsg);
+      let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
+
+      if (!result) {
+        const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;
+        this.logger.error(errMsg);
+        throw new Error(errMsg);
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
