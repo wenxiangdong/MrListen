@@ -19,19 +19,6 @@ interface IState {
 }
 
 export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
-  private actions = [
-    {
-      label: "编辑",
-      color: "#19be6b",
-      action: () => null
-    },
-    {
-      label: "删除",
-      color: "#EF5350",
-      action: () => null
-    }
-  ];
-
   // private SIZE = 100;
   private WIDTH = 75;
 
@@ -45,7 +32,7 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
 
   constructor(props) {
     super(props);
-    this.handleHMove = throttle(this.handleHMove, 50, this);
+    this.handleHMove = throttle(this.handleHMove, 150, this);
   }
 
 
@@ -94,8 +81,61 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
       });
     } else {
       this.logger.info("select");
+      const {onClick} = this.props;
+      if (typeof onClick === "function") {
+        onClick();
+      }
     }
   };
+
+  // handleClickEdit = () => {
+  //   const {onUpdate} = this.props;
+  //   this.setState({
+  //     left: 0
+  //   });
+  //   if (typeof onUpdate === "function") {
+  //     onUpdate();
+  //   }
+  // };
+  //
+  // handleClickDelete = () => {
+  //   const {onDelete} = this.props;
+  //   this.setState({
+  //     left: 0
+  //   });
+  //   if (typeof onDelete === "function") {
+  //     onDelete();
+  //   }
+  // };
+
+  private actions = [
+    {
+      label: "编辑",
+      color: "#19be6b",
+      action: () => {
+        const {onUpdate} = this.props;
+        this.setState({
+          left: 0
+        });
+        if (typeof onUpdate === "function") {
+          onUpdate();
+        }
+      }
+    },
+    {
+      label: "删除",
+      color: "#EF5350",
+      action: () => {
+        const {onDelete} = this.props;
+        this.setState({
+          left: 0
+        });
+        if (typeof onDelete === "function") {
+          onDelete();
+        }
+      }
+    }
+  ];
 
   render(): any {
 
@@ -109,6 +149,7 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
           (<View
             key={action.label}
             className={"HSW-action-item"}
+            onClick={() => action.action()}
             style={{backgroundColor: action.color}}>
             {action.label}
           </View>)

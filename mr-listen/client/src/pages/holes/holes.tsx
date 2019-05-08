@@ -8,6 +8,7 @@ import {IHoleVO} from '../../apis/HoleApi'
 import HoleBar from './../../components/HoleBar/HoleBar'
 
 import './holes.less'
+import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
 
 interface IState {
   holeVOSet: IHoleVO[]
@@ -132,17 +133,23 @@ export class Holes extends Component<any, IState> {
   };
 
   render() {
+    // {/*<HoleBar key={hole._id}*/}
+    // {/*holeAvatarSrc={hole.avatarUrl}*/}
+    // {/*holeTitle={hole.title}*/}
+    // {/*onDelete={() => this.handleDeleteHole(hole)}*/}
+    // {/*onClick={() => this.handleClickHole(hole)}*/}
+    // {/*onUpdate={() => this.handleUpdateHole(hole)}*/}
+    // {/*/>*/}
     let holes = this.state.holeVOSet && this.state.holeVOSet.length
       ? this.state.holeVOSet.map((hole) =>
-        <HoleBar key={hole._id}
-                 holeAvatarSrc={hole.avatarUrl}
-                 holeTitle={hole.title}
-                 onDelete={() => this.handleDeleteHole(hole)}
-                 onClick={() => this.handleClickHole(hole)}
-                 onUpdate={() => this.handleUpdateHole(hole)}
+        <HoleSwiperAction
+          hole={hole}
+          onDelete={() => this.handleDeleteHole(hole)}
+          onClick={() => this.handleClickHole(hole)}
+          onUpdate={() => this.handleUpdateHole(hole)}
         />
       )
-    : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>
+      : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>
     ;
 
     return (
@@ -152,9 +159,10 @@ export class Holes extends Component<any, IState> {
                     onScrollToLower={this.handleScrollToLower}
                     scrollY={true}>
           {holes}
-          <Button style={{height: this.buttonHeight + 'px', opacity: 0}} />
+          <Button style={{height: this.buttonHeight + 'px', opacity: 0}}/>
         </ScrollView>
-        <Button className={'create-hole-button'} style={{height: this.buttonHeight + 'px'}} type={'default'} onClick={this.handleCreateHole}>创建新的树洞</Button>
+        <Button className={'create-hole-button'} style={{height: this.buttonHeight + 'px'}} type={'default'}
+                onClick={this.handleCreateHole}>创建新的树洞</Button>
       </View>
     )
   }

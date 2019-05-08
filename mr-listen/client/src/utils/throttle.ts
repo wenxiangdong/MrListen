@@ -10,6 +10,7 @@ const throttle = (method: Function, duration: number, context: object) => {
     } else {
       timeId = setTimeout(() => {
         method(...args);
+        previous = +new Date();
       }, duration);
     }
   }
