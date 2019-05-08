@@ -151,10 +151,9 @@ export class HttpRequest implements IHttpRequest {
 
   serverDate(option?: Taro.cloud.DB.IServerDateOptions): Taro.cloud.DB.ServerDate {
     if (option) {
-      return this.database.serverDate();
+      return this.database.serverDate(option);
     } else {
-      // @ts-ignore
-      return this.database.serverDate(option)
+      return this.database.serverDate()
     }
   }
 }
