@@ -1,6 +1,6 @@
 .outside-shown-box {
   z-index: -50;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100vw;
   height: 100vh;
@@ -19,9 +19,10 @@
   height: 100%;
 }
 
-@liftoff: 0.2s;
-@keep-flying: .8s;
-@explode: .5s;
+@liftoff: 1.5s;
+@explode-duration: 1.4s;
+@explode: 2.2s;
+@lift-height: 65vh;
 
 
 // 未爆炸的烟花
@@ -33,20 +34,171 @@
 
 .liftoff-firework {
   position: absolute;
-  bottom: 100px;
+  bottom: @lift-height;
+
+  opacity: 0;
+
+  left: calc(50vw - 5px);
   width: 10px;
   height: 20px;
-  background-color: black;
-  animation: liftoff @liftoff infinite ease-out;
+  background-color: white;
+  box-shadow: #dcdee2 0 0 20px;
+  animation: liftoff @liftoff cubic-bezier(0,0,0,1);
 }
 
 @keyframes liftoff {
   0% {
-    transform: translateY(0);
+    visibility: unset;
+    transform: translateY(@lift-height);
+  }
+  60% {
+    opacity: 1;
   }
   100%{
-    transform: translateY(-500px);
+    opacity: .3;
+    transform: translateY(0);
   }
 }
+
+.main-box {
+  background-color: #2d343d;
+  animation: background-change 4.5s linear;
+}
+
+@keyframes background-change {
+  0% {
+    background: white;
+  }
+  75% {
+    background: #2d343d;
+  }
+}
+
+.spark-group-box {
+  position: absolute;
+  height: 100%;
+  //animation: drop @explode @explode-duration cubic-bezier(1, 1, 0, 0);
+}
+//
+//@keyframes drop {
+//  0% {
+//    transform: translateY(0);
+//  }
+//  100% {
+//    transform: translateY(500px);
+//  }
+//}
+
+// 烟火的一个点
+@width: 16px;
+.spark {
+  width: @width;
+  height: @width;
+  opacity: 0;
+  border-radius: @width;
+  background-color: #fff8f8;
+  box-shadow: #ffffffdd 0 0 80px;
+}
+
+.spark-box {
+  opacity: .8;
+  position: absolute;
+  bottom: @lift-height;
+  left: calc(50vw - @width / 2);
+  display: inline-block;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+    transform: scale(1, 1);
+  }
+  5% {
+    opacity: 1;
+  }
+  60% {
+    opacity: .8;
+    transform: scale(1.6, 1.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.short-trace {
+  //filter: blur(1px);
+  animation: short-trace-animation @explode @explode-duration infinite cubic-bezier(0, 0, 1, 1);
+}
+
+.meddle-trace {
+  //filter: blur(2px);
+  animation: meddle-trace-animation @explode @explode-duration infinite cubic-bezier(0, 0, 1, 1);
+}
+
+.long-trace {
+  filter: blur(1px);
+  width: 1.3 * @width;
+  height: 1.3 * @width;
+  animation: long-trace-animation @explode @explode-duration infinite cubic-bezier(0, 0, 1, 1);
+}
+
+@keyframes short-trace-animation {
+  0% {
+    visibility: unset;
+    opacity: 0;
+    transform: translateY(0);
+  }
+  5% {
+    opacity: .8;
+  }
+  90% {
+    opacity: .8;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes meddle-trace-animation {
+  0% {
+    visibility: unset;
+    opacity: 0;
+    transform: translateY(0);
+  }
+  5% {
+    opacity: .8;
+  }
+  90% {
+    opacity: .8;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-200px);
+  }
+}
+
+@keyframes long-trace-animation {
+  0% {
+    visibility: unset;
+    opacity: 0;
+    transform: translateY(0);
+  }
+  5% {
+    opacity: .8;
+  }
+  90% {
+    opacity: .8;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-350px);
+  }
+}
+
 
 

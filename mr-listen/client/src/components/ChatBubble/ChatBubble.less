@@ -33,25 +33,31 @@
   animation: angry-bubble-appear @time ease-out;
   position: relative;
 
-  // &:before {
-  //   content: '';
-  //   height: 2px;
-  //   width: 2px;
-  //   box-shadow: 0 0 1000px 1000px #00000055;
-  //   opacity: 1;
-  //   background-color: transparent;
-  //   position: absolute;
-  //   top: -10px;
-  //   right: -10px;
-  //   visibility: hidden;
-  //   animation: angry-bubble-shadow @time ease-out;
-  // }
+  &:before {
+    content: '';
+    height: 2px;
+    width: 2px;
+    box-shadow: 0 0 1000px 1000px #00000055;
+    opacity: 1;
+    background-color: transparent;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    visibility: hidden;
+    animation: angry-bubble-shadow @time ease-out;
+  }
 
 }
 
 .bubble-normal {
   // z-index: -100;
   animation: normal-bubble-appear .2s ease-out;
+}
+
+.left-bubble-normal {
+  opacity: 0;
+  animation: normal-bubble-appear .2s .3s ease-out;
+  animation-fill-mode: forwards;
 }
 
 .bubble-happy {
@@ -122,15 +128,12 @@
 @keyframes angry-bubble-shadow {
   0% {
     opacity: 0;
-    visibility: hidden;
   }
   80% {
     opacity: .5;
-    visibility: unset;
   }
   100% {
     opacity: 0;
-    visibility: hidden;
   }
 }
 

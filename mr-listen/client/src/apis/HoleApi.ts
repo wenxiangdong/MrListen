@@ -145,7 +145,10 @@ export class MockHoleApi implements IHoleApi {
             _id: -1,
             style: BubbleStyle.NORMAL,
             type: BubbleType.TEXT,
-            replyList: [],
+            replyList: [{
+              content: "hhh",
+              _id: "id"
+            }],
             content: "",
             createTime: new Date().getTime(),
             _openid: ""

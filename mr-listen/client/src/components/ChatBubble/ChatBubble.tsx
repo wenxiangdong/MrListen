@@ -171,7 +171,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     // 构建右边的气泡
     // @ts-ignore
     const rightBubbleWrapper = (
-      <View className={`right-flex bubble-item`}>
+      <View className={`right-flex bubble-item ${BubbleStyleConfig[bubble.style].className}`}>
         {hideAvatar ? null :(<View className={"avatar-wrapper"}>
           <UserAvatar size={38} margin={0}/>
         </View>)}
@@ -183,7 +183,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     // 构建左边的气泡
     const leftBubblesWrapper =
       bubble.replyList.map((r, index) => (
-          <View className={"left-flex bubble-item"} key={index}>
+          <View className={"left-flex bubble-item left-bubble-normal"} key={index}>
             {hideAvatar ? null :(<View className={"avatar-wrapper"}>
               <UserAvatar size={38} margin={0}/>
             </View>)}
@@ -193,7 +193,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
 
     return (
       // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
-      <View className={`${BubbleStyleConfig[bubble.style].className}`}>
+      <View>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal
@@ -201,7 +201,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
           title={"写下批注吧"}
           onConfirm={this.handleInputModalOk}
           onHide={this.handleInputModalHide}/>
-        {/*{showInputModal ?  : null}*/}
+        {/*{showInputModal ? : null}*/}
       </View>
     )
   }
