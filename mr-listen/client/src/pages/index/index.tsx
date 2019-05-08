@@ -162,7 +162,7 @@ class Index extends Component<any, IState> {
             onFocus={this.handleFocus}/>
         </ScrollView>
         {/*<FullScreenEmoji content={"😊"}/>*/}
-        <Fireworks/>
+        {/*<Fireworks/>*/}
       </Block>
     );
   }
@@ -178,7 +178,7 @@ class Index extends Component<any, IState> {
       // todo 不知道为什么这里并不会触发
       console.log('键盘弹起，触发滚动键盘高度效果');
       Taro.pageScrollTo({
-        scrollTop: keyboardHeight,
+        scrollTop: 1000000000,
       });
     });
   };

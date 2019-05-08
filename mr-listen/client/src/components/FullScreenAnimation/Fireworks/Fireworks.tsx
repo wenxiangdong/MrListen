@@ -14,30 +14,30 @@ export default class Fireworks extends Taro.Component<any, any> {
 
   render(): any {
 
-    const thirty = [...Array(50).keys()];
-    const fifth = [...Array(80).keys()];
-    const shortGroup = thirty.map((number) => {
+    const thirty = [...Array(20).keys()];
+    const fifty = [...Array(30).keys()];
+    const shortGroup = fifty.map((number) => {
       return <View key={String(number)}
                    style={{
-                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${Math.random() * 3})`,
+                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random() + 0.02) * 2})`,
                    }}
                    className={'spark-box'}>
         <View className={'spark short-trace'}/>
       </View>
     });
-    const meddleGroup = fifth.map((number) => {
+    const meddleGroup = fifty.map((number) => {
       return <View key={String(number)}
                    style={{
-                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${Math.random() * 3})`,
+                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random() + 0.1) * 2})`,
                    }}
                    className={'spark-box'}>
         <View className={'spark meddle-trace'}/>
       </View>
     });
-    const longGroup = fifth.map((number) => {
+    const longGroup = fifty.map((number) => {
       return <View key={String(number)}
                    style={{
-                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${Math.random() * 3})`,
+                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random() + .3) * 2.2})`,
                    }}
                    className={'spark-box'}>
         <View className={'spark long-trace'}/>
