@@ -8,8 +8,7 @@ import ThemeColorPickerOption from './../../../components/personal/ThemePickerOp
 import './setting.less'
 
 interface IState {
-  userConfig: IUserConfig,
-  testSwitch: boolean
+  userConfig: IUserConfig
 }
 
 /**
@@ -26,8 +25,7 @@ export class Setting extends Component<any, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      userConfig: userConfigUtil.getConfig(),
-      testSwitch: false
+      userConfig: userConfigUtil.getConfig()
     };
   }
 
@@ -60,16 +58,20 @@ export class Setting extends Component<any, IState> {
             themeColorOptions.map((val, idx) =>
               <ThemeColorPickerOption key={idx} color={val}
                                  selected={val === this.state.userConfig.themeColor}
-                                 onSelect={() => {this.setState({userConfig: {...this.state.userConfig, themeColor: val}})}}
+                                 onSelect={() => {
+                                   this.setState({userConfig: {...this.state.userConfig, themeColor: val}});
+                                 }}
               />
             )
           }
         </ScrollView>
         <View className={'setting-bar-view'}>
-          <Text>测试开关</Text>
-          <Switch checked={this.state.testSwitch} onChange={(e) => this.setState({testSwitch: e.detail.value})} />
+          <Text>摇一摇冲走烦恼</Text>
+          <Switch checked={this.state.userConfig.shakeOff} onChange={(e) => {
+            this.setState({userConfig: {...this.state.userConfig, shakeOff: e.detail.value}});
+          }} />
         </View>
       </View>
-    )
+    );
   }
 }

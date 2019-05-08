@@ -8,14 +8,19 @@ import {apiHub} from '../../../apis/ApiHub'
 import {ReportVO} from '../../../apis/ReportApi'
 
 import cancelPng from './../../../images/cancel.png';
+import audio from './../../../images/audio.png';
+import clock from './../../../images/clock.png';
+import dust from './../../../images/dust.png';
+import failed from './../../../images/failed.png';
+import home from './../../../images/home.png';
 
 import './../../../components/common/common-zlc.less'
 import './report.less'
 
 interface IState {
-  report: ReportVO,
   index: number,
-  createShare: boolean
+  createShare: boolean,
+
 }
 
 /**
@@ -33,14 +38,25 @@ export class Report extends Component<any, IState> {
   };
 
   private logger = Logger.getLogger(Report.name);
+  private report;
   private PAGE_COUNT = 6;
+
+  private backgroundArray = [
+    cancelPng,
+    audio,
+    clock,
+    dust,
+    failed,
+    home
+  ];
 
   componentWillMount() {
     Listen.showLoading('生成报告中');
     apiHub.reportApi.getReport()
       .then((report) => {
         this.logger.info('fulfilled');
-        this.setState({report, index: 0, createShare: false});
+        this.report = report;
+        this.setState({index: 0, createShare: false});
         Listen.hideLoading();
       })
       .catch((e) => {
@@ -85,20 +101,22 @@ export class Report extends Component<any, IState> {
     }
 
     let reportView;
-    if (this.state.report) {
-      let report = this.state.report;
+    if (this.report) {
+      let report = this.report;
       let sysInfo = Taro.getSystemInfoSync();
       let marginTop = sysInfo.windowHeight * this.state.index;
+
+      let meetTime = new Date(report.meetTime);
 
       reportView = (
         <View className={'base-view'} onClick={this.jumpToNextPage}>
           <View className={'report-scroll-view'} style={{marginTop: `-${marginTop}px`}}>
-            <View className={'report-view'}>我们自从 {new Date(report.meetTime).toLocaleString()} 相遇，</View>
-            <View className={'report-view'}>你已经使用过 {report.holeCount} 个树洞，</View>
-            <View className={'report-view'}>最长的一次你倾诉了 {report.longestDuration} 分钟，</View>
-            <View className={'report-view'}>最晚的一次倾诉在 {new Date(report.latestTime).getMinutes()} 分钟，</View>
-            <View className={'report-view'}>你的分享已经被点赞了 {report.plusOneCount} 次</View>
-            <View className={'report-view'}>你最常使用的词语是 {report.mostUsedWords[0][0]}，</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[0]})`}}>😂我们自从 {new Date(report.meetTime).toLocaleString()} 相遇，</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[1]})`}}>😎你已经使用过 {report.holeCount} 个树洞，</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[2]})`}}>最长的一次你倾诉了 {report.longestDuration} 分钟，</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[3]})`}}>最晚的一次倾诉在 {new Date(report.latestTime).getMinutes()} 分钟，</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[4]})`}}>你的分享已经被点赞了 {report.plusOneCount} 次</View>
+            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[5]})`}}>你最常使用的词语是 {report.mostUsedWords[0][0]}，</View>
             <View className={'report-view'}>继续努力吧</View>
           </View>
           {
@@ -121,7 +139,7 @@ export class Report extends Component<any, IState> {
       this.state.createShare
         ? shareView
         : (
-          this.state.report
+          this.report
             ? reportView
             : null
         )
