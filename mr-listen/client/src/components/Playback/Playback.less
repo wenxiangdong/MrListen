@@ -1,0 +1,99 @@
+@import "../../app";
+@control-margin: 20px;
+@control-padding: 20px;
+@main-size: 100px;
+@second-size: 48px;
+
+.Playback-cover {
+
+  box-sizing: border-box;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.5);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .Playback-main {
+
+    border: white 1Px solid;
+    border-radius: 5Px;
+    height: 80%;
+    width: 80%;
+    position: relative;
+    
+    .Playback-scroller-view {
+
+      height: calc(100% - @control-padding - @main-size - @control-margin);
+      width: 100%;
+      position: relative;
+      overflow-y: auto;
+      box-sizing: border-box;
+      padding: 10Px 0;
+
+      background-color: white;
+      
+    }
+  
+    .Playback-control-wrapper {
+  
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    
+      box-sizing: border-box;
+      padding: 20px;
+    
+      background-color: @bg-color;
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    
+    
+      .Playback-control {
+        margin: 0 20px;
+    
+        .Playback-main-control {
+          width: @main-size;
+          height: @main-size;
+        }
+
+        .Playback-second-control {
+          width: @second-size;
+          height: @second-size;
+        }
+    
+        .Playback-backward {
+          transform: rotateZ(180deg);
+        }
+      }
+    
+      .Playback-control-hover {
+        @move: 4px;
+        transform: translate(@move, @move);
+      }
+    
+    }
+  }
+
+  .Playback-home-icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-top: 1.2em;
+    border-radius: 50%;
+    padding: 10Px;
+    color: white;
+    border: white 1Px solid;
+  }
+}
+
+
