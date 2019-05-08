@@ -17,7 +17,6 @@ interface IState {
  * 树洞列表页面
  * @author 张李承
  * @create 2019/4/22 23:27
- * TODO 长按修改信息
  */
 export class Holes extends Component<any, IState> {
 
@@ -26,9 +25,7 @@ export class Holes extends Component<any, IState> {
   };
 
   private UPDATE_HOLE_URL = '/pages/holes/update/update';
-  // TODO 跳转到的页面还没有写 需要更新
-  private USE_HOLE_URL = '/pages/holes/update/update';
-  private NEW_HOLE_URL = '/pages/index/index';
+  private INDEX_URL = '/pages/index/index';
   private NO_MORE_HOLES = '暂时没有更多树洞';
 
   private logger = Logger.getLogger(Holes.name);
@@ -87,7 +84,7 @@ export class Holes extends Component<any, IState> {
    */
   private handleCreateHole = () => {
     Taro.navigateTo({
-      url: this.NEW_HOLE_URL
+      url: this.INDEX_URL
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
@@ -118,7 +115,7 @@ export class Holes extends Component<any, IState> {
 
   private handleClickHole = (hole) => {
     Taro.navigateTo({
-      url: `${this.USE_HOLE_URL}?hole=${JSON.stringify(hole)}`
+      url: `${this.INDEX_URL}?holeId=${hole._id}`
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
@@ -127,7 +124,7 @@ export class Holes extends Component<any, IState> {
 
   private handleUpdateHole = (hole) => {
     Taro.navigateTo({
-      url: `${this.UPDATE_HOLE_URL}?hole=${JSON.stringify(hole)}`
+      url: encodeURI(`${this.UPDATE_HOLE_URL}?hole=${JSON.stringify(hole)}`)
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
