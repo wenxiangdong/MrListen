@@ -19,12 +19,14 @@ exports.main = async() => {
   try {
     let userCollection = db.collection('user');
 
-    let user;
+    let users;
 
-    if ((user = userCollection.doc(OPENID).get()) && user._id) {
+    if ((users = (await userCollection.where({
+        openid: OPENID
+      }).get()).data) && users.length) {
       return {
         code: HttpCode.SUCCESS,
-        data: user._id,
+        data: users[0]._id,
         message: ''
       }
     } else {
