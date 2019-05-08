@@ -1,5 +1,5 @@
 import "./ChatBubble.less";
-
+//
 import {BubbleVO} from "../../apis/BubbleApi";
 import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
