@@ -18,7 +18,8 @@ import FullScreenEmojiFactory from "../FullScreenAnimation/FullScreenEmojiFactor
 interface IProp {
   bubble: BubbleVO,
   onUpdate?: (bubble) => void,
-  hideAvatar?: boolean
+  hideAvatar?: boolean,
+  color?: string
 }
 interface IState {
   showInputModal: boolean
@@ -160,9 +161,10 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   };
 
   render(): any {
-    const {bubble, hideAvatar} = this.props;
+    const {bubble, hideAvatar, color} = this.props;
     const {showInputModal} = this.state;
-    const {bubbleColor} = this.userConfig;
+    let {bubbleColor} = this.userConfig;
+    bubbleColor = color || bubbleColor;
 
     this.logger.info("render bubble", bubble);
 
