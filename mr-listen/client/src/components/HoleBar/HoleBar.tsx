@@ -73,9 +73,7 @@ export default class HoleBar extends Component<IProp, IState> {
     if (this.scrollLeft > this.halfHeight) {
       let scrollLeft = this.height >>> 0;
       this.setState({scrollLeft: scrollLeft - 1}, () => {
-        this.setState({scrollLeft: scrollLeft, isSetting: true}, () => {
-          this.forceUpdate();
-        });
+        this.setState({scrollLeft: scrollLeft, isSetting: true});
       });
     } else {
       this.reset();
@@ -105,7 +103,6 @@ export default class HoleBar extends Component<IProp, IState> {
         .then((res) => {
           if (res.confirm) {
             this.props.onDelete();
-            this.reset();
           }
         })
         .catch((reason) => console.error(reason));

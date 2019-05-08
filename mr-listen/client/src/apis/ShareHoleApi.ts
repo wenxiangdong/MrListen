@@ -2,10 +2,7 @@ import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
-import * as Taro from "@tarojs/taro";
 import Const from "./Const";
-import Util from "./Util";
-import IQueryResult = Taro.cloud.DB.IQueryResult;
 
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
@@ -41,19 +38,14 @@ export class ShareHoleApi implements IShareHoleApi {
     ;
 
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
-      // @ts-ignore
-      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn * 24 * 60 * 60 * 1000}) : -1,
+      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
     })
   }
 
   async getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
-    let result = await this.base.doc(Const.SHARE_HOLE_COLLECTION, shareHoleId).get() as IQueryResult;
-    if (result.data) {
-      return Util.copyWithTimestamp(result.data);
-    }
-    throw new Error("未找到该分享树洞");
+    return await this.base.callFunction<ShareHoleVO>("get_share_hole", {shareHoleId});
   }
 
   async plusOne(shareHoleId: string | number): Promise<void> {

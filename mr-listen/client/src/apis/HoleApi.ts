@@ -1,5 +1,5 @@
 import "@tarojs/async-await";
-import {BubbleVO, ReplyVO} from "./BubbleApi";
+import {BubbleStyle, BubbleType, BubbleVO, ReplyVO} from "./BubbleApi";
 import {MockRequest, VO} from "./HttpRequest";
 import Cache from "./Cache";
 import Const from "./Const";
@@ -137,7 +137,29 @@ export class MockHoleApi implements IHoleApi {
 
   // @ts-ignore
   getBubblesFromHole(holeId: number): Promise<BubbleVO[]> {
-    return this.http.success([]);
+    let bubbleVOList: BubbleVO[] =
+      new Array(10)
+        .fill(
+          {
+            holeId,
+            _id: -1,
+            style: BubbleStyle.NORMAL,
+            type: BubbleType.TEXT,
+            replyList: [],
+            content: "",
+            createTime: new Date().getTime(),
+            _openid: ""
+          } as BubbleVO
+        ).map((item, index) =>
+        ({
+          ...item,
+          _id: index,
+          content: Math.random().toString(),
+          style: index % 3
+        })
+      );
+
+    return this.http.success(bubbleVOList);
   }
 
   // @ts-ignore

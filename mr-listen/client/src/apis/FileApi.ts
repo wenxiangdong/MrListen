@@ -27,8 +27,8 @@ export class FileApi implements IFileApi {
       Taro.showLoading({title: "上传文件中..."});
       let res = await Taro.cloud.uploadFile({
         //@ts-ignore
-        cloudPath: `${cloudPath}/${new Date().getTime()}${Math.random()}`,
-        filePath: filePath
+        cloudPath,
+        filePath
       }) as UploadFileResult;
       return res.fileID;
     } catch (e) {
@@ -100,7 +100,7 @@ export class MockFileApi implements IFileApi {
   }
 
   // @ts-ignore
-  getTempFileURL(fileList: string[]): Promise<object[]> {
+  getTempFileURL(fileList: string[]): Promise<GetTempFileURLResultItem[]> {
     return this.http.success([]);
   }
 

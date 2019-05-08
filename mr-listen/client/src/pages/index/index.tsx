@@ -35,7 +35,8 @@ class Index extends Component<any, IState> {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '即刻倾诉'
+    navigationBarTitleText: '即刻倾诉',
+    enablePullDownRefresh: true
   };
 
 
@@ -280,6 +281,7 @@ class Index extends Component<any, IState> {
   };
 
   componentDidMount(): void {
+
     this.logger.info(this.$router.params);
     const params = this.$router.params;
     const holeId = params.holeId;
@@ -288,7 +290,32 @@ class Index extends Component<any, IState> {
       // 存在这个参数的话，证明是从树洞列表跳转过来的，需要拿所有的气泡
       this.setState({holeId});
       // TODO 从api拿气泡
+      this.getBubbles(holeId);
     }
+  }
+
+  onPullDownRefresh(): void {
+    const {holeId, bubbleVOList} = this.state;
+    if (holeId && (!bubbleVOList || !bubbleVOList.length)) {
+      this.getBubbles(holeId);
+    }
+  }
+
+  getBubbles(holeId) {
+    Listen.showLoading("加载气泡中...");
+    apiHub.holeApi.getBubblesFromHole(holeId)
+      .then(res => {
+        this.setState({
+          bubbleVOList: res
+        });
+        Listen.hideLoading();
+        Taro.stopPullDownRefresh();
+      }).catch(e => {
+      Listen.message.error("请下拉重试");
+      this.logger.error(e);
+      Listen.hideLoading();
+      Taro.stopPullDownRefresh();
+    })
   }
 
 }
