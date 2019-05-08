@@ -154,7 +154,8 @@ export class MockHoleApi implements IHoleApi {
         ({
           ...item,
           _id: index,
-          content: Math.random().toString()
+          content: Math.random().toString(),
+          style: index % 3
         })
       );
 

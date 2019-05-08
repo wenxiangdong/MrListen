@@ -1,6 +1,6 @@
 import "./Playback.less";
 import Taro from "@tarojs/taro";
-import {View, Image} from "@tarojs/components";
+import {View, Image, ScrollView} from "@tarojs/components";
 import {BubbleVO} from "../../apis/BubbleApi";
 import ChatBubble from "../ChatBubble/ChatBubble";
 import {apiHub} from "../../apis/ApiHub";
@@ -10,6 +10,7 @@ import pausePng from "../../images/pause.png";
 import forwardPng from "../../images/FastForward.png";
 import replayPng from "../../images/replay.png";
 import Listen from "../../utils/listen";
+import homePng from "../../images/home.png";
 
 interface IProp {
   holeId: number | string,
@@ -19,7 +20,8 @@ interface IProp {
 interface IState {
   bubbleVOList: BubbleVO[],
   playingBubbleList: BubbleVO[], // 在屏幕上显示的
-  playing: boolean
+  playing: boolean,
+  lastViewId: string
 }
 
 export default class Playback extends Taro.Component<IProp, IState> {
@@ -27,7 +29,8 @@ export default class Playback extends Taro.Component<IProp, IState> {
   state = {
     bubbleVOList: [],
     playingBubbleList: [],
-    playing: true
+    playing: true,
+    lastViewId: ""
   };
 
   private DURATION = 1500;
@@ -70,7 +73,8 @@ export default class Playback extends Taro.Component<IProp, IState> {
     }
     // @ts-ignore
     this.setState(pre => ({
-      playingBubbleList: [...pre.playingBubbleList, pre.bubbleVOList.shift()]
+      playingBubbleList: [...pre.playingBubbleList, pre.bubbleVOList.shift()],
+      lastViewId: this.createBubbleId(pre.playingBubbleList.length)
     }), () => {
       setTimeout(() =>
           this.playbackBubbles(),
@@ -112,13 +116,25 @@ export default class Playback extends Taro.Component<IProp, IState> {
     });
   };
 
+  createBubbleId = (index: number) => {
+    return "bubble" + index.toString();
+  }
+
+  handleClickHome = () => {
+    Taro.reLaunch({
+      url: "/pages/index/index"
+    });
+  };
+
   render() {
-    const {playingBubbleList, playing, bubbleVOList} = this.state;
+    const {playingBubbleList, playing, bubbleVOList, lastViewId} = this.state;
+    this.logger.info(this.state);
     const bubbles = playingBubbleList.map((b, index) => (
-      <ChatBubble key={index} bubble={b} hideAvatar={true}/>
+      <ChatBubble key={index} id={this.createBubbleId(index)} bubble={b} hideAvatar={true}/>
     ));
     const controlBar = (
       <View className={"Playback-control-wrapper"}>
+
         <View className={"Playback-control"} hoverClass={"Playback-control-hover"}
               onClick={() => this.handleChangeRate(200)}>
           <Image
@@ -126,6 +142,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
             className={"Playback-backward Playback-second-control"}
           />
         </View>
+
         {bubbleVOList.length
           ? (<View className={"Playback-control"} hoverClass={"Playback-control-hover"}
                    onClick={this.handleClickPlayOrPause}>
@@ -135,6 +152,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
             <View className={"Playback-control"} hoverClass={"Playback-control-hover"} onClick={this.handleClickReplay}>
               <Image src={replayPng} className={"Playback-main-control"}/>
             </View>)}
+
         <View className={"Playback-control"} hoverClass={"Playback-control-hover"}
               onClick={() => this.handleChangeRate(-200)}>
           <Image src={forwardPng} className={"Playback-forward Playback-second-control"}/>
@@ -142,9 +160,15 @@ export default class Playback extends Taro.Component<IProp, IState> {
       </View>
     );
     return (
-      <View>
-        {bubbles}
-        {controlBar}
+      <View className={"Playback-cover"}>
+        <View className={"Playback-main"}>
+          <ScrollView scrollY={true} className={"Playback-scroller-view"} scrollIntoView={lastViewId}>
+            {bubbles}
+            {/* <WhiteSpace height={100}/> */}
+          </ScrollView>
+          {controlBar}
+        </View>
+        <Image src={homePng} className={"Playback-home-icon"} onClick={this.handleClickHome} />
       </View>
     );
   }

@@ -24,6 +24,7 @@ class App extends Component {
       'pages/index/index',
       'pages/share/index',
       'pages/try/try',
+      
 
       'pages/holes/holes',
       'pages/personal/center',
