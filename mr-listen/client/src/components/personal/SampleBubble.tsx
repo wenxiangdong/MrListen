@@ -1,9 +1,13 @@
 import Taro, {Component} from "@tarojs/taro";
-import ChatBubble from '../ChatBubble/ChatBubble';
-import {BubbleStyle, BubbleType, BubbleVO} from "../../apis/BubbleApi";
+import {Text, View} from "@tarojs/components";
+import SendTime from "../ChatBubble/Bubble/SendTime";
+import UserAvatar from "../common/UserAvator/UserAvatar";
+
+import "./../ChatBubble/Bubble/RightBubble.less";
+import "./../ChatBubble/ChatBubble.less";
 
 interface IProp {
-  color?: string
+  color: string
 }
 
 /**
@@ -11,21 +15,20 @@ interface IProp {
  * @author 张李承
  * @create 2019/4/26 8:31
  */
-export default class SampleBubble extends Component<IProp, any> {
+export default class SampleBubble extends Component<IProp> {
   render(): any {
-    let sampleBubble:BubbleVO = {
-      _id: '0',
-      _openid: '0',
-      createTime: new Date().getTime(),
-      holeId: '0',
-      type: BubbleType.TEXT,
-      style: BubbleStyle.NORMAL,
-      content: '测试内容',
-      replyList: []
-    };
-
     return (
-      <ChatBubble bubble={sampleBubble} color={this.props.color} />
+      <View>
+        <View className={"right-flex bubble-item"}>
+          <View className={"avatar-wrapper"}>
+            <UserAvatar size={44} margin={3}/>
+          </View>
+          <View className={"Right-wrapper bubble"} style={{backgroundColor: this.props.color}}>
+            <Text className={"Right-text bubble-text"}>气泡内容</Text>
+            <SendTime time={new Date().getTime()} textColor={"white"}/>
+          </View>
+        </View>
+      </View>
     )
   }
 }

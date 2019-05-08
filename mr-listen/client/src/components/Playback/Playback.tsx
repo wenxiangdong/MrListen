@@ -42,17 +42,8 @@ export default class Playback extends Taro.Component<IProp, IState> {
         this.playbackBubbles();
       }, 300);
     }
-    return true;   
+    return true;
   }
-  
-
-  // initAllBubbles() {
-  //   this.setState({
-  //     bubbleVOList: [...this.props.bubbles]
-  //   }, () => {
-  //     this.playbackBubbles();
-  //   });
-  // }
 
   playbackBubbles() {
     const {bubbleVOList, playing} = this.state;
@@ -125,7 +116,9 @@ export default class Playback extends Taro.Component<IProp, IState> {
       return null;
     }
     this.logger.info("render", this.state);
+
     const bubbleItems = playingBubbleList.map((b, index) => (
+      // @ts-ignore
       <ChatBubble key={index} id={this.createBubbleId(index)} bubble={b} hideAvatar={true}/>
     ));
     const controlBar = (
