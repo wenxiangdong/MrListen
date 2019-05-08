@@ -17,13 +17,13 @@ const HttpCode = {
 exports.main = async () => {
     try {
         const {OPENID} = cloud.getWXContext();
-        let reportVOs = await db.collection('report').where({
-            openid: OPENID
-        }).get().data;
-        if (reportVOs && reportVOs.length) {
+        let reports;
+        if (((reports = (await db.collection('report').where({
+            userId: OPENID
+        }).get()).data) && reports.length)) {
             return {
                 code: HttpCode.SUCCESS,
-                data: reportVOs[0],
+                data: reports[0],
                 message: ''
             }
         } else {

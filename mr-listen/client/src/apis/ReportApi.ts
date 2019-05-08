@@ -12,7 +12,9 @@ export interface ReportVO extends VO {
   longestDuration: number;
   // 数组，每个元素也为数组，元素数组第一项为词语，第二项为出现次数
   mostUsedWords: Array<Array<string | number>>;
+  // 如果未曾倾诉，结果为0
   latestTime: number;
+  shareHoleCount: number;
   plusOneCount: number;
 }
 

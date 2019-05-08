@@ -20,14 +20,17 @@
   justify-content: center;
   align-items: center;
 
+  @card-radius: 5Px;
   .Playback-main {
 
     border: white 1Px solid;
-    border-radius: 5Px;
+    border-radius: @card-radius;
     height: 80%;
     width: 80%;
     position: relative;
-    
+
+    box-shadow: rgba(0,0,0,0.1) 0 -4Px 10Px;
+
     .Playback-scroller-view {
 
       height: calc(100% - @control-padding - @main-size - @control-margin);
@@ -38,30 +41,30 @@
       padding: 10Px 0;
 
       background-color: white;
-      
+
     }
-  
+
     .Playback-control-wrapper {
-  
+
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
-    
+
       box-sizing: border-box;
       padding: 20px;
-    
+
       background-color: @bg-color;
 
       position: absolute;
       left: 0;
       right: 0;
       bottom: 0;
-    
-    
+
+
       .Playback-control {
         margin: 0 20px;
-    
+
         .Playback-main-control {
           width: @main-size;
           height: @main-size;
@@ -71,18 +74,32 @@
           width: @second-size;
           height: @second-size;
         }
-    
+
         .Playback-backward {
           transform: rotateZ(180deg);
         }
       }
-    
+
       .Playback-control-hover {
         @move: 4px;
         transform: translate(@move, @move);
       }
-    
+
     }
+  }
+
+  .Playback-main::after {
+    @move-left: 5Px;
+    content: "";
+    width: calc(100% - 2 * @move-left);
+    height: 10%;
+    background: white;
+    position: absolute;
+    top: -8Px;
+    left: @move-left;
+    z-index: -1;
+
+    border-radius: @card-radius;
   }
 
   .Playback-home-icon {
