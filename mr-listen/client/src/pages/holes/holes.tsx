@@ -134,7 +134,7 @@ export class Holes extends Component<any, IState> {
   render() {
     let holes = this.state.holeVOSet && this.state.holeVOSet.length
       ? this.state.holeVOSet.map((hole) =>
-        <HoleBar key={hole._id}
+        <HoleBar key={`${hole._id}`}
                  holeAvatarSrc={hole.avatarUrl}
                  holeTitle={hole.title}
                  onDelete={() => this.handleDeleteHole(hole)}

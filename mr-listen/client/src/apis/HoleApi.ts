@@ -169,10 +169,10 @@ export class MockHoleApi implements IHoleApi {
   getHoles(lastHoleId: string | number, offset: number): Promise<IHoleVO[]> {
     let holeVOList: IHoleVO[] = [];
     for (let i = 1; i <= offset; i++) {
-      let id = (typeof lastHoleId == 'number') ? i + Number(lastHoleId) : `${i}${lastHoleId}`;
+      let id:string = (Number(lastHoleId) + i) + '';
       holeVOList.push({
         _id: id,
-        _openid: '' + id,
+        _openid: id,
         createTime: new Date().getTime(),
         title: `树洞 ${id} 号`,
         avatarUrl: ''
