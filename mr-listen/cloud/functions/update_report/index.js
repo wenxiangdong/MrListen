@@ -11,21 +11,25 @@ exports.main = async () => {
     let reportCollection = db.collection('report');
     let userStart = 0, userLimit = 20;
     let users;
-    while ((users = userCollection.skip(userStart).limit(userLimit).get().data)) {
+    while ((users = (await userCollection.skip(userStart).limit(userLimit).get()).data)) {
         users.forEach(async user => {
-            let reports = reportCollection.where({
-                openid: user.openid,
-            }).get().data;
+            let reports;
 
-            if (reports.length) {
+            if ((reports = (await reportCollection.where({
+                userId: user.openid,
+            }).get()).data) && reports.length) {
                 let report = reports[0];
-                await set(report);
+                await reportCollection.doc(report._id).update({
+                        data: await getReport(report.userId)
+                    }
+                );
             } else {
-                let report = {
-                    openid: user.openid,
-                    meetTime: user.createTime,
-                };
-                await set(report);
+                let report = await getReport(user.openid);
+                report.userId = user.openid;
+                report.meetTime = user.createTime;
+                await reportCollection.add({
+                    data: report
+                })
             }
         });
 
@@ -36,7 +40,7 @@ exports.main = async () => {
     }
 };
 
-async function set(report) {
+async function getReport(userId) {
     // 树洞数量
     let holeCount = 0;
     // 最长倾诉时间
@@ -45,21 +49,24 @@ async function set(report) {
     let bubbleWordsMap = new Map();
     // 最晚倾诉时间
     let latestTime = null;
+    // 分享树洞数量
+    let shareHoleCount = 0;
     // 所有点赞数
     let plusOneCount = 0;
 
-    let holeCollection = db.collection('hole').where({_openid: user.openid});
+    let holeCollection = db.collection('hole').where({_openid: userId});
     let holeStart = 0, holeLimit = 20;
     let holes;
-    while ((holes = holeCollection.skip(holeStart).limit(holeLimit).get().data)) {
+    while ((holes = (await holeCollection.skip(holeStart).limit(holeLimit).get()).data)) {
         for (let hole of holes) {
-            let bubbleCollection = db.collection('bubble').where({holeId: hole._id});
+            let bubbleCollection = db.collection('bubble').where({holeId: hole._id, _openid: userId});
             let bubbleStart = 0, bubbleLimit = 20;
             let bubbles = [];
 
-            while ((bubbles = bubbles.concat(bubbleCollection.skip(bubbleStart).limit(bubbleLimit).get().data))) {
+            while ((bubbles = bubbles.concat((await bubbleCollection.skip(bubbleStart).limit(bubbleLimit).get()).data))) {
                 if (bubbles.length < bubbleStart + bubbleLimit)
                     break;
+                bubbleStart += bubbleLimit;
             }
 
             bubbles.sort((a, b) => {
@@ -94,7 +101,7 @@ async function set(report) {
 
                 // 最晚倾诉时间
                 let time = bubble.createTime;
-                if (time.getHours() >= latestEndHour || time.getHours < latestStartHour) {
+                if (time.getHours() >= latestEndHour || time.getHours() < latestStartHour) {
                     if (!latestTime) {
                         latestTime = time;
                     } else {
@@ -126,21 +133,26 @@ async function set(report) {
         return b[1] - a[1];
     });
 
-    let shareHoleCollection = db.collection('share_hole').where({_openid: user.openid});
+    let shareHoleCollection = db.collection('share_hole').where({_openid: userId});
     let shareHoleStart = 0, shareHoleLimit = 20;
     let shareHoles;
-    while ((shareHoles = shareHoleCollection.skip(shareHoleStart).limit(shareHoleLimit).get().data)) {
+    while ((shareHoles = (await shareHoleCollection.skip(shareHoleStart).limit(shareHoleLimit).get()).data)) {
         shareHoles.forEach(shareHole =>
             plusOneCount += shareHole.plusOneCount
         );
+
+        shareHoleCount += shareHoles.length;
 
         if (shareHoles.length < shareHoleLimit)
             break;
     }
 
-    report.holeCount = holeCount;
-    report.longestDuration = longestDuration;
-    report.mostUsedWords = words.slice(0, 10);
-    report.latestTime = latestTime ? latestTime.getTime() : 0;
-    report.plusOneCount = plusOneCount;
+    return {
+        holeCount,
+        longestDuration,
+        mostUsedWords: words.slice(0, 10),
+        latestTime: latestTime ? latestTime.getTime() : 0,
+        shareHoleCount,
+        plusOneCount
+    };
 }
