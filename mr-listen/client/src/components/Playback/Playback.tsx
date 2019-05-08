@@ -3,7 +3,6 @@ import Taro from "@tarojs/taro";
 import {View, Image, ScrollView} from "@tarojs/components";
 import {BubbleVO} from "../../apis/BubbleApi";
 import ChatBubble from "../ChatBubble/ChatBubble";
-import {apiHub} from "../../apis/ApiHub";
 import Logger from "../../utils/logger";
 import playPng from "../../images/play.png";
 import pausePng from "../../images/pause.png";
@@ -13,8 +12,7 @@ import Listen from "../../utils/listen";
 import homePng from "../../images/home.png";
 
 interface IProp {
-  holeId: number | string,
-  onLoadBubblesError?: () => void
+  bubbles: BubbleVO[]
 }
 
 interface IState {
@@ -36,31 +34,25 @@ export default class Playback extends Taro.Component<IProp, IState> {
   private DURATION = 1500;
   private logger = Logger.getLogger(Playback.name);
 
-  componentDidMount(): void {
-    this.initAllBubbles();
+  shouldComponentUpdate(nextProps: Readonly<IProp>, nextState) {
+    if (this.props.bubbles !== nextProps.bubbles) {
+      // @ts-ignore
+      nextState.bubbleVOList = [...nextProps.bubbles];
+      setTimeout(() => {
+        this.playbackBubbles();
+      }, 300);
+    }
+    return true;   
   }
+  
 
-  initAllBubbles() {
-    const {holeId} = this.props;
-    Listen.showLoading("加载气泡中...");
-    apiHub.holeApi.getBubblesFromHole(holeId)
-      .then(res => {
-        this.setState({
-          bubbleVOList: res
-        }, () => {
-          // 开始回放
-          this.playbackBubbles();
-        });
-        Listen.hideLoading();
-      }).catch(e => {
-      Listen.hideLoading();
-      this.logger.error(e);
-      const {onLoadBubblesError} = this.props;
-      if (typeof onLoadBubblesError === "function") {
-        onLoadBubblesError();
-      }
-    });
-  }
+  // initAllBubbles() {
+  //   this.setState({
+  //     bubbleVOList: [...this.props.bubbles]
+  //   }, () => {
+  //     this.playbackBubbles();
+  //   });
+  // }
 
   playbackBubbles() {
     const {bubbleVOList, playing} = this.state;
@@ -128,8 +120,12 @@ export default class Playback extends Taro.Component<IProp, IState> {
 
   render() {
     const {playingBubbleList, playing, bubbleVOList, lastViewId} = this.state;
-    this.logger.info(this.state);
-    const bubbles = playingBubbleList.map((b, index) => (
+    const {bubbles} = this.props;
+    if (!bubbles || !bubbles.length) {
+      return null;
+    }
+    this.logger.info("render", this.state);
+    const bubbleItems = playingBubbleList.map((b, index) => (
       <ChatBubble key={index} id={this.createBubbleId(index)} bubble={b} hideAvatar={true}/>
     ));
     const controlBar = (
@@ -163,7 +159,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
       <View className={"Playback-cover"}>
         <View className={"Playback-main"}>
           <ScrollView scrollY={true} className={"Playback-scroller-view"} scrollIntoView={lastViewId}>
-            {bubbles}
+            {bubbleItems}
             {/* <WhiteSpace height={100}/> */}
           </ScrollView>
           {controlBar}
