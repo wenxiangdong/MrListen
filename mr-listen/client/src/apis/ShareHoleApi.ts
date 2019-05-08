@@ -41,8 +41,7 @@ export class ShareHoleApi implements IShareHoleApi {
     ;
 
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
-      // @ts-ignore
-      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn * 24 * 60 * 60 * 1000}) : -1,
+      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
     })

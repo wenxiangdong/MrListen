@@ -100,7 +100,7 @@ export class MockFileApi implements IFileApi {
   }
 
   // @ts-ignore
-  getTempFileURL(fileList: string[]): Promise<object[]> {
+  getTempFileURL(fileList: string[]): Promise<GetTempFileURLResultItem[]> {
     return this.http.success([]);
   }
 
