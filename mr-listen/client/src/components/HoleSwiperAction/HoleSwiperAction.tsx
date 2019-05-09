@@ -1,7 +1,7 @@
 import "./HoleSwiperAction.less";
 import Taro from "@tarojs/taro";
 import {IHoleVO} from "../../apis/HoleApi";
-import {View, Text, SwiperItem, Swiper, MovableArea,MovableView} from "@tarojs/components";
+import {View, Text, MovableArea,MovableView} from "@tarojs/components";
 import Logger from "../../utils/logger";
 import Avatar from "../ChatBubble/Avatar";
 import throttle from "../../utils/throttle";
@@ -32,44 +32,48 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
 
   constructor(props) {
     super(props);
-    this.handleHMove = throttle(this.handleHMove, 150, this);
+    this.handleHMove = throttle(this.handleHMove, 100, this);
   }
 
 
   handleHMove = ({detail}) => {
     this.logger.info(detail);
     const {left} = this.state;
-    if (detail.source !== "touch") {
+    if (!detail.source) {
       return;
     }
     const x = detail.x;
     this.logger.info(x, this.lastX);
-    this.setState({
-      left: x
-    }, () => {
-      this.logger.info("set x");
-      // if (x - this.lastX >  0) {
-      if (x > -(this.WIDTH * 1.9)) {
+    this.logger.info("set x");
+    // if (x - this.lastX >  0) {
+    if (left === -2 * this.WIDTH && x >= -(this.WIDTH)) {
+      this.setState({
+        left: x
+      }, () => {
         this.setState({
           left: 0
-        });
-      } else if (left === -2 * this.WIDTH && x >= -(this.WIDTH)) {
-        this.setState({
-          left: 0
-        });
-        this.forceUpdate();
-      } else if (detail.x <= -this.WIDTH * 0.5) {
-        this.setState({
-          left: -this.MAX
         })
-      } else {
-        this.logger.info("没有滚过");
+      });
+    } else if (detail.x <= -this.WIDTH) {
+      this.setState({
+        left: -this.MAX
+      })
+    } else {
+      this.logger.info("没有滚过");
+      this.setState({
+        left: x
+      }, () => {
         this.setState({
           left: 0
-        });
-      }
-      this.lastX = x;
-    });
+        })
+      });
+    }
+    this.lastX = x;
+    // this.setState({
+    //   left: x
+    // }, () => {
+    //
+    // });
   };
 
   handleClickHoleWrapper = () => {
@@ -166,7 +170,7 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
     );
     return (
       <MovableArea className={"HSA-ma"}>
-        <MovableView className={"HSA-mv"} direction={"horizontal"} onChange={this.handleHMove} x={left}>
+        <MovableView className={"HSA-mv"} inertia={true} direction={"horizontal"} onChange={this.handleHMove} x={left}>
           {holeItem}
           {actionItems}
         </MovableView>
