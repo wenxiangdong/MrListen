@@ -5,6 +5,7 @@ import {View} from "@tarojs/components";
 import Playback from "../../components/Playback/Playback";
 import { apiHub } from "../../apis/ApiHub";
 import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
+import ShakeIt from "../../components/ShakeIt/ShakeIt";
 
 
 export default class Index extends Component<any, any> {
@@ -31,6 +32,7 @@ export default class Index extends Component<any, any> {
         {/*<BubbleTypePicture />*/}
         <HoleSwiperAction/>
         <HoleSwiperAction/>
+        <ShakeIt/>
       </View>
     )
   }
