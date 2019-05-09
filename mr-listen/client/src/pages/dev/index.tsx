@@ -1,11 +1,11 @@
 import "./index.less";
-import * as Taro from "@tarojs/taro";
-import {Component} from "@tarojs/taro";
-import {View} from "@tarojs/components";
+import Taro, {Component} from "@tarojs/taro";
+import {View, Image} from "@tarojs/components";
 import Playback from "../../components/Playback/Playback";
 import { apiHub } from "../../apis/ApiHub";
-import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
+
+import homePng from "../../images/home.png";
 
 
 export default class Index extends Component<any, any> {
@@ -23,15 +23,19 @@ export default class Index extends Component<any, any> {
     console.log(bubble);
   };
 
+
+  handleClickHome = () => {
+    Taro.reLaunch({
+      url: "/pages/index/index"
+    });
+  };
+
   render(): any {
     const {bubbles} = this.state;
+    const foot = (<Image src={homePng} className={"home-icon"} onClick={this.handleClickHome} />)
     return (
       <View className={'main-box'}>
-        {/*<Playback bubbles={bubbles}/>*/}
-        {/* {bubbles.length ? <Playback bubbles={bubbles}/> : null} */}
-        {/*<BubbleTypePicture />*/}
-        <HoleSwiperAction/>
-        <HoleSwiperAction/>
+        <Playback bubbles={bubbles} renderFooter={foot} />
         <ShakeIt/>
       </View>
     )
