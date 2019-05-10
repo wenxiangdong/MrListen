@@ -36,7 +36,7 @@ class Index extends Component<any, IState> {
    */
   config: Config = {
     navigationBarTitleText: '即刻倾诉',
-    enablePullDownRefresh: true
+    // enablePullDownRefresh: true
   };
 
 
