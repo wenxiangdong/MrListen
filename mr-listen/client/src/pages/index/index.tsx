@@ -14,6 +14,7 @@ import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
 import Fireworks from "../../components/FullScreenAnimation/Fireworks/Fireworks";
+import Flood from "../../components/FullScreenAnimation/Flood/Flood";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -164,6 +165,7 @@ class Index extends Component<any, IState> {
         </ScrollView>
         {/*<FullScreenEmoji content={"😊"}/>*/}
         {/*<Fireworks/>*/}
+        <Flood/>
       </Block>
     );
   }
