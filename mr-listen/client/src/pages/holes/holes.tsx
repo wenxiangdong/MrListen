@@ -1,11 +1,13 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, ScrollView, Button, Text} from '@tarojs/components'
+import {View, ScrollView, Button, Text, Image} from '@tarojs/components'
 
 import Logger from './../../utils/logger'
 import Listen from '../../utils/listen'
 import {apiHub} from '../../apis/ApiHub'
 import {IHoleVO} from '../../apis/HoleApi'
 import HoleBar from './../../components/HoleBar/HoleBar'
+import penSVG from "./../../images/pen.svg";
+
 
 import './holes.less'
 import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
@@ -161,8 +163,10 @@ export class Holes extends Component<any, IState> {
           {holes}
           <Button style={{height: this.buttonHeight + 'px', opacity: 0}}/>
         </ScrollView>
-        <Button className={'create-hole-button'} style={{height: this.buttonHeight + 'px'}} type={'default'}
-                onClick={this.handleCreateHole}>创建新的树洞</Button>
+        <Button className={'create-hole-button'}
+                onClick={this.handleCreateHole}>
+          <Image className={'create-hole-button-icon'} src={penSVG}/>
+        </Button>
       </View>
     )
   }

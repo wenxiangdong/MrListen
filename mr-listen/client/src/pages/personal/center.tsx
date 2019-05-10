@@ -51,7 +51,12 @@ export class Center extends Component {
           <UserInfoBar/>
         </View>
         <View className={'navigator-bars-wrapper'}>
-          {this.navigatorBarPropArr.map((p, idx) => <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>)}
+          {this.navigatorBarPropArr.map(
+            (p, idx) =>
+              <View className={'navigate-bar-animation'} style={{animationDelay: idx * 0.12 + 0.3 + 's'}}>
+                <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>
+              </View>
+          )}
         </View>
       </View>
     )

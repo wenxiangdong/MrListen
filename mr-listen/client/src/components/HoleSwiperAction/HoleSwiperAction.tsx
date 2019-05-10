@@ -174,6 +174,7 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
           {holeItem}
           {actionItems}
         </MovableView>
+        <View className={'line'}/>
       </MovableArea>
     );
   }

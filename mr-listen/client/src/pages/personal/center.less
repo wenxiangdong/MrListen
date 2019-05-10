@@ -1,3 +1,23 @@
 .user-bar-box {
-  margin-bottom: 60px;
+  opacity: 0;
+  margin: 60px 0;
+  animation: fly-in .5s .2s cubic-bezier(0,0,0,1);
+  animation-fill-mode: forwards;
+}
+
+.navigate-bar-animation {
+  opacity: 0;
+  animation: fly-in .5s cubic-bezier(0,0,0,1);
+  animation-fill-mode: forwards;
+}
+
+@keyframes fly-in {
+  0% {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
