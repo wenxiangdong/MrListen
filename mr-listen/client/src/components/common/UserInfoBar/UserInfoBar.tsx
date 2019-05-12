@@ -15,7 +15,7 @@ export default class UserInfoBar extends Component {
     return (
       <View className={'user-info-bar'}>
         <UserAvatar size={60} margin={20}/>
-        <OpenData className={'normal-text sm-margin user-date'} type={"userNickName"}/>
+        <OpenData className={'normal-text sm-margin user-data'} type={"userNickName"}/>
       </View>
     )
   }

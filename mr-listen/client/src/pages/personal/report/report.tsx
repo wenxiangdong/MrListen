@@ -1,6 +1,7 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, Button, Text, Image} from '@tarojs/components'
+import {View, Button, Text, Image, OpenData} from '@tarojs/components'
 import ShareCanvas from './../../../components/ShareCanvas/ShareCanvas'
+import UserAvatar from './../../../components/common/UserAvator/UserAvatar'
 
 import Logger from './../../../utils/logger'
 import Listen from '../../../utils/listen'
@@ -18,9 +19,8 @@ import './../../../components/common/common-zlc.less'
 import './report.less'
 
 interface IState {
-  index: number,
+  pageIndex: number,
   createShare: boolean,
-
 }
 
 /**
@@ -56,7 +56,7 @@ export class Report extends Component<any, IState> {
       .then((report) => {
         this.logger.info('fulfilled');
         this.report = report;
-        this.setState({index: 0, createShare: false});
+        this.setState({pageIndex: 0, createShare: false});
         Listen.hideLoading();
       })
       .catch((e) => {
@@ -69,13 +69,13 @@ export class Report extends Component<any, IState> {
 
   private jumpToNextPage = () => {
     this.logger.info('next page');
-    (this.state.index < this.PAGE_COUNT) &&
-      this.setState({index: this.state.index + 1});
+    (this.state.pageIndex < this.PAGE_COUNT) &&
+      this.setState({pageIndex: this.state.pageIndex + 1});
   };
 
   private returnTop = () => {
     this.logger.info('returnTop');
-    this.setState({index: 0});
+    this.setState({pageIndex: 0});
   };
 
   private createShare = () => {
@@ -89,60 +89,68 @@ export class Report extends Component<any, IState> {
   };
 
   render() {
-    let shareView;
+    let view ;
 
     if (this.state.createShare) {
-      shareView = (
+      view = (
         <View className={'share-code-wrapper'}>
           <ShareCanvas text={''} holeId={''} expireIn={0} onError={this.handleShareCancel}/>
           <Image className={'share-cancel-icon'} src={cancelPng} onClick={this.handleShareCancel}/>
         </View>
       );
+    } else {
+      switch (this.state.pageIndex) {
+        case 0: {
+          view = (
+            <View>
+              <View className={'user-info'}>
+                <UserAvatar size={24} margin={10}/>
+                <View className={'user-info-vertical-separator'}/>
+                <OpenData className={'normal-text sm-margin user-data'} type={"userNickName"}/>
+              </View>
+            </View>
+          )
+        }
+      }
     }
 
-    let reportView;
-    if (this.report) {
-      let report = this.report;
-      let sysInfo = Taro.getSystemInfoSync();
-      let marginTop = sysInfo.windowHeight * this.state.index;
+    // let reportView;
+    // if (this.report) {
+    //   let report = this.report;
+    //   let sysInfo = Taro.getSystemInfoSync();
+    //   let marginTop = sysInfo.windowHeight * this.state.pageIndex;
+    //
+    //   let meetTime = new Date(report.meetTime);
+    //
+    //   reportView = (
+    //     <View className={'base-view'} onClick={this.jumpToNextPage}>
+    //       <View className={'report-scroll-view'} style={{marginTop: `-${marginTop}px`}}>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[0]})`}}>
+    //           😂我们自从 {new Date(report.meetTime).toLocaleString()} 相遇，
+    //         </View>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[1]})`}}>😎你已经使用过 {report.holeCount} 个树洞，</View>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[2]})`}}>最长的一次你倾诉了 {report.longestDuration} 分钟，</View>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[3]})`}}>最晚的一次倾诉在 {new Date(report.latestTime).getMinutes()} 分钟，</View>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[4]})`}}>你的分享已经被点赞了 {report.plusOneCount} 次</View>
+    //         <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[5]})`}}>你最常使用的词语是 {report.mostUsedWords[0][0]}，</View>
+    //         <View className={'report-view'}>继续努力吧</View>
+    //       </View>
+    //       {
+    //         this.state.pageIndex < this.PAGE_COUNT
+    //           ?
+    //           <View className={'bottom-cover-view'}>
+    //             <Text>点击查看下一页</Text>
+    //           </View>
+    //           :
+    //           <View className={'bottom-cover-view'}>
+    //             <Button type={'primary'} onClick={this.returnTop}>再看一遍</Button>
+    //             <Button type={'primary'} plain={true} onClick={this.createShare}>创建分享</Button>
+    //           </View>
+    //       }
+    //     </View>
+    //   );
+    // }
 
-      let meetTime = new Date(report.meetTime);
-
-      reportView = (
-        <View className={'base-view'} onClick={this.jumpToNextPage}>
-          <View className={'report-scroll-view'} style={{marginTop: `-${marginTop}px`}}>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[0]})`}}>😂我们自从 {new Date(report.meetTime).toLocaleString()} 相遇，</View>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[1]})`}}>😎你已经使用过 {report.holeCount} 个树洞，</View>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[2]})`}}>最长的一次你倾诉了 {report.longestDuration} 分钟，</View>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[3]})`}}>最晚的一次倾诉在 {new Date(report.latestTime).getMinutes()} 分钟，</View>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[4]})`}}>你的分享已经被点赞了 {report.plusOneCount} 次</View>
-            <View className={'report-view'} style={{backgroundImage: `url(${this.backgroundArray[5]})`}}>你最常使用的词语是 {report.mostUsedWords[0][0]}，</View>
-            <View className={'report-view'}>继续努力吧</View>
-          </View>
-          {
-            this.state.index < this.PAGE_COUNT
-              ?
-              <View className={'bottom-cover-view'}>
-                <Text>点击查看下一页</Text>
-              </View>
-              :
-              <View className={'bottom-cover-view'}>
-                <Button type={'primary'} onClick={this.returnTop}>再看一遍</Button>
-                <Button type={'primary'} plain={true} onClick={this.createShare}>创建分享</Button>
-              </View>
-          }
-        </View>
-      );
-    }
-
-    return (
-      this.state.createShare
-        ? shareView
-        : (
-          this.report
-            ? reportView
-            : null
-        )
-    )
+    return (view);
   }
 }
