@@ -1,0 +1,75 @@
+@item-height: 150px;
+@item-width: 150px;
+@border-color: #dcdee2;
+
+.HSA-ma {
+  width: 750px;
+  height: @item-height;
+  border-bottom: @border-color 1Px solid;
+}
+
+.HSA-mv {
+  width: 750px + 2 * @item-width;
+  height: @item-height;
+  display: flex;
+
+}
+
+.HSA-swiper {
+  height: @item-height;
+  width: 750px;
+}
+
+.HSA-wrapper {
+  overflow-x: auto;
+  width: 750px;
+  position: relative;
+
+  .HSA-line {
+    width: 750px + 2 * @item-width;
+    height: @item-height;
+    line-height: @item-height;
+  }
+  // 关闭滚动条显示
+  .HSA-line::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
+}
+
+.HSW-action-wrapper {
+
+  @font-size: 1em;
+  display: flex;
+  height: @item-height;
+  flex-direction: row-reverse;
+  width: 2 * @item-width;
+
+  .HSW-action-item {
+    //display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    height: @item-height;
+    width: @item-width;
+  }
+}
+
+.HSW-hole-wrapper {
+  width: 750px;
+  height: @item-height;
+  position: relative;
+}
+
+.hole-info-view {
+
+  width: 750px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: white;
+}

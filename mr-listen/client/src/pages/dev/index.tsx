@@ -4,6 +4,7 @@ import {Component} from "@tarojs/taro";
 import {View} from "@tarojs/components";
 import Playback from "../../components/Playback/Playback";
 import { apiHub } from "../../apis/ApiHub";
+import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
 
 
 export default class Index extends Component<any, any> {
@@ -25,9 +26,11 @@ export default class Index extends Component<any, any> {
     const {bubbles} = this.state;
     return (
       <View className={'main-box'}>
-        <Playback bubbles={bubbles}/>
+        {/*<Playback bubbles={bubbles}/>*/}
         {/* {bubbles.length ? <Playback bubbles={bubbles}/> : null} */}
         {/*<BubbleTypePicture />*/}
+        <HoleSwiperAction/>
+        <HoleSwiperAction/>
       </View>
     )
   }
