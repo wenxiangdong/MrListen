@@ -13,6 +13,7 @@ import enterImg from './../../../images/enterImg.png';
 
 import './../../../components/common/common-zlc.less'
 import './report.less'
+import {HttpResponse} from "../../../apis/HttpRequest";
 
 interface IState {
   pageIndex: number,
@@ -38,6 +39,15 @@ export class Report extends Component<any, IState> {
   private report:ReportVO;
   private PAGE_COUNT = 8;
 
+  private wordCloudSetting = [
+    [],
+    [{width: '700rpx', height: '500rpx', lineHeight: '500rpx'}],
+    [
+      {width: '600rpx', left: '125rpx', top: '250rpx', height: '400rpx', lineHeight: '400rpx'},
+      {width: '400rpx', height: '300rpx', lineHeight: '300rpx'}
+    ],
+  ];
+
   componentWillMount() {
     Listen.showLoading('生成报告中')
       .then(() => {
@@ -46,10 +56,10 @@ export class Report extends Component<any, IState> {
             this.logger.info('fulfilled');
             this.report = report;
             //TODO
-            this.setState({pageIndex: 0, createShare: false});
+            this.setState({pageIndex: 6, createShare: false});
             Listen.hideLoading();
           })
-          .catch((e) => {
+          .catch((e:HttpResponse<ReportVO>) => {
             this.logger.info('rejected');
             this.logger.error(e);
             Listen.hideLoading();
@@ -110,10 +120,21 @@ export class Report extends Component<any, IState> {
     return texts;
   };
 
+  private createHotTextStyleSetting = (originSetting, word) => {
+    // TODO 添加 opacity
+    let width = Number(originSetting.width.substring(0, originSetting.width.indexOf('rpx')));
+    let height = Number(originSetting.height.substring(0, originSetting.height.indexOf('rpx')));
+    return {
+      ...originSetting,
+      fontSize: `${(Math.min(width, height) / `${word}`.length) >>> 0}rpx`
+    };
+  };
+
   render() {
     let view;
 
     if (this.state.createShare) {
+      // TODO
       view = (
         <View className={'share-code-wrapper'}>
           <ShareCanvas text={''} holeId={''} expireIn={0} onError={this.handleShareCancel}/>
@@ -226,7 +247,7 @@ export class Report extends Component<any, IState> {
               : (
                 <View className={'report-info show-up'}>
                   <Text>你还没有向我倾诉过</Text>
-                  <Text>很想想听听你的故事</Text>
+                  <Text>很想听听你的故事</Text>
                 </View>
               )
           ;
@@ -304,7 +325,7 @@ export class Report extends Component<any, IState> {
                   <Text>
                     <Text decode={true}>你也在这其中收获了&nbsp;</Text>
                     <Text className={'strong-text'}>{plusOneCount}</Text>
-                    <Text decode={true}>&nbsp;次店点赞</Text>
+                    <Text decode={true}>&nbsp;次点赞</Text>
                   </Text>
                 </View>
               )
@@ -326,14 +347,27 @@ export class Report extends Component<any, IState> {
         case 6: {
           let wordCount = this.report.mostUsedWords.length;
 
+          // TODO
           let reportInfo =
             wordCount
             ? (
               <View className={'report-info show-up'}>
                 <View className={'hot-word-view'}>
-                  {this.report.mostUsedWords.map((word, idx) => (<Text key={`word[0]${idx}`}>{word[0]}</Text>))}
+                  {this.report.mostUsedWords.map((config, idx) => {
+                    let word = config[0];
+                    let originSetting = this.wordCloudSetting[2][idx%2];
+                    let setting = this.createHotTextStyleSetting(originSetting, word);
+                    return (
+                      <Text key={`word[0]${idx}`}
+                            className={`hot-word`}
+                            style={setting}
+                      >
+                        {word}
+                      </Text>
+                    )
+                  })}
                 </View>
-                <Text>这么多天来</Text>
+                <Text className={'first-text'}>这么多天来</Text>
                 <Text>我常常听你说到这些</Text>
               </View>
             )
