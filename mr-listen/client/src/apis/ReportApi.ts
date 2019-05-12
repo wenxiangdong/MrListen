@@ -37,9 +37,10 @@ export class MockReportApi implements IReportApi {
       meetTime: new Date().getTime(),
       holeCount: (Math.random() * 10) >>> 0,
       longestDuration: ((Math.random() * 10) >>> 0),
-      mostUsedWords: [['测试',10]],
+      mostUsedWords: [['测试1',20],['测试2',10],['测试3',5],['测试4',2],['测试5',1],],
       latestTime: new Date().getTime(),
-      plusOneCount: (Math.random() * 10) >>> 0
+      plusOneCount: (Math.random() * 10) >>> 0,
+      shareHoleCount: (Math.random() * 10) >>> 0
     };
     return this.http.success(report);
   }

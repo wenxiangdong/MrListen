@@ -1,45 +1,269 @@
 @import "../../../app";
 
-.user-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.user-info-vertical-separator {
-  border: thin solid transparent;
-  border-right-color: @border-color;
-  display: inline;
-  height: 30px;
-}
-
-.base-view {
+.background-image {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-
-  text-align: center;
-  transition: background ease-in-out .5s;
-}
-
-.report-scroll-view {
-  width: 100vw;
-  transition: margin-top .5s;
-}
-
-.report-view {
-  width: 100vw;
-  height: 100vh;
-  max-height: 100vh;
-
-  background: no-repeat 0 0;
-}
-
-.bottom-cover-view {
-  width: 100vw;
 
   position: fixed;
-  left: 0;
-  bottom: 0;
+  z-index: -1;
+}
+
+.base-page {
+  width: 100vw;
+  height: 100vh;
+
+  color: #e8eaf6;
+
+  background-color: #1A237E;
+
+  .strong-text {
+    color: #F44336;
+  }
+
+  .report-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: fixed;
+
+    text {
+      margin-bottom: 40px;
+    }
+  }
+
+  @keyframes showUp {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .show-up {
+    animation: showUp 1s ease-in;
+  }
+
+  @keyframes flashing {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .flashing {
+    animation: flashing 3s infinite ease-in-out;
+  }
+}
+
+.page-zero {
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .user-info-vertical-separator {
+      border: thin solid transparent;
+      border-right-color: @border-color;
+      display: inline;
+      height: 50px;
+    }
+  }
+
+  .title-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    position: fixed;
+    top: 100px;
+    right: 50px;
+
+    .report-title-text {
+      font-size: xx-large;
+      font-weight: bold;
+
+      margin-bottom: 20px;
+    }
+
+    .app-name-text {
+      font-weight: bold;
+    }
+
+    .app-intro-text {
+      font-size: x-small;
+    }
+  }
+
+  .prompt-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .enter-text {
+      margin-bottom: 40px;
+    }
+
+    .enter-img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.page-one {
+  .report-info {
+    align-items: flex-end;
+
+    right: 50px;
+
+    text {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.page-two,
+.page-five {
+  .report-info {
+    align-items: center;
+
+    width: 100vw;
+    top: 50px;
+  }
+}
+
+.page-three {
+  .report-info {
+    align-items: flex-start;
+
+    top: 50px;
+    left: 50px;
+  }
+}
+
+.page-four {
+  .report-info {
+    align-items: flex-start;
+
+    top: 50px;
+    left: 50px;
+  }
+}
+
+.page-six {
+  .hot-word-view {
+    width: 100vw;
+    height: 65vh;
+    background-color: rgba(224, 224, 224, 0.29);
+
+    margin-bottom: 40px;
+  }
+
+  .report-info {
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.page-seven {
+  color: #e8eaf6;
+
+  .user-greeting {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+  }
+
+  .main-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    top: 140px;
+    left: 0;
+
+    text {
+      margin-bottom: 40px;
+    }
+
+    .app-info-view {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      width: 100vw;
+
+      margin-top: 40px;
+
+      .app-info-vertical-separator {
+        border: thin solid transparent;
+        border-right-color: @border-color;
+        display: inline;
+        height: 120px;
+      }
+
+      .right-info-view {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        margin-left: 40px;
+
+        text {
+          margin-bottom: 40px;
+        }
+      }
+    }
+
+  }
+
+  .prompt-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .enter-text {
+      margin-bottom: 40px;
+    }
+  }
 }
