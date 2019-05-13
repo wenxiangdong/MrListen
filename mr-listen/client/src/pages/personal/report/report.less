@@ -63,6 +63,7 @@
   .flashing {
     animation: flashing 3s infinite ease-in-out;
   }
+
 }
 
 .page-zero {
@@ -176,13 +177,15 @@
 
 .page-six {
   .hot-word-view {
-    width: 700px;
-    height: 500px;
-    background-color: rgba(224, 224, 224, 0.29);
-
     position: fixed;
     left: 25px;
     top: 150px;
+
+    .hot-word {
+      position: fixed;
+      text-align: center;
+      margin-bottom: 0 !important;
+    }
   }
 
   .first-text {
@@ -271,19 +274,5 @@
     .enter-text {
       margin-bottom: 40px;
     }
-  }
-}
-
-.hot-word-view {
-  .hot-word {
-    position: fixed;
-    text-align: center;
-    margin-bottom: 0 !important;
-  }
-
-  .hot-word-1-in-1 {
-    width: 700px;
-    height: 500px;
-    line-height: 500px;
   }
 }

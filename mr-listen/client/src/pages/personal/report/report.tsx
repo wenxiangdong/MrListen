@@ -22,7 +22,6 @@ interface IState {
 
 /**
  * 报告页面
- * TODO 添加词云
  * TODO 添加分享
  * @author 张李承
  * @create 2019/4/22 23:26
@@ -41,11 +40,79 @@ export class Report extends Component<any, IState> {
 
   private wordCloudSetting = [
     [],
-    [{width: '700rpx', height: '500rpx', lineHeight: '500rpx'}],
+    [{width: '700rpx', height: '500rpx'}],
     [
-      {width: '600rpx', left: '125rpx', top: '250rpx', height: '400rpx', lineHeight: '400rpx'},
-      {width: '400rpx', height: '300rpx', lineHeight: '300rpx'}
+      {width: '600rpx', height: '300rpx', left: '125rpx', top: '350rpx'},
+      {width: '400rpx', height: '200rpx'}
     ],
+    [
+      {width: '400rpx', height: '500rpx', left: '325rpx'},
+      {width: '300rpx', height: '300rpx', top: '350rpx'},
+      {width: '300rpx', height: '200rpx'}
+    ],
+    [
+      {width: '400rpx', height: '400rpx', left: '325rpx', top: '250rpx'},
+      {width: '300rpx', height: '300rpx', top: '350rpx'},
+      {width: '300rpx', height: '100rpx', left: '325rpx'},
+      {width: '200rpx', height: '200rpx', left: '125rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '400rpx'},
+      {width: '100rpx', height: '400rpx', left: '625rpx', top: '250rpx'},
+      {width: '600rpx', height: '100rpx', top: '550rpx'},
+      {width: '500rpx', height: '100rpx', left: '225rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '400rpx', top: '250rpx'},
+      {width: '500rpx', height: '100rpx', left: '225rpx', top: '550rpx'},
+      {width: '400rpx', height: '100rpx', left: '325rpx'},
+      {width: '100rpx', height: '300rpx', left: '625rpx', top: '250rpx'},
+      {width: '300rpx', height: '100rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '300rpx', top: '250rpx'},
+      {width: '400rpx', height: '100rpx', left: '325rpx', top: '550rpx'},
+      {width: '400rpx', height: '100rpx', left: '325rpx'},
+      {width: '300rpx', height: '100rpx', top: '550rpx'},
+      {width: '300rpx', height: '100rpx'},
+      {width: '100rpx', height: '300rpx', left: '625rpx', top: '250rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '300rpx', top: '250rpx'},
+      {width: '400rpx', height: '100rpx', left: '325rpx', top: '550rpx'},
+      {width: '300rpx', height: '100rpx', left: '225rpx'},
+      {width: '300rpx', height: '100rpx', top: '550rpx'},
+      {width: '100rpx', height: '300rpx', left: '625rpx', top: '250rpx'},
+      {width: '200rpx', height: '100rpx', left: '525rpx'},
+      {width: '200rpx', height: '100rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '300rpx', top: '250rpx'},
+      {width: '300rpx', height: '100rpx', left: '225rpx', top: '550rpx'},
+      {width: '300rpx', height: '100rpx', left: '225rpx'},
+      {width: '200rpx', height: '100rpx', top: '550rpx'},
+      {width: '100rpx', height: '300rpx', left: '625rpx', top: '250rpx'},
+      {width: '200rpx', height: '100rpx', left: '525rpx'},
+      {width: '200rpx', height: '100rpx', left: '525rpx', top: '550rpx'},
+      {width: '200rpx', height: '100rpx'}
+    ],
+    [
+      {width: '400rpx', height: '300rpx', left: '225rpx', top: '250rpx'},
+      {width: '200rpx', height: '300rpx', top: '250rpx'},
+      {width: '300rpx', height: '100rpx', left: '225rpx', top: '550rpx'},
+      {width: '100rpx', height: '300rpx', left: '625rpx', top: '250rpx'},
+      {width: '200rpx', height: '100rpx', top: '550rpx'},
+      {width: '200rpx', height: '100rpx', left: '325rpx'},
+      {width: '200rpx', height: '100rpx', left: '125rpx'},
+      {width: '200rpx', height: '100rpx', left: '525rpx', top: '550rpx'},
+      {width: '200rpx', height: '100rpx', left: '525rpx'},
+      {width: '100rpx', height: '100rpx'}
+    ]
   ];
 
   componentWillMount() {
@@ -120,13 +187,38 @@ export class Report extends Component<any, IState> {
     return texts;
   };
 
+  private getNumberBeforeRpx = (item) => {
+    return Number(item.substring(0, item.indexOf('rpx')));
+  };
+
   private createHotTextStyleSetting = (originSetting, word) => {
-    // TODO 添加 opacity
-    let width = Number(originSetting.width.substring(0, originSetting.width.indexOf('rpx')));
-    let height = Number(originSetting.height.substring(0, originSetting.height.indexOf('rpx')));
+    let length = word.length;
+    let width = this.getNumberBeforeRpx(originSetting.width);
+    let height = this.getNumberBeforeRpx(originSetting.height);
+
+    let large;
+    let small;
+    let lineCount;
+    let showWord;
+    if (width < height) {
+      large = height;
+      small = width;
+      lineCount = length;
+      showWord = word.split('').join('\n');
+    } else {
+      large = width;
+      small = height;
+      lineCount = 1;
+      showWord = word;
+    }
+
     return {
-      ...originSetting,
-      fontSize: `${(Math.min(width, height) / `${word}`.length) >>> 0}rpx`
+      style: {
+        ...originSetting,
+        lineHeight: `${(height / lineCount) >>> 0}rpx`,
+        fontSize: `${Math.min((large / length) >>> 0, small)}rpx`
+      },
+      showWord
     };
   };
 
@@ -347,7 +439,6 @@ export class Report extends Component<any, IState> {
         case 6: {
           let wordCount = this.report.mostUsedWords.length;
 
-          // TODO
           let reportInfo =
             wordCount
             ? (
@@ -355,14 +446,14 @@ export class Report extends Component<any, IState> {
                 <View className={'hot-word-view'}>
                   {this.report.mostUsedWords.map((config, idx) => {
                     let word = config[0];
-                    let originSetting = this.wordCloudSetting[2][idx%2];
+                    let originSetting = this.wordCloudSetting[wordCount][idx];
                     let setting = this.createHotTextStyleSetting(originSetting, word);
                     return (
-                      <Text key={`word[0]${idx}`}
+                      <Text key={`hot-word-${idx}`}
                             className={`hot-word`}
-                            style={setting}
+                            style={setting.style}
                       >
-                        {word}
+                        {setting.showWord}
                       </Text>
                     )
                   })}
