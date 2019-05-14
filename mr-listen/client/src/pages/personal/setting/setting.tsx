@@ -49,7 +49,7 @@ export class Setting extends Component<any, IState> {
             )
           }
         </ScrollView>
-        <SampleBubble color={this.state.userConfig.bubbleColor}/>
+        <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
         <View className={'setting-bar-view'}>
           <Text>主题颜色</Text>
         </View>

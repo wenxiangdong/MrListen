@@ -1,0 +1,76 @@
+@import "../../../../app";
+
+.base-page {
+  .user-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 100px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .user-info-vertical-separator {
+      border: thin solid transparent;
+      border-right-color: @border-color;
+      display: inline;
+      height: 50px;
+    }
+
+    .user-nick-name {
+      margin: 20px;
+    }
+  }
+
+  .title-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    position: fixed;
+    top: 100px;
+    right: 50px;
+
+    .report-title-text {
+      font-size: xx-large;
+      font-weight: bold;
+
+      margin-bottom: 20px;
+    }
+
+    .app-name-text {
+      font-weight: bold;
+    }
+
+    .app-intro-text {
+      font-size: x-small;
+    }
+  }
+
+  .prompt-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .enter-text {
+      margin-bottom: 40px;
+    }
+
+    .enter-img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+  }
+}
