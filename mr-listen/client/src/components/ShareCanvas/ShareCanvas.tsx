@@ -61,15 +61,6 @@ export default class ShareCanvas extends Component<IProp, IState> {
     } finally {
       Listen.hideLoading();
     }
-    // this.canvasUtil.drawBackground()
-    //   .then(() => {
-    //     // this.forceUpdate()
-    //   })
-    //   .catch(e => {
-    //     Listen.message.error("制作分享图片失败");
-    //     this.logger.error(e);
-    //   })
-
   }
 
   handleClickSave = async () => {
@@ -101,8 +92,10 @@ export default class ShareCanvas extends Component<IProp, IState> {
 
   render(): any {
 
+
     return (
       <View className={"SC-wrapper"}>
+        // @ts-ignore
         <Canvas style={{width: this.canvasWidth + "px", height: this.canvasHeight + "px"}} canvasId={this.CANVAS_ID}/>
         <View className={"SC-btn"} style={{width: this.canvasWidth + "px"}} onClick={this.handleClickSave}>
           保存到相册后分享到朋友圈
