@@ -1,6 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, Button, Text, Image, OpenData} from '@tarojs/components'
-import ShareCanvas from './../../../components/ShareCanvas/ShareCanvas'
+import {Button, Image, OpenData, Text, View} from '@tarojs/components'
 import AppAvatar from './../../../components/common/AppAvatar/AppAvatar'
 
 import Logger from './../../../utils/logger'
@@ -8,21 +7,20 @@ import Listen from '../../../utils/listen'
 import {apiHub} from '../../../apis/ApiHub'
 import {ReportVO} from '../../../apis/ReportApi'
 
-import cancelPng from './../../../images/cancel.png';
 import enterImg from './../../../images/enterImg.png';
 
 import './../../../components/common/common-zlc.less'
 import './report.less'
-import {HttpResponse} from "../../../apis/HttpRequest";
+import {HttpCode, HttpResponse} from "../../../apis/HttpRequest";
 
 interface IState {
   pageIndex: number,
-  createShare: boolean,
+  notFound: boolean
 }
 
 /**
  * 报告页面
- * TODO 添加分享
+ * TODO 添加背景图片
  * @author 张李承
  * @create 2019/4/22 23:26
  */
@@ -120,17 +118,21 @@ export class Report extends Component<any, IState> {
       .then(() => {
         apiHub.reportApi.getReport()
           .then((report) => {
-            this.logger.info('fulfilled');
             this.report = report;
-            //TODO
-            this.setState({pageIndex: 6, createShare: false});
+            this.setState({pageIndex: 0});
             Listen.hideLoading();
           })
           .catch((e:HttpResponse<ReportVO>) => {
-            this.logger.info('rejected');
             this.logger.error(e);
             Listen.hideLoading();
-            Listen.message.error('出错啦');
+            switch (e.code) {
+              case HttpCode.NOT_FOUND:
+                this.setState({notFound: true});
+                break;
+              default:
+                Listen.message.error('出错啦');
+                break;
+            }
           });
       });
   }
@@ -142,16 +144,6 @@ export class Report extends Component<any, IState> {
 
   private returnTop = () => {
     this.setState({pageIndex: 0});
-  };
-
-  private createShare = () => {
-    this.logger.info('createShare');
-    this.setState({createShare: true});
-  };
-
-  private handleShareCancel = () => {
-    this.logger.info('handleShareCancel');
-    this.setState({createShare: false});
   };
 
   private getHourTexts = (hour) => {
@@ -225,12 +217,23 @@ export class Report extends Component<any, IState> {
   render() {
     let view;
 
-    if (this.state.createShare) {
-      // TODO
+    if (this.state.notFound) {
       view = (
-        <View className={'share-code-wrapper'}>
-          <ShareCanvas text={''} holeId={''} expireIn={0} onError={this.handleShareCancel}/>
-          <Image className={'share-cancel-icon'} src={cancelPng} onClick={this.handleShareCancel}/>
+        <View className={'page-zero base-page'}>
+          <View className={'user-info'}>
+            <AppAvatar size={24} margin={10}/>
+            <View className={'user-info-vertical-separator'}/>
+            <OpenData className={'normal-text sm-margin user-data'} type={'userNickName'}/>
+          </View>
+          <View className={'title-info show-up'}>
+            <Text className={'report-title-text'} decode={true}>倾&nbsp;诉&nbsp;报&nbsp;告</Text>
+            <Text className={'app-name-text'} decode={true}>Mr&nbsp;Listen</Text>
+            <Text className={'app-intro-text'} decode={true}>倾&nbsp;听&nbsp;你&nbsp;的&nbsp;一&nbsp;切</Text>
+          </View>
+          <View className={'prompt-view'}>
+            <Text className={'enter-text'}>倾诉报告暂未生成</Text>
+            <Text className={'enter-text'} decode={true}>每月&nbsp;1&nbsp;号生成倾诉报告</Text>
+          </View>
         </View>
       );
     } else {
@@ -239,17 +242,17 @@ export class Report extends Component<any, IState> {
           view = (
             <View className={'page-zero base-page'} onClick={this.jumpToNextPage}>
               {/*<Image className={'background-image'}*/}
-                     {/*mode={'scaleToFill'}*/}
-                     {/*src={this.backgroundImageArr[this.state.pageIndex]}/>*/}
+              {/*mode={'scaleToFill'}*/}
+              {/*src={this.backgroundImageArr[this.state.pageIndex]}/>*/}
               <View className={'user-info'}>
                 <AppAvatar size={24} margin={10}/>
                 <View className={'user-info-vertical-separator'}/>
                 <OpenData className={'normal-text sm-margin user-data'} type={'userNickName'}/>
               </View>
               <View className={'title-info show-up'}>
-                <Text className={'report-title-text'}>倾 诉 报 告</Text>
-                <Text className={'app-name-text'}>Mr Listen</Text>
-                <Text className={'app-intro-text'}>倾 听 你 的 一 切</Text>
+                <Text className={'report-title-text'} decode={true}>倾&nbsp;诉&nbsp;报&nbsp;告</Text>
+                <Text className={'app-name-text'} decode={true}>Mr&nbsp;Listen</Text>
+                <Text className={'app-intro-text'} decode={true}>倾&nbsp;听&nbsp;你&nbsp;的&nbsp;一&nbsp;切</Text>
               </View>
               <View className={'prompt-view'}>
                 <Image className={'enter-img flashing'} src={enterImg}/>
@@ -406,27 +409,27 @@ export class Report extends Component<any, IState> {
           let plusOneCount = this.report.plusOneCount;
 
           let reportInfo = shareHoleCount
-              ? (
-                <View className={'report-info show-up'}>
-                  <Text>你喜欢分享</Text>
-                  <Text>
-                    <Text decode={true}>已经有&nbsp;</Text>
-                    <Text className={'strong-text'}>{shareHoleCount}</Text>
-                    <Text decode={true}>&nbsp;次分享树洞的经历</Text>
-                  </Text>
-                  <Text>
-                    <Text decode={true}>你也在这其中收获了&nbsp;</Text>
-                    <Text className={'strong-text'}>{plusOneCount}</Text>
-                    <Text decode={true}>&nbsp;次点赞</Text>
-                  </Text>
-                </View>
-              )
-              : (
-                <View className={'report-info show-up'}>
-                  <Text>你还没有跟别人分享过树洞</Text>
-                  <Text>这些都是我们的小秘密</Text>
-                </View>
-              )
+            ? (
+              <View className={'report-info show-up'}>
+                <Text>你喜欢分享</Text>
+                <Text>
+                  <Text decode={true}>已经有&nbsp;</Text>
+                  <Text className={'strong-text'}>{shareHoleCount}</Text>
+                  <Text decode={true}>&nbsp;次分享树洞的经历</Text>
+                </Text>
+                <Text>
+                  <Text decode={true}>你也在这其中收获了&nbsp;</Text>
+                  <Text className={'strong-text'}>{plusOneCount}</Text>
+                  <Text decode={true}>&nbsp;次点赞</Text>
+                </Text>
+              </View>
+            )
+            : (
+              <View className={'report-info show-up'}>
+                <Text>你还没有跟别人分享过树洞</Text>
+                <Text>这些都是我们的小秘密</Text>
+              </View>
+            )
           ;
 
           view = (
@@ -441,33 +444,33 @@ export class Report extends Component<any, IState> {
 
           let reportInfo =
             wordCount
-            ? (
-              <View className={'report-info show-up'}>
-                <View className={'hot-word-view'}>
-                  {this.report.mostUsedWords.map((config, idx) => {
-                    let word = config[0];
-                    let originSetting = this.wordCloudSetting[wordCount][idx];
-                    let setting = this.createHotTextStyleSetting(originSetting, word);
-                    return (
-                      <Text key={`hot-word-${idx}`}
-                            className={`hot-word`}
-                            style={setting.style}
-                      >
-                        {setting.showWord}
-                      </Text>
-                    )
-                  })}
+              ? (
+                <View className={'report-info show-up'}>
+                  <View className={'hot-word-view'}>
+                    {this.report.mostUsedWords.map((config, idx) => {
+                      let word = config[0];
+                      let originSetting = this.wordCloudSetting[wordCount][idx];
+                      let setting = this.createHotTextStyleSetting(originSetting, word);
+                      return (
+                        <Text key={`hot-word-${idx}`}
+                              className={`hot-word`}
+                              style={setting.style}
+                        >
+                          {setting.showWord}
+                        </Text>
+                      )
+                    })}
+                  </View>
+                  <Text className={'first-text'}>这么多天来</Text>
+                  <Text>我常常听你说到这些</Text>
                 </View>
-                <Text className={'first-text'}>这么多天来</Text>
-                <Text>我常常听你说到这些</Text>
-              </View>
-            )
-            : (
-              <View className={'report-info show-up'}>
-                <Text>你的树洞空空如也</Text>
-                <Text>它的主人神神秘秘</Text>
-              </View>
-            )
+              )
+              : (
+                <View className={'report-info show-up'}>
+                  <Text>你的树洞空空如也</Text>
+                  <Text>它的主人神神秘秘</Text>
+                </View>
+              )
           ;
 
           view = (
@@ -501,7 +504,6 @@ export class Report extends Component<any, IState> {
               </View>
               <View className={'prompt-view'}>
                 <Button className={'enter-text'} onClick={this.returnTop}>再看一边</Button>
-                <Button className={'enter-text'} onClick={this.createShare}>点击分享</Button>
               </View>
             </View>
           );
