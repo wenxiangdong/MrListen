@@ -30,8 +30,9 @@ export default class Flood extends Taro.Component<any, any> {
       this.floodElements.push({
         x: Math.random() * 550 - 150 + 'px',
         y: Math.random() * 400 - 100 + 'px',
-        delay: Math.random() * 3000 + 'ms',
-        content: ''});
+        delay: Math.random() * 4000 + 'ms',
+        content: ''
+      });
     }
   }
 

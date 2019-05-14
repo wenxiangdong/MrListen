@@ -15,6 +15,7 @@ import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
 import Fireworks from "../../components/FullScreenAnimation/Fireworks/Fireworks";
 import Flood from "../../components/FullScreenAnimation/Flood/Flood";
+import Music from "../../components/DynamicBackground/Music/Music";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -164,8 +165,7 @@ class Index extends Component<any, IState> {
             onFocus={this.handleFocus}/>
         </ScrollView>
         {/*<FullScreenEmoji content={"😊"}/>*/}
-        {/*<Fireworks/>*/}
-        <Flood/>
+        <Music/>
       </Block>
     );
   }

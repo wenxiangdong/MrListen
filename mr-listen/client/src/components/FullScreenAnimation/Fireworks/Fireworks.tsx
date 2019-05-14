@@ -28,7 +28,7 @@ export default class Fireworks extends Taro.Component<any, any> {
     const meddleGroup = fifty.map((number) => {
       return <View key={String(number)}
                    style={{
-                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random() + 0.1) * 2})`,
+                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random()) * 3})`,
                    }}
                    className={'spark-box'}>
         <View className={'spark meddle-trace'}/>
@@ -37,7 +37,7 @@ export default class Fireworks extends Taro.Component<any, any> {
     const longGroup = fifty.map((number) => {
       return <View key={String(number)}
                    style={{
-                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random() + .3) * 2.2})`,
+                     transform: `rotate(${Math.round(Math.random() * 360)}deg) scale(${(Math.random()) * 3})`,
                    }}
                    className={'spark-box'}>
         <View className={'spark long-trace'}/>
