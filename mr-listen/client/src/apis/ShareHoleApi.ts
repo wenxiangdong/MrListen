@@ -10,6 +10,8 @@ export interface IShareHoleApi {
   getShareHole(shareHoleId: string | number): Promise<ShareHoleVO>;
 
   plusOne(shareHoleId: string | number): Promise<void>;
+
+  getQrCode(params: any): Promise<string>;
 }
 
 export interface ShareHoleVO extends VO {
@@ -52,6 +54,10 @@ export class ShareHoleApi implements IShareHoleApi {
     await this.base.callFunction<void>("plus_one", {shareHoleId});
   }
 
+  getQrCode(params: any): Promise<string> {
+    return this.base.callFunction<string>("create_qr_code", params);
+  }
+
 }
 
 export class MockShareHoleApi implements IShareHoleApi {
@@ -59,17 +65,22 @@ export class MockShareHoleApi implements IShareHoleApi {
 
   // @ts-ignore
   createShareHole(holeId: string | number, expireIn: number): Promise<string | number> {
-    return this.http.success(0);
+    return this.http.success("shareHoleId");
   }
 
   // @ts-ignore
   getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
-    return this.http.success("cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844");
+    return this.http.success(0);
   }
 
   // @ts-ignore
   plusOne(shareHoleId: string | number): Promise<void> {
     return this.http.success();
+  }
+
+  // @ts-ignore
+  async getQrCode(params: any): Promise<string> {
+    return this.http.success("cloud://first-57afbf.6669-first-57afbf/qr_code/1556513004844");
   }
 
 }

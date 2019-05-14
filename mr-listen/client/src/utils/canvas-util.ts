@@ -3,14 +3,15 @@ import "@tarojs/async-await";
 import userConfig from "./user-config";
 import Logger from "./logger";
 import {apiHub} from "../apis/ApiHub";
+import CallFunctionResult = Taro.cloud.ICloud.CallFunctionResult;
 
 export default class CanvasUtil {
 
   private ctx: Taro.CanvasContext;
 
 
-
   private TEMPLATE_FILE_ID = "cloud://first-57afbf.6669-first-57afbf/share-template.jpg";
+  private PAGE = "pages/share/hole/hole";
 
   private logger = Logger.getLogger(CanvasUtil.name);
 
@@ -87,12 +88,16 @@ export default class CanvasUtil {
     if (!text) {
       text = "窥探你的心"
     }
+    const {nickName} = userConfig.getConfig();
+    if (nickName) {
+      text = nickName + "：" + text;
+    }
     this.ctx.save();
     const fontSize = 18 * this.unit;
     this.ctx.setFontSize(fontSize);
     this.ctx.setFillStyle("#000000");
     const x = 50 * this.unit;
-    const y = 450 * this.unit + fontSize / 2;
+    const y = 446 * this.unit + fontSize / 2;
     // @ts-ignore
     this.ctx.fillText(text, x, y);
     this.ctx.draw(true);
@@ -121,13 +126,22 @@ export default class CanvasUtil {
   }
 
   private async getQRCodeTempPath(holeId, expireIn) {
-    const fileID = await apiHub.shareHoleApi.createShareHole(holeId, expireIn);
+    const shareHoleId = await apiHub.shareHoleApi.createShareHole(holeId, expireIn);
+    const {nickName = "无名小卒"} = userConfig.getConfig();
+    const fileID = await apiHub.shareHoleApi.getQrCode({
+      page: "pages/share/hole/hole",
+      params: {
+        holeId: shareHoleId,
+        userNickname: nickName
+      }
+    });
     const res = await Taro.cloud.downloadFile({
       // @ts-ignore
       fileID
     });
     // @ts-ignore
     return res.tempFilePath;
+
   }
 
   private async getTemplateTempPath(): Promise<string> {

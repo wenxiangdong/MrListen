@@ -1,4 +1,4 @@
-const throttle = (method: Function, duration: number, context: object) => {
+const throttle = (method: Function, duration: number) => {
   var timeId;
   var previous;
   return (...args) => {
