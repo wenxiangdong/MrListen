@@ -38,6 +38,11 @@ export class Center extends Component {
       icon: errorPng
     },
     {
+      url:'/pages/personal/help/help',
+      name: '如何使用',
+      icon: errorPng
+    },
+    {
       url:'/pages/personal/about/about',
       name: '关于我们',
       icon: errorPng

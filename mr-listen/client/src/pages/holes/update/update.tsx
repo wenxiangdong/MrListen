@@ -33,6 +33,9 @@ export class Update extends Component<any, IState> {
 
   private logger = Logger.getLogger(Update.name);
 
+  private TITLE_INPUT_PLACEHOLDER = '标题1-7个字';
+  private TITLE_MAX_LEN = 7;
+
   constructor(props) {
     super(props);
     if (this.$router.params.hole) {
@@ -76,17 +79,23 @@ export class Update extends Component<any, IState> {
   };
 
   private handleSaveChange = () => {
-    Listen.showLoading('保存中');
-    apiHub.holeApi.updateHole(this.hole._id, {...this.hole, avatarUrl: this.state.avatarUrl, title: this.state.title})
-      .then(() => {
-        Listen.hideLoading();
-        Listen.message.success('保存修改成功');
-      })
-      .catch((e) => {
-        this.logger.error(e);
-        Listen.hideLoading();
-        Listen.message.error('保存失败');
-      })
+    let titleLen = this.state.title.length;
+    this.logger.info(this.state);
+    if (titleLen > 0 && titleLen <= this.TITLE_MAX_LEN) {
+      Listen.showLoading('保存中');
+      apiHub.holeApi.updateHole(this.hole._id, {...this.hole, avatarUrl: this.state.avatarUrl, title: this.state.title})
+        .then(() => {
+          Listen.hideLoading();
+          Listen.message.success('保存修改成功');
+        })
+        .catch((e) => {
+          this.logger.error(e);
+          Listen.hideLoading();
+          Listen.message.error('保存失败');
+        })
+    } else {
+      Listen.message.error(this.TITLE_INPUT_PLACEHOLDER);
+    }
   };
 
   render() {
@@ -96,7 +105,14 @@ export class Update extends Component<any, IState> {
           <Avatar src={this.state.avatarUrl} size={100} margin={20}/>
           <Button type={'primary'} plain={true} size={'mini'} onClick={this.handleAvatarClick}>修改头像</Button>
         </View>
-        <Input className={'hole-title-input'} type={'text'} value={this.state.title}/>
+        <Input placeholder={this.TITLE_INPUT_PLACEHOLDER}
+               maxLength={this.TITLE_MAX_LEN}
+               className={'hole-title-input'}
+               type={'text'}
+               onInput={(e) => {
+                 this.setState({title: e.detail.value});
+               }}
+               value={this.state.title}/>
         <Button className={'save-change-button'} type={'primary'} onClick={this.handleSaveChange}>保存修改</Button>
       </View>
     )

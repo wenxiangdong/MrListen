@@ -6,6 +6,7 @@ import * as Taro from "@tarojs/taro";
 export interface IUserConfig {
   bubbleColor?: string,
   themeColor?: string,
+  shakeOff?: boolean,
   avatarUrl?: string,
   nickName?: string
 }
@@ -14,6 +15,7 @@ class UserConfig {
   private defaultConfig: IUserConfig = {
     bubbleColor: "#19be6b",
     themeColor: "#19be6b",
+    shakeOff: true,
     avatarUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1557061508&di=55b378f85ecea0d581a6b61c11ea2258&src=http://www.uedsc.com/wp-content/uploads/2015/12/2012122836181345.jpg",
     nickName: "无昵称"
   };

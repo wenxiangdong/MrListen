@@ -20,17 +20,17 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      // 'pages/dev/index',
       'pages/index/index',
+      'pages/dev/index',
       'pages/share/index',
       'pages/try/try',
-
-
+      
       'pages/holes/holes',
       'pages/holes/update/update',
       'pages/personal/center',
       'pages/personal/report/report',
       'pages/personal/setting/setting',
+      'pages/personal/help/help',
       'pages/personal/about/about',
     ],
     window: {

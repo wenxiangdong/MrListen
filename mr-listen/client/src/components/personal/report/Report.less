@@ -1,0 +1,59 @@
+@import "../../../app";
+
+.base-page {
+  width: 100vw;
+  height: 100vh;
+
+  color: #e8eaf6;
+
+  background-color: #1A237E;
+
+  .strong-text {
+    color: #F44336;
+  }
+
+  .report-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: fixed;
+
+    text {
+      margin-bottom: 40px;
+    }
+  }
+
+  @keyframes showUp {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .show-up {
+    animation: showUp 1s ease-in;
+  }
+
+  @keyframes flashing {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .flashing {
+    animation: flashing 3s infinite ease-in-out;
+  }
+
+}
