@@ -1,0 +1,81 @@
+@import "../../../../app";
+
+.base-page {
+  color: #e8eaf6;
+
+  .user-greeting {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+
+    .user-nick-name {
+      margin: 20px;
+    }
+  }
+
+  .main-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    top: 140px;
+    left: 0;
+
+    text {
+      margin-bottom: 40px;
+    }
+
+    .app-info-view {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      width: 100vw;
+
+      margin-top: 40px;
+
+      .app-info-vertical-separator {
+        border: thin solid transparent;
+        border-right-color: @border-color;
+        display: inline;
+        height: 120px;
+      }
+
+      .right-info-view {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        margin-left: 40px;
+
+        text {
+          margin-bottom: 40px;
+        }
+      }
+    }
+
+  }
+
+  .prompt-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    width: 100vw;
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    .enter-text {
+      margin-bottom: 40px;
+    }
+  }
+}
