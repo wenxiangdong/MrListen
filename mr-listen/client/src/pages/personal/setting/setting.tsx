@@ -51,7 +51,7 @@ export class Setting extends Component<any, IState> {
         </ScrollView>
         <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
         <View className={'setting-bar-view'}>
-          <Text>主题颜色</Text>
+          <Text>设置动态背景（点击预览）</Text>
         </View>
         <ScrollView className={'theme-color-options-scroll-view'} scrollX={true}>
           {

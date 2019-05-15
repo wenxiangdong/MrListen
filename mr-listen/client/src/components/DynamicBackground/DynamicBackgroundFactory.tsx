@@ -5,18 +5,19 @@ import ColorStripe from "./ColorStripe/ColorStripe";
 interface IProp {
   type: string,
   arg?: string,
-  mode?: string
+  // mode?: string
 }
 interface IState {
 
 }
-export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState> {
+export default class DynamicBackgroundFactory extends Taro.Component<IProp, IState> {
   render () {
     let bg;
-    const {type, arg, mode} = this.props;
+    const {type, arg} = this.props;
     switch (type) {
-      case "ColorStripe":
-        bg = <ColorStripe colorSet={'arg'}/>
+      case "ColorStripe": {
+        bg = <ColorStripe colorSet={arg? arg : 'candy'}/>
+      }
     }
     return (
       <View>

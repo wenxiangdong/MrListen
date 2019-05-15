@@ -17,6 +17,7 @@ import Fireworks from "../../components/FullScreenAnimation/Fireworks/Fireworks"
 import Flood from "../../components/FullScreenAnimation/Flood/Flood";
 import Music from "../../components/DynamicBackground/Music/Music";
 import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
+import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -165,9 +166,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        {/*<FullScreenEmoji content={"😊"}/>*/}
-        {/*<Music/>*/}
-        <ColorStripe colorSet={'candy'}/>
+        <DynamicBackgroundFactory type={"ColorStripe"} arg={"rainbow"}/>
       </Block>
     );
   }
