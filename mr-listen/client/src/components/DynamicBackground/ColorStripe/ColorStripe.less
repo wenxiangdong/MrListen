@@ -1,0 +1,59 @@
+@import "./../../FullScreenAnimation/AnimationCommonBox";
+@box-width: 520px;
+@box-height: 400px;
+
+@column-width: 32px;
+.music-box {
+  position: absolute;
+  width: @box-width;
+  height: 0;
+  top: 0;
+  left: calc(50vw - @box-width / 2);
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.column {
+  //opacity: .3;
+  background-color: gray;
+  height: 0;
+  animation: dance 1.4s cubic-bezier(0, 0, 0, 1);
+  animation-fill-mode: forwards;
+  width: @column-width;
+  border-radius: calc(@column-width / 2);
+}
+
+
+@keyframes dance {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100vh;
+  }
+}
+
+.color-1 {
+  animation-delay: 150ms;
+}
+
+.color-2 {
+  animation-delay: 100ms;
+}
+
+.color-3 {
+  animation-delay: 50ms;
+}
+
+.color-4 {
+  animation-delay: 300ms;
+}
+
+.color-5 {
+  animation-delay: 250ms;
+}
+
+.color-6 {
+  animation-delay: 200ms;
+}
