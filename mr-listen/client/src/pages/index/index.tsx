@@ -13,6 +13,8 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
+import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
+import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -35,7 +37,7 @@ class Index extends Component<any, IState> {
    */
   config: Config = {
     navigationBarTitleText: '即刻倾诉',
-    enablePullDownRefresh: true
+    // enablePullDownRefresh: true
   };
 
 
@@ -161,8 +163,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        {/*<FullScreenEmoji content={"😊"}/>*/}
-        {/*<Fireworks/>*/}
+        <DynamicBackgroundFactory type={"ColorStripe"} arg={"rainbow"}/>
       </Block>
     );
   }

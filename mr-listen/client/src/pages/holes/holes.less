@@ -19,10 +19,27 @@
 }
 
 .create-hole-button {
-  width:100vw;
+  background: #2196F3;
+  box-shadow: #00000055 0 10px 20px;
+  box-sizing: border-box;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  position: fixed;
+  border: unset;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  z-index: 2;
-  position:fixed;
-  bottom:0;
-  left:0;
+  // 去除默认边框
+  &:after {
+    border: none;
+  }
+
+  .create-hole-button-icon {
+    transform: scale(.7, .7);
+    color: #ffffff;
+  }
 }

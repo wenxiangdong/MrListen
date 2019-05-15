@@ -5,8 +5,10 @@ import NavigateBar, {NavigatorBarProp} from '../../components/personal/NavigateB
 
 import './center.less'
 
-// TODO 临时的 icon
-import errorPng from "../../images/success.png"
+import reportPng from "../../images/personal/report-icon.png";
+import helpPng from "../../images/personal/help-icon.png";
+import settingPng from "../../images/personal/setting-icon.png";
+import aboutPng from "../../images/personal/about-icon.png";
 
 /**
  * 个人中心页
@@ -24,31 +26,28 @@ export class Center extends Component {
 
   config: Config = {
     navigationBarTitleText: '个人中心',
-    navigationBarBackgroundColor: '#2962FF',
-    navigationBarTextStyle: "white",
-
   };
 
   private navigatorBarPropArr: NavigatorBarProp[] = [
     {
       url:'/pages/personal/report/report',
       name: '倾诉报告',
-      icon: errorPng
+      icon: reportPng
     },
     {
       url:'/pages/personal/setting/setting',
       name: '个人设置',
-      icon: errorPng
+      icon: settingPng
     },
     {
       url:'/pages/personal/help/help',
       name: '如何使用',
-      icon: errorPng
+      icon: helpPng
     },
     {
       url:'/pages/personal/about/about',
       name: '关于我们',
-      icon: errorPng
+      icon: aboutPng
     },
   ];
 
@@ -59,7 +58,12 @@ export class Center extends Component {
           <UserInfoBar/>
         </View>
         <View className={'navigator-bars-wrapper'}>
-          {this.navigatorBarPropArr.map((p, idx) => <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>)}
+          {this.navigatorBarPropArr.map(
+            (p, idx) =>
+              <View className={'navigate-bar-animation'} style={{animationDelay: idx * 0.12 + 0.3 + 's'}}>
+                <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>
+              </View>
+          )}
         </View>
       </View>
     )

@@ -21,11 +21,14 @@ export default class SampleBubble extends Component<IProp> {
       <View>
         <View className={"right-flex bubble-item"}>
           <View className={"avatar-wrapper"}>
-            <UserAvatar size={44} margin={3}/>
+            <UserAvatar size={38} margin={0}/>
           </View>
           <View className={"Right-wrapper bubble"} style={{backgroundColor: this.props.color}}>
-            <Text className={"Right-text bubble-text"}>气泡内容</Text>
-            <SendTime time={new Date().getTime()} textColor={"white"}/>
+            <View className={'bubble-triangle'} style={{
+              borderLeft: '6px solid ' + this.props.color
+            }}/>
+            消息气泡颜色选择示例
+            {/*<SendTime time={bubble.createTime} textColor={"black"}/>*/}
           </View>
         </View>
       </View>

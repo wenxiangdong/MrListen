@@ -29,7 +29,7 @@ class App extends Component {
       'pages/share/hole/hole',
       'pages/share/index',
       'pages/try/try',
-      
+
       'pages/holes/holes',
       'pages/holes/update/update',
       'pages/personal/center',

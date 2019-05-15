@@ -1,37 +1,23 @@
 .user-bar-box {
-  display: flex;
-  align-items: center;
-  height: 30vh;
-  &:before {
-    position: absolute;
-    top: -20vh;
-    content: "";
-    width: 100vw;
-    height: 50vh;
-    background: #2962FF;
-    z-index: -2;
-    transform: skewY(-15deg);
-  }
-  &:after {
-    position: absolute;
-    top: -25vh;
-    content: "";
-    width: 100vw;
-    height: 50vh;
-    background: #2196F3;
-    z-index: -4;
-    transform: skewY(15deg);
-  }
+  opacity: 0;
+  margin: 60px 0;
+  animation: fly-in .5s .2s cubic-bezier(0,0,0,1);
+  animation-fill-mode: forwards;
 }
 
-//.stars{
-//  position: absolute;
-//  top: -25vh;
-//  width: 100vw;
-//  height: 50vh;
-//  background: url("./../../images/stars.png") 60% 60%;
-//}
+.navigate-bar-animation {
+  opacity: 0;
+  animation: fly-in .5s cubic-bezier(0,0,0,1);
+  animation-fill-mode: forwards;
+}
 
-.navigator-bars-wrapper {
-  margin-top: 200px;
+@keyframes fly-in {
+  0% {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

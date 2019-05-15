@@ -47,7 +47,6 @@ let bubbleColorOptions: string[] = [
   "#009688",
   "#616161",
   "#9575CD",
-  "#E65100",
   "#546E7A",
   "#558B2F",
   "#5C6BC0",
