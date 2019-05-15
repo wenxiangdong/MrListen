@@ -19,7 +19,6 @@ import aboutPng from "../../images/personal/about-icon.png";
  *   关于我们
  * @author 张李承
  * @create 2019/4/22 23:16
- * TODO 添加跳转条的 icon
  * TODO 请 cyf 同学进行美化
  */
 export class Center extends Component {

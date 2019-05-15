@@ -166,7 +166,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        <DynamicBackgroundFactory type={"ColorStripe"} arg={"rainbow"}/>
+        <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/>
       </Block>
     );
   }
