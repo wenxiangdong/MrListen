@@ -40,7 +40,9 @@ export default class PageEight extends Component<IProp> {
           </View>
         </View>
         <View className={'prompt-view'}>
-          <Button className={'enter-text'} onClick={this.props.onReturnTopClick}>再看一边</Button>
+          <Button className={'return-button'}
+                  plain={true}
+                  onClick={this.props.onReturnTopClick}>再看一边</Button>
         </View>
       </View>
     );
