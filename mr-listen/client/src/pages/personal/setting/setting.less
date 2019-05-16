@@ -1,20 +1,28 @@
-.setting-view {
-  width: 100vw;
+.main-box {
+  background-color: #fafafa;
   height: 100vh;
-
-  padding: 10px 0;
+  margin-top: -40px;
 }
 
-.setting-bar-view{
+.menu-item, .menu-item-with-switch{
+  margin: 40px 0;
+  padding: 20px 40px;
+  background-color: white;
+  border-bottom: 2px #eeeeee solid;
+  border-top: 2px #eeeeee solid;
+}
 
-  padding: 10px 20px;
-
+.menu-item-with-switch {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.bubble-color-options-scroll-view, .theme-color-options-scroll-view{
-  white-space: nowrap;
+.color-picker{
+  margin: 20px -40px;
+  display: flex;
+}
+
+.color-picker-option {
+  flex: 1 1 auto;
 }

@@ -35,37 +35,39 @@ export class Setting extends Component<any, IState> {
 
   render() {
     return (
-      <View className={'setting-view'}>
-        <View className={'setting-bar-view'}>
-          <Text>气泡颜色</Text>
-        </View>
-        <ScrollView className={'bubble-color-options-scroll-view'} scrollX={true}>
-          {
-            bubbleColorOptions.map((val, idx) =>
-              <ColorPickerOption key={idx} color={val}
-                                 selected={val === this.state.userConfig.bubbleColor}
-                                 onSelect={() => {this.setState({userConfig: {...this.state.userConfig, bubbleColor: val}})}}
-              />
-            )
-          }
-        </ScrollView>
-        <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
-        <View className={'setting-bar-view'}>
+      <View className={'main-box'}>
+        <View className={'menu-item'}>
           <Text>动态背景</Text>
+          <View className={'theme-picker'}>
+            {
+              themeOptions.map((val, idx) =>
+                <ThemeColorPickerOption key={idx} color={val}
+                                        selected={val === this.state.userConfig.theme}
+                                        onSelect={() => {
+                                          this.setState({userConfig: {...this.state.userConfig, theme: val}});
+                                        }}
+                />
+              )
+            }
+          </View>
         </View>
-        <ScrollView className={'theme-color-options-scroll-view'} scrollX={true}>
-          {
-            themeOptions.map((val, idx) =>
-              <ThemeColorPickerOption key={idx} color={val}
-                                 selected={val === this.state.userConfig.theme}
-                                 onSelect={() => {
-                                   this.setState({userConfig: {...this.state.userConfig, theme: val}});
-                                 }}
-              />
-            )
-          }
-        </ScrollView>
-        <View className={'setting-bar-view'}>
+        <View className={'menu-item'}>
+          <Text>气泡颜色</Text>
+          <View className={'color-picker'}>
+            {
+              bubbleColorOptions.map((val, idx) =>
+                <View key={idx} className={'color-picker-option'}>
+                  <ColorPickerOption color={val}
+                                     selected={val === this.state.userConfig.bubbleColor}
+                                     onSelect={() => {this.setState({userConfig: {...this.state.userConfig, bubbleColor: val}})}}
+                  />
+                </View>
+              )
+            }
+          </View>
+          <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
+        </View>
+        <View className={'menu-item-with-switch'}>
           <Text>摇一摇冲走烦恼</Text>
           <Switch checked={this.state.userConfig.shakeOff} onChange={(e) => {
             this.setState({userConfig: {...this.state.userConfig, shakeOff: e.detail.value}});
