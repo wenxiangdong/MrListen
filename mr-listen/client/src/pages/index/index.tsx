@@ -15,6 +15,8 @@ import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
 import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
 import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
+import userConfig from "../../utils/user-config";
+import ShakeIt from "../../components/ShakeIt/ShakeIt";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -22,8 +24,8 @@ interface IState {
   title: string,
   pageHeight: string, // scroll view的高度，通过键盘高度计算
   top: string,  //  scroll view 整个页面最上方的高度
-  lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去
-  lastBubble: Bubble | undefined
+  lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去,
+  shakeItOn: boolean, // 是否开启了 摇一摇
 }
 
 class Index extends Component<any, IState> {
@@ -53,7 +55,7 @@ class Index extends Component<any, IState> {
       pageHeight: "100vh",
       lastBubbleId: "",
       top: "0",
-      lastBubble: undefined
+      shakeItOn: true
     };
   }
 
@@ -69,7 +71,9 @@ class Index extends Component<any, IState> {
       `bubbles/${bubble.type}/${new Date().getTime()}-${Math.random()}`,
       bubble.content
     );
-    return {...bubble, content: url} as Bubble;
+    bubble =  {...bubble, content: url} as Bubble;
+    this.logger.info("处理完的bubble", bubble);
+    return bubble;
   };
 
   // 根据类型处理raw气泡的
@@ -114,8 +118,7 @@ class Index extends Component<any, IState> {
 
   render() {
 
-    const {bubbleVOList, title, pageHeight, lastBubbleId, lastBubble} = this.state;
-    this.logger.info("last bubble", lastBubble);
+    const {bubbleVOList, title, pageHeight, lastBubbleId, shakeItOn} = this.state;
 
     // 构建所有气泡
     let bubbleVOListLength = bubbleVOList.length;
@@ -164,6 +167,7 @@ class Index extends Component<any, IState> {
             onFocus={this.handleFocus}/>
         </ScrollView>
         <DynamicBackgroundFactory type={"ColorStripe"} arg={"rainbow"}/>
+        {shakeItOn ? <ShakeIt/> : null}
       </Block>
     );
   }
@@ -294,6 +298,13 @@ class Index extends Component<any, IState> {
     }
   }
 
+
+  componentDidShow(): void {
+    this.logger.info("show");
+    // 要在每次show的时候检查一下是不是开启了相关的个人设置，如 摇一摇
+    this.checkShakeIt();
+  }
+
   onPullDownRefresh(): void {
     const {holeId, bubbleVOList} = this.state;
     if (holeId && (!bubbleVOList || !bubbleVOList.length)) {
@@ -316,6 +327,13 @@ class Index extends Component<any, IState> {
       Listen.hideLoading();
       Taro.stopPullDownRefresh();
     })
+  }
+
+  checkShakeIt() {
+    let config = userConfig.getConfig();
+    this.setState({
+      shakeItOn: !!config.shakeOff
+    });
   }
 
 }

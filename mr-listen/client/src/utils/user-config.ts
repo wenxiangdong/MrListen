@@ -30,7 +30,9 @@ class UserConfig {
   }
 }
 
-export default new UserConfig();
+// 这样写方便外面导入，有提示
+const userConfig = new UserConfig();
+export default userConfig;
 
 let bubbleColorOptions: string[] = [
   "#1E88E5",

@@ -162,11 +162,11 @@ export default class InputBar extends Component<IProp, IState> {
 
   // 图片或语音气泡的冒泡
   handleSpecialBubbling = (bubble: Bubble) => {
+    this.logger.info("发送特殊气泡", bubble);
     // 为其设置风格
     bubble.style = this.state.bubbleStyle;
-    if (typeof this.props.onBubbling === "function") {
-      this.props.onBubbling(bubble);
-    }
+    const {onBubbling} = this.props;
+    onBubbling(bubble);
   };
 
 

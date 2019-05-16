@@ -67,6 +67,28 @@
       margin-bottom: 40px;
     }
 
+    .enter-icon {
+      width: 50px;
+      height: 50px;
+      border: white 4Px solid;
+      border-radius: 50%;
+      margin-bottom: 50px;
+      animation: breathing 4s infinite ease-in-out;
+
+      @keyframes breathing {
+        0% {
+          opacity: 0.3;
+        }
+        30% {
+          opacity: 1.0;
+        }
+        100% {
+          opacity: 0.1;
+          transform: scale(1.8);
+        }
+      }
+    }
+
     .enter-img {
       width: 100px;
       height: 100px;
