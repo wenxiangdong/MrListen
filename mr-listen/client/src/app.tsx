@@ -1,7 +1,9 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, {Component, Config} from '@tarojs/taro'
 import Index from './pages/index'
 
 import './app.less'
+import Logger from "./utils/logger";
+import shareUtil, {ShareKeys} from "./utils/share-util";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -20,8 +22,11 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+
+
+      // 'pages/dev/index',
       'pages/index/index',
-      'pages/dev/index',
+      'pages/share/hole/hole',
       'pages/share/index',
       'pages/try/try',
       
@@ -41,6 +46,17 @@ class App extends Component {
     },
     cloud: true
   };
+
+  private logger = Logger.getLogger("app");
+
+  componentWillMount(): void {
+    // 只能在这里获取到场景值
+    this.logger.info(this.$router.params);
+    const {query} = this.$router.params;
+    const {holeId, userNickname} = query;
+    shareUtil.setShareMessage(ShareKeys.SHARE_HOLE, {holeId, userNickname});
+    // 后面如果用分享报告，也可以类似
+  }
 
   componentDidMount () {
     if (process.env.TARO_ENV === 'weapp') {
