@@ -1,6 +1,6 @@
 import Taro, {Component, Config} from '@tarojs/taro'
 import {View, Text, Switch, ScrollView} from '@tarojs/components'
-import userConfigUtil, {IUserConfig, bubbleColorOptions, themeColorOptions} from './../../../utils/user-config'
+import userConfigUtil, {IUserConfig, bubbleColorOptions, themeOptions} from './../../../utils/user-config'
 import SampleBubble from './../../../components/personal/SampleBubble'
 import ColorPickerOption from './../../../components/personal/ColorPickerOption/ColorPickerOption'
 import ThemeColorPickerOption from './../../../components/personal/ThemePickerOption/ThemeColorPickerOption'
@@ -55,11 +55,11 @@ export class Setting extends Component<any, IState> {
         </View>
         <ScrollView className={'theme-color-options-scroll-view'} scrollX={true}>
           {
-            themeColorOptions.map((val, idx) =>
+            themeOptions.map((val, idx) =>
               <ThemeColorPickerOption key={idx} color={val}
-                                 selected={val === this.state.userConfig.themeColor}
+                                 selected={val === this.state.userConfig.theme}
                                  onSelect={() => {
-                                   this.setState({userConfig: {...this.state.userConfig, themeColor: val}});
+                                   this.setState({userConfig: {...this.state.userConfig, theme: val}});
                                  }}
               />
             )

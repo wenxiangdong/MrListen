@@ -8,11 +8,13 @@ import "@tarojs/async-await";
 interface IProp {
   content: string
 }
+
 interface IPosition {
   // 以左下角为原点
   x: string,
   y: string
 }
+
 export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
   private firstShownGroupPositions: IPosition[];
@@ -26,21 +28,21 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
   private initPositions() {
     this.firstShownGroupPositions = [
-      {x: '10px', y: '80px'},
-      {x: '100px', y: '20px'},
-      {x: '225px', y: '120px'},
-      {x: '365px', y: '40px'},
+      {x: '10px', y: '3vh'},
+      {x: '100px', y: '-6vh'},
+      {x: '225px', y: '9vh'},
+      {x: '365px', y: '-1vh'},
     ];
     this.secondShownGroupPositions = [
-      {x: '240px', y: '60px'},
-      {x: '335px', y: '-20px'},
-      {x: '65px', y: '90px'},
-      {x: '145px', y: '30px'},
+      {x: '240px', y: '1vh'},
+      {x: '335px', y: '-2vh'},
+      {x: '65px', y: '4vh'},
+      {x: '145px', y: '-5vh'},
     ];
     this.thirdShownGroupPositions = [
-      {x: '300px', y: '-60px'},
-      {x: '195px', y: '-180px'},
-      {x: '25px', y: '-50px'},
+      {x: '300px', y: '-15vh'},
+      {x: '195px', y: '-18vh'},
+      {x: '25px', y: '-10vh'},
     ];
   }
 
@@ -75,22 +77,14 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
     return (
       <Block>
         <View className={"outside-shown-box"}>
-          <View className={'main-box'}>
-            <View className={"first-group-box"}>
-              <View className={'relative-box'}>
-                {firstShownGroup}
-              </View>
-            </View>
-            <View className={"second-group-box"}>
-              <View className={'relative-box'}>
-                {secondShownGroup}
-              </View>
-            </View>
-            <View className={"third-group-box"}>
-              <View className={'relative-box'}>
-                {thirdShownGroup}
-              </View>
-            </View>
+          <View className={"first-group-box"}>
+            {firstShownGroup}
+          </View>
+          <View className={"second-group-box"}>
+            {secondShownGroup}
+          </View>
+          <View className={"third-group-box"}>
+            {thirdShownGroup}
           </View>
         </View>
       </Block>
