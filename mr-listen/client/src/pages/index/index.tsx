@@ -13,10 +13,7 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-import Fireworks from "../../components/FullScreenAnimation/Fireworks/Fireworks";
-import Flood from "../../components/FullScreenAnimation/Flood/Flood";
-import Music from "../../components/DynamicBackground/Music/Music";
-import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
+
 import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
 
 interface IState {
@@ -26,7 +23,8 @@ interface IState {
   pageHeight: string, // scroll view的高度，通过键盘高度计算
   top: string,  //  scroll view 整个页面最上方的高度
   lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去
-  lastBubble: Bubble | undefined
+  lastBubble: Bubble | undefined,
+  mounted: boolean // 动画效果的bug，确认页面加载完了之后延迟一会再设置动画可以规避这个bug
 }
 
 class Index extends Component<any, IState> {
@@ -40,7 +38,8 @@ class Index extends Component<any, IState> {
    */
   config: Config = {
     navigationBarTitleText: '即刻倾诉',
-    // enablePullDownRefresh: true
+    // enablePullDownRefresh: true,
+    disableScroll: true
   };
 
 
@@ -56,7 +55,8 @@ class Index extends Component<any, IState> {
       pageHeight: "100vh",
       lastBubbleId: "",
       top: "0",
-      lastBubble: undefined
+      lastBubble: undefined,
+      mounted: false
     };
   }
 
@@ -117,7 +117,7 @@ class Index extends Component<any, IState> {
 
   render() {
 
-    const {bubbleVOList, title, pageHeight, lastBubbleId, lastBubble} = this.state;
+    const {bubbleVOList, title, pageHeight, lastBubbleId, lastBubble, mounted} = this.state;
     this.logger.info("last bubble", lastBubble);
 
     // 构建所有气泡
@@ -166,7 +166,7 @@ class Index extends Component<any, IState> {
             onBlur={this.handleBlur}
             onFocus={this.handleFocus}/>
         </ScrollView>
-        <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/>
+        {mounted ? <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/> : ''}
       </Block>
     );
   }
@@ -295,6 +295,9 @@ class Index extends Component<any, IState> {
       // TODO 从api拿气泡
       this.getBubbles(holeId);
     }
+    setTimeout(() => {
+      this.setState({mounted: true})
+    }, 200)
   }
 
   onPullDownRefresh(): void {

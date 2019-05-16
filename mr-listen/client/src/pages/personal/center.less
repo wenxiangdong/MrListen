@@ -1,14 +1,13 @@
+@import "./../../components/common/animation/FlyInAnimation.less";
+
 .user-bar-box {
   opacity: 0;
   margin: 60px 0;
-  animation: fly-in .5s .2s cubic-bezier(0,0,0,1);
   animation-fill-mode: forwards;
 }
 
-.navigate-bar-animation {
+.nav-bar-item {
   opacity: 0;
-  animation: fly-in .5s cubic-bezier(0,0,0,1);
-  animation-fill-mode: forwards;
 }
 
 @keyframes fly-in {
@@ -21,3 +20,16 @@
     opacity: 1;
   }
 }
+
+.generate-columns(10);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .fly-in-@{i} {
+    opacity: 0;
+    animation: fly-in .5s (@i*0.12s) cubic-bezier(0, 0, 0, 1);
+    animation-fill-mode: forwards;
+  }
+  .generate-columns(@n, (@i + 1));
+}
+
+

@@ -21,7 +21,12 @@ import aboutPng from "../../images/personal/about-icon.png";
  * @create 2019/4/22 23:16
  * TODO 请 cyf 同学进行美化
  */
-export class Center extends Component {
+
+interface IState {
+  mounted: boolean
+}
+
+export class Center extends Component<any, IState>{
 
   config: Config = {
     navigationBarTitleText: '个人中心',
@@ -50,17 +55,34 @@ export class Center extends Component {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mounted: false
+    }
+  }
+
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({mounted: true})
+    }, 200)
+  }
+
   render() {
+    let {mounted} = this.state;
+
     return (
       <View className={'center-view'}>
-        <View className={'user-bar-box'}>
+        <View className={`user-bar-box ${mounted ? `fly-in-1`: ``}`}>
           <UserInfoBar/>
         </View>
         <View className={'navigator-bars-wrapper'}>
           {this.navigatorBarPropArr.map(
             (p, idx) =>
-              <View className={'navigate-bar-animation'} style={{animationDelay: idx * 0.12 + 0.3 + 's'}}>
-                <NavigateBar key={idx} url={p.url} name={p.name} icon={p.icon}/>
+              <View key={idx} className={`nav-bar-item ${mounted ? `fly-in-${idx + 3}`: ``}`}>
+                <NavigateBar url={p.url} name={p.name} icon={p.icon}/>
               </View>
           )}
         </View>
