@@ -9,10 +9,10 @@ import pausePng from "../../images/pause.png";
 import forwardPng from "../../images/FastForward.png";
 import replayPng from "../../images/replay.png";
 import Listen from "../../utils/listen";
-import homePng from "../../images/home.png";
 
 interface IProp {
-  bubbles: BubbleVO[]
+  bubbles: BubbleVO[],
+  renderFooter?: JSX.Element | null
 }
 
 interface IState {
@@ -103,15 +103,11 @@ export default class Playback extends Taro.Component<IProp, IState> {
     return "bubble" + index.toString();
   }
 
-  handleClickHome = () => {
-    Taro.reLaunch({
-      url: "/pages/index/index"
-    });
-  };
 
   render() {
     const {playingBubbleList, playing, bubbleVOList, lastViewId} = this.state;
     const {bubbles} = this.props;
+    this.logger.info(this.props);
     if (!bubbles || !bubbles.length) {
       return null;
     }
@@ -148,6 +144,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
         </View>
       </View>
     );
+
     return (
       <View className={"Playback-cover"}>
         <View className={"Playback-main"}>
@@ -157,7 +154,10 @@ export default class Playback extends Taro.Component<IProp, IState> {
           </ScrollView>
           {controlBar}
         </View>
-        <Image src={homePng} className={"Playback-home-icon"} onClick={this.handleClickHome} />
+        <View className={"Playback-footer"}>
+          {this.props.renderFooter}
+        </View>
+        {/* <Image src={homePng} className={"Playback-home-icon"} onClick={this.handleClickHome} /> */}
       </View>
     );
   }

@@ -76,11 +76,10 @@ export default class Index extends Component<any, IState> {
 
 
   handleClickShare = () => {
-    if (this.state.inputText.length > 15) {
+    if (this.state.inputText.length > 10) {
       Listen.message.error("个性签名有误");
       return;
     }
-    this.logger.info("开始请求服务器，生成二维码");
     this.setState({
       qrCode: true
     })
@@ -135,16 +134,19 @@ export default class Index extends Component<any, IState> {
           </View>
           <View>
             <Input
-              className={"share-input" + (inputText.length > 15 ? " share-input-error" : "")}
-              placeholder={"不超过15字(可留空)"}
+              className={"share-input" + (inputText.length > 10 ? " share-input-error" : "")}
+              placeholder={"不超过10字(可留空)"}
               value={inputText}
               onInput={this.handleInputChange}/>
           </View>
         </View>
 
         <View>
-          <Button className={"share-btn"} hoverClass={"share-btn-hover"}
-                  onClick={this.handleClickShare}>开始制作分享</Button>
+          {userInfoGot
+            ? <Button className={"share-btn"} hoverClass={"share-btn-hover"}
+                                 onClick={this.handleClickShare}>开始制作分享</Button>
+            : <Button className={"share-btn"} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>授权使用微信个人信息（昵称）</Button>
+          }
         </View>
 
         {/*{userInfoGot*/}
