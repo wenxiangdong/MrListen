@@ -81,7 +81,7 @@ export class Center extends Component<any, IState>{
         <View className={'navigator-bars-wrapper'}>
           {this.navigatorBarPropArr.map(
             (p, idx) =>
-              <View key={idx} className={`nav-bar-item ${mounted ? `fly-in-${idx + 3}`: ``}`}>
+              <View key={idx} className={`nav-bar-item ${mounted ? `fly-in-${idx + 2}`: ``}`}>
                 <NavigateBar url={p.url} name={p.name} icon={p.icon}/>
               </View>
           )}

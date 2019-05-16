@@ -5,15 +5,15 @@ import Logger from './../../utils/logger'
 import Listen from '../../utils/listen'
 import {apiHub} from '../../apis/ApiHub'
 import {IHoleVO} from '../../apis/HoleApi'
-import HoleBar from './../../components/HoleBar/HoleBar'
-import penSVG from "./../../images/pen.svg";
+import editSVG from "./../../images/add.svg";
 
 
 import './holes.less'
 import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
 
 interface IState {
-  holeVOSet: IHoleVO[]
+  holeVOSet: IHoleVO[],
+  mounted: boolean
 }
 
 /**
@@ -41,12 +41,21 @@ export class Holes extends Component<any, IState> {
 
   constructor(props) {
     super(props);
-    this.state = {holeVOSet: []};
+    this.state = {
+      holeVOSet: [],
+      mounted: false
+    };
   }
 
   componentWillMount() {
     // 获取树洞列表
     this.queryMoreHoles();
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({mounted: true})
+    }, 200)
   }
 
   private queryMoreHoles = () => {
@@ -142,14 +151,19 @@ export class Holes extends Component<any, IState> {
     // {/*onClick={() => this.handleClickHole(hole)}*/}
     // {/*onUpdate={() => this.handleUpdateHole(hole)}*/}
     // {/*/>*/}
+
+    const {mounted} = this.state;
+
     let holes = this.state.holeVOSet && this.state.holeVOSet.length
-      ? this.state.holeVOSet.map((hole) =>
-        <HoleSwiperAction
-          hole={hole}
-          onDelete={() => this.handleDeleteHole(hole)}
-          onClick={() => this.handleClickHole(hole)}
-          onUpdate={() => this.handleUpdateHole(hole)}
-        />
+      ? this.state.holeVOSet.map((hole, idx) =>
+        <View key={idx} className={`${mounted ? `fly-in-${(idx + 1) % 10}` : ``}`}>
+          <HoleSwiperAction
+            hole={hole}
+            onDelete={() => this.handleDeleteHole(hole)}
+            onClick={() => this.handleClickHole(hole)}
+            onUpdate={() => this.handleUpdateHole(hole)}
+          />
+        </View>
       )
       : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>
     ;
@@ -165,7 +179,7 @@ export class Holes extends Component<any, IState> {
         </ScrollView>
         <Button className={'create-hole-button'}
                 onClick={this.handleCreateHole}>
-          <Image className={'create-hole-button-icon'} src={penSVG}/>
+          <Image className={'create-hole-button-icon'} src={editSVG}/>
         </Button>
       </View>
     )

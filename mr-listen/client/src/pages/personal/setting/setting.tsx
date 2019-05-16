@@ -8,7 +8,8 @@ import ThemeColorPickerOption from './../../../components/personal/ThemePickerOp
 import './setting.less'
 
 interface IState {
-  userConfig: IUserConfig
+  userConfig: IUserConfig,
+  mounted: boolean
 }
 
 /**
@@ -25,8 +26,15 @@ export class Setting extends Component<any, IState> {
   constructor(props) {
     super(props);
     this.state = {
-      userConfig: userConfigUtil.getConfig()
+      userConfig: userConfigUtil.getConfig(),
+      mounted: false
     };
+  }
+
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({mounted: true})
+    })
   }
 
   componentWillUnmount() {
@@ -34,9 +42,11 @@ export class Setting extends Component<any, IState> {
   }
 
   render() {
+    const {mounted} = this.state;
+
     return (
       <View className={'main-box'}>
-        <View className={'menu-item'}>
+        <View className={`menu-item ${mounted ? `fly-in-2`: ``}`}>
           <Text>动态背景</Text>
           <View className={'theme-picker'}>
             {
@@ -51,7 +61,7 @@ export class Setting extends Component<any, IState> {
             }
           </View>
         </View>
-        <View className={'menu-item'}>
+        <View className={`menu-item ${mounted ? `fly-in-3`: ``}`}>
           <Text>气泡颜色</Text>
           <View className={'color-picker'}>
             {
@@ -67,7 +77,7 @@ export class Setting extends Component<any, IState> {
           </View>
           <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
         </View>
-        <View className={'menu-item-with-switch'}>
+        <View className={`menu-item-with-switch ${mounted ? `fly-in-4`: ``}`}>
           <Text>摇一摇冲走烦恼</Text>
           <Switch checked={this.state.userConfig.shakeOff} onChange={(e) => {
             this.setState({userConfig: {...this.state.userConfig, shakeOff: e.detail.value}});
