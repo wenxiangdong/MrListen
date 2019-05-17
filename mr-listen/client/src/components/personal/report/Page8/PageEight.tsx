@@ -19,30 +19,30 @@ export default class PageEight extends Component<IProp> {
 
   render() {
     return (
-      <View className={'base-page'}>
-        <View className={'user-greeting'}>
+      <View>
+        <View>
           <Text>Hi</Text>
-          <OpenData className={'user-nick-name'} type={'userNickName'}/>
+          <OpenData type={'userNickName'}/>
           <Text>:</Text>
         </View>
-        <View className={'main-info show-up'}>
+        <View>
           <Text>不管是过去还是未来</Text>
           <Text>只要是你想说的</Text>
           <Text>都会认真倾听</Text>
-          <Text decode={true}>祝&nbsp;天天开心</Text>
-          <View className={'app-info-view'}>
+          <Text>祝 天天开心</Text>
+          <View>
             <AppAvatar size={40} margin={10}/>
             <View className={'app-info-vertical-separator'}/>
-            <View className={'right-info-view'}>
-              <Text className={'app-name-text'}>Mr Listen</Text>
-              <Text className={'app-intro-text'}>倾 听 你 的 一 切</Text>
+            <View>
+              <Text>Mr Listen</Text>
+              <Text>倾 听 你 的 一 切</Text>
             </View>
           </View>
         </View>
-        <View className={'prompt-view'}>
-          <Button className={'return-button'}
-                  plain={true}
-                  onClick={this.props.onReturnTopClick}>再看一边</Button>
+        <View>
+          <Button
+            plain={true}
+            onClick={this.props.onReturnTopClick}>回放报告</Button>
         </View>
       </View>
     );

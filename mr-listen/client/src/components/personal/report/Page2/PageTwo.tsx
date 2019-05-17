@@ -1,11 +1,17 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text} from '@tarojs/components'
+import {View, Text, Image} from '@tarojs/components'
 
 import './PageTwo.less'
 import './../Report.less'
 
+import paperPlanePNG from './paper-plane.png'
+
 interface IProp {
   meetTime: number
+}
+
+interface IState {
+  mounted: boolean
 }
 
 /**
@@ -14,7 +20,13 @@ interface IProp {
  * @author 张李承
  * @create 2019/5/14 14:49
  */
-export default class PageTwo extends Component<IProp> {
+export default class PageTwo extends Component<IProp, IState> {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {mounted: false};
+  }
 
   private getHourTexts = (hour) => {
     let texts = ['', ''];
@@ -49,23 +61,42 @@ export default class PageTwo extends Component<IProp> {
     return texts;
   };
 
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({mounted: true});
+    }, 200)
+  }
+
   render() {
     let meetDate = new Date(this.props.meetTime);
     let texts = this.getHourTexts(meetDate.getHours());
+    const {mounted} = this.state;
 
     return (
-      <View className={'base-page'}>
-        <View className={'report-info show-up'} style={{top: '100rpx'}}>
-          <Text>还记得 我们的初次相遇</Text>
-          <Text style={{marginBottom: '60rpx'}}>
-            <Text decode={true}>那是在&nbsp;</Text>
-            <Text className={'strong-text'}>{meetDate.getFullYear()}</Text>
-            <Text decode={true}>&nbsp;年的&nbsp;</Text>
-            <Text className={'strong-text'}>{meetDate.getMonth() + 1}</Text>
-            <Text decode={true}>&nbsp;月</Text>
-          </Text>
-          <Text>{texts[0]}</Text>
-          <Text>{texts[1]}</Text>
+      <View className={'base-style page-2'}>
+        <View className={'box'}>
+          <View className={'first-block'}>
+            <View className={'align-text'}>
+              <View className={`text-align-last word-1 ${mounted ? `word-fly-in-1` : ``}`}>还记得</View>
+              <View className={`text-align-last word-2 ${mounted ? `word-fly-in-3` : ``}`}>我们的初次相遇</View>
+              <View className={`text-align-last word-3  ${mounted ? `word-fly-in-6` : ``}`}>
+                <Text decode>那是在&nbsp;</Text>
+                <Text className={'strong'} decode>
+                  {meetDate.getFullYear()}&nbsp;年的
+                  &nbsp;{meetDate.getMonth() + 1}&nbsp;月
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View className={'second-block'}>
+            <View>
+              <View className={'word-4 ${mounted ? `word-fly-in-9` : ``} strong'}>{texts[0]}</View>
+              <View className={'word-5 ${mounted ? `word-fly-in-12` : ``}'}>{texts[1]}</View>
+            </View>
+          </View>
+        </View>
+        <View className={'paper-plane'}>
+          <Image className={'paper-plane-img'} src={paperPlanePNG}/>
         </View>
       </View>
     )

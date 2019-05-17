@@ -21,30 +21,30 @@ export default class PageFour extends Component<IProp> {
     let minutes = (seconds / 60) >>> 0;
     let reportInfo = minutes > 0
       ? (
-        <View className={'report-info show-up'}>
+        <View>
           <Text>你最久的一次</Text>
           <Text>
-            <Text decode={true}>絮絮地说了&nbsp;</Text>
-            <Text className={'strong-text'}>{minutes}</Text>
-            <Text decode={true}>&nbsp;分钟</Text>
+            <Text>絮絮地说了</Text>
+            <Text>{minutes}</Text>
+            <Text>分钟</Text>
           </Text>
           <Text>我听得也很开心</Text>
         </View>
       )
       : seconds
         ? (
-          <View className={'report-info show-up'}>
+          <View>
             <Text>你最久的一次</Text>
             <Text>
-              <Text decode={true}>也只说了&nbsp;</Text>
-              <Text className={'strong-text'}>{seconds}</Text>
-              <Text decode={true}>&nbsp;秒</Text>
+              <Text>也只说了</Text>
+              <Text>{seconds}</Text>
+              <Text>秒</Text>
             </Text>
             <Text>我还想多听听你的故事</Text>
           </View>
         )
         : (
-          <View className={'report-info show-up'}>
+          <View>
             <Text>你还没有向我倾诉过</Text>
             <Text>很想听听你的故事</Text>
           </View>
@@ -52,7 +52,7 @@ export default class PageFour extends Component<IProp> {
     ;
 
     return (
-      <View className={'base-page'}>
+      <View>
         {reportInfo}
       </View>
     );

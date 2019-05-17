@@ -23,22 +23,22 @@ export default class PageSix extends Component<IProp> {
 
     let reportInfo = shareHoleCount
       ? (
-        <View className={'report-info show-up'}>
+        <View>
           <Text>你喜欢分享</Text>
           <Text>
-            <Text decode={true}>已经有&nbsp;</Text>
-            <Text className={'strong-text'}>{shareHoleCount}</Text>
-            <Text decode={true}>&nbsp;次分享树洞的经历</Text>
+            <Text>已经有</Text>
+            <Text>{shareHoleCount}</Text>
+            <Text>次分享树洞的经历</Text>
           </Text>
           <Text>
-            <Text decode={true}>你也在这其中收获了&nbsp;</Text>
-            <Text className={'strong-text'}>{plusOneCount}</Text>
-            <Text decode={true}>&nbsp;次点赞</Text>
+            <Text>你也在这其中收获了</Text>
+            <Text>{plusOneCount}</Text>
+            <Text>次点赞</Text>
           </Text>
         </View>
       )
       : (
-        <View className={'report-info show-up'}>
+        <View>
           <Text>你还没有跟别人分享过树洞</Text>
           <Text>这些都是我们的小秘密</Text>
         </View>
@@ -46,7 +46,7 @@ export default class PageSix extends Component<IProp> {
     ;
 
     return (
-      <View className={'base-page'}>
+      <View>
         {reportInfo}
       </View>
     );

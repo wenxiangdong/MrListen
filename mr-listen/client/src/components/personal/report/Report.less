@@ -1,64 +1,71 @@
 @import "../../../app";
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+SC:400,700&display=swap&subset=chinese-simplified');
 
-
-@text-color: #e8eaf6;
-@strong-color: #F44336;
+@text-color: #000000;
+@strong-color: #CC1919;
 @report-bg-color: #1A237E;
 
-.base-page {
-  width: 100vw;
-  height: 100vh;
+.base-style {
+  min-height: 100vh;
 
   color: @text-color;
+  background-color: white;
 
-  background-color: @report-bg-color;
+  font-family: 'Noto Serif SC', serif;
 
-  .strong-text {
+  .strong {
     color: @strong-color;
+    font-weight: bold;
   }
-
-  .report-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    position: fixed;
-
-    text {
-      margin-bottom: 40px;
-    }
-  }
-
-  @keyframes showUp {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 0.2;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .show-up {
-    animation: showUp 1s ease-in;
-  }
-
-  @keyframes flashing {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.2;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .flashing {
-    animation: flashing 3s infinite ease-in-out;
-  }
-
 }
+
+.align-text {
+  display: inline-block;
+}
+
+.text-align-last {
+  text-align: justify;
+  line-height: .55;
+
+  &:after {
+    width: 100%;
+    display: inline-block;
+    content: '';
+  }
+}
+
+.generate-words(10);
+
+// 数字代表时间, .5s
+.generate-words(@n, @i: 1) when (@i =< @n) {
+  .word-@{i} {
+    opacity: 0;
+  }
+  .generate-words(@n, (@i + 1));
+}
+
+
+@keyframes word-fly-in {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.generate-columns(20);
+
+// 数字代表时间, .5s
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .word-fly-in-@{i} {
+    opacity: 0;
+    animation: word-fly-in .5s (@i * .5s - .5s) ease-out;
+    animation-fill-mode: forwards;
+  }
+  .generate-columns(@n, (@i + 1));
+}
+
+

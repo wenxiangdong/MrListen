@@ -32,8 +32,8 @@ export class Report extends Component<any, IState> {
 
   config: Config = {
     navigationBarTitleText: '倾诉报告',
-    navigationBarBackgroundColor: '#1A237E',
-    navigationBarTextStyle: 'white',
+    // navigationBarBackgroundColor: '#1A237E',
+    // navigationBarTextStyle: 'white',
   };
 
   private logger = Logger.getLogger(Report.name);

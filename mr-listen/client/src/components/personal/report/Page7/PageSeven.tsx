@@ -23,16 +23,16 @@ export default class PageSeven extends Component<IProp> {
       reportInfo =
         this.props.mostUsedWords.length
           ? (
-            <View className={'report-info show-up'}>
+            <View>
               <HotWordView mostUsedWords={this.props.mostUsedWords}/>
-              <View className={'inner-report-info'}>
+              <View>
                 <Text>这么多天来</Text>
                 <Text>我常常听你说到这些</Text>
               </View>
             </View>
           )
           : (
-            <View className={'report-info show-up'}>
+            <View>
               <Text>你的树洞空空如也</Text>
               <Text>它的主人神神秘秘</Text>
             </View>
@@ -41,7 +41,7 @@ export default class PageSeven extends Component<IProp> {
     }
 
     return (
-      <View className={'base-page'}>
+      <View>
         {reportInfo}
       </View>
     );
