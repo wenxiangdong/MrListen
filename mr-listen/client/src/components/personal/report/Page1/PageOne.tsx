@@ -29,7 +29,8 @@ export default class PageOne extends Component<IProp> {
       )
       : (
       <View className={'prompt-view'}>
-        <Image className={'enter-img flashing'} src={enterImg}/>
+        {/*<Image className={'enter-img flashing'} src={enterImg}/>*/}
+        <View className={'enter-icon'}/>
         <Text className={'enter-text'}>点击进入</Text>
       </View>
       )
