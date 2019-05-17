@@ -7,11 +7,10 @@ import {Bubble, BubbleStyle, BubbleType} from "../../../apis/BubbleApi";
 import Logger from "../../../utils/logger";
 import Listen from "../../../utils/listen";
 import BubbleStyleConfig from "../../../utils/bubble-style-config";
+import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../../utils/keyboard-behavior-publisher";
 
 interface IProp {
-  onBubbling: (bubble: Bubble) => void,
-  onFocus: (height: number) => void,  // 输入框聚焦时，即键盘弹出时的回调，参数为键盘高度
-  onBlur: () => void,
+  onBubbling: (bubble: Bubble) => void
 }
 
 interface IState {
@@ -26,6 +25,10 @@ export default class InputBar extends Component<IProp, IState> {
   static externalClasses = ['input-bar-class'];
 
   private logger = Logger.getLogger(InputBar.name);
+
+  // 获取两个事件流发射器
+  private keyboardBlurEmitter = keyboardBehaviorPublisher.getEmitter(KeyboardBehaviorTypes.HIDE);
+  private keyboardFocusEmitter = keyboardBehaviorPublisher.getEmitter(KeyboardBehaviorTypes.POP);
 
   constructor(props) {
     super(props);
@@ -118,24 +121,31 @@ export default class InputBar extends Component<IProp, IState> {
   };
 
   handleInputBlur = () => {
-    const {onBlur} = this.props;
-    if (typeof onBlur === "function") {
-      onBlur();
-    }
+    // const {onBlur} = this.props;
+    // if (typeof onBlur === "function") {
+    //   onBlur();
+    // }
     this.setState({
       keyboardHeight: 0
     });
+    if (this.keyboardBlurEmitter) {
+      this.keyboardBlurEmitter.next();
+    }
   };
 
   handleInputFocus = (e) => {
     this.logger.info(e);
-    const {onFocus} = this.props;
-    if (typeof onFocus === "function") {
-      onFocus(e.detail.height);
-    }
+    // const {onFocus} = this.props;
+    // if (typeof onFocus === "function") {
+    //   onFocus(e.detail.height);
+    // }
     this.setState({
       keyboardHeight: e.detail.height
     });
+    // 发射事件
+    if (this.keyboardFocusEmitter) {
+      this.keyboardFocusEmitter.next(e.detail.height);
+    }
   };
 
   handleConfirmInput = (e) => {

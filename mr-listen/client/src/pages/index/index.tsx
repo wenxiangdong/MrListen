@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {Block, View, Text, Image, ScrollView} from '@tarojs/components'
+import {Block, Image, ScrollView, Text, View} from '@tarojs/components'
 import './index.less'
 import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
@@ -17,6 +17,7 @@ import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStr
 import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
 import userConfig from "../../utils/user-config";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
+import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -60,6 +61,10 @@ class Index extends Component<any, IState> {
       mounted: false,
       shakeItOn: true
     };
+
+    // 订阅键盘行为事件
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.POP, this.handleFocus);
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.HIDE, this.handleBlur);
   }
 
 
@@ -165,9 +170,7 @@ class Index extends Component<any, IState> {
           <WhiteSpace height={50}/>
           <InputBar
             onBubbling={this.handleBubbling}
-            input-bar-class={'input-bar'}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus}/>
+            input-bar-class={'input-bar'}/>
         </ScrollView>
         {mounted ? <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/> : ''}
         {shakeItOn ? <ShakeIt/> : null}
