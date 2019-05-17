@@ -55,10 +55,16 @@ export default class AudioContent extends Component<IProp, IState> {
       });
       this.audioContext.onEnded(() => {
         this.logger.info("结束");
+        this.setState({
+          playing: false
+        });
       });
       // @ts-ignore
       this.audioContext.onError((res) => {
         this.logger.error("出错", res);
+        this.setState({
+          playing: false
+        });
       });
     } else {
       this.logger.info("stop");

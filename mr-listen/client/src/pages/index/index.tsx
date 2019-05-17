@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {Block, View, Text, Image, ScrollView} from '@tarojs/components'
+import {Block, Image, ScrollView, Text, View} from '@tarojs/components'
 import './index.less'
 import {Bubble, BubbleType, BubbleVO} from "../../apis/BubbleApi";
 import Logger from "../../utils/logger";
@@ -13,8 +13,11 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-
+import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
 import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
+import userConfig from "../../utils/user-config";
+import ShakeIt from "../../components/ShakeIt/ShakeIt";
+import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -23,8 +26,8 @@ interface IState {
   pageHeight: string, // scroll view的高度，通过键盘高度计算
   top: string,  //  scroll view 整个页面最上方的高度
   lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去
-  lastBubble: Bubble | undefined,
   mounted: boolean // 动画效果的bug，确认页面加载完了之后延迟一会再设置动画可以规避这个bug
+  shakeItOn: boolean, // 是否开启了 摇一摇
 }
 
 class Index extends Component<any, IState> {
@@ -55,9 +58,13 @@ class Index extends Component<any, IState> {
       pageHeight: "100vh",
       lastBubbleId: "",
       top: "0",
-      lastBubble: undefined,
-      mounted: false
+      mounted: false,
+      shakeItOn: true
     };
+
+    // 订阅键盘行为事件
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.POP, this.handleFocus);
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.HIDE, this.handleBlur);
   }
 
 
@@ -72,7 +79,9 @@ class Index extends Component<any, IState> {
       `bubbles/${bubble.type}/${new Date().getTime()}-${Math.random()}`,
       bubble.content
     );
-    return {...bubble, content: url} as Bubble;
+    bubble =  {...bubble, content: url} as Bubble;
+    this.logger.info("处理完的bubble", bubble);
+    return bubble;
   };
 
   // 根据类型处理raw气泡的
@@ -117,8 +126,7 @@ class Index extends Component<any, IState> {
 
   render() {
 
-    const {bubbleVOList, title, pageHeight, lastBubbleId, lastBubble, mounted} = this.state;
-    this.logger.info("last bubble", lastBubble);
+    const {bubbleVOList, title, pageHeight, lastBubbleId, shakeItOn, mounted} = this.state;
 
     // 构建所有气泡
     let bubbleVOListLength = bubbleVOList.length;
@@ -162,11 +170,10 @@ class Index extends Component<any, IState> {
           <WhiteSpace height={50}/>
           <InputBar
             onBubbling={this.handleBubbling}
-            input-bar-class={'input-bar'}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus}/>
+            input-bar-class={'input-bar'}/>
         </ScrollView>
         {mounted ? <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/> : ''}
+        {shakeItOn ? <ShakeIt/> : null}
       </Block>
     );
   }
@@ -300,6 +307,13 @@ class Index extends Component<any, IState> {
     }, 200)
   }
 
+
+  componentDidShow(): void {
+    this.logger.info("show");
+    // 要在每次show的时候检查一下是不是开启了相关的个人设置，如 摇一摇
+    this.checkShakeIt();
+  }
+
   onPullDownRefresh(): void {
     const {holeId, bubbleVOList} = this.state;
     if (holeId && (!bubbleVOList || !bubbleVOList.length)) {
@@ -322,6 +336,13 @@ class Index extends Component<any, IState> {
       Listen.hideLoading();
       Taro.stopPullDownRefresh();
     })
+  }
+
+  checkShakeIt() {
+    let config = userConfig.getConfig();
+    this.setState({
+      shakeItOn: !!config.shakeOff
+    });
   }
 
 }
