@@ -43,19 +43,19 @@ export default class PageTwo extends Component<IProp, IState> {
       texts[1] = `我们相约遇见 ${hour} 点的太阳`;
     } else if (hour < 12) {
       texts[0] = `早晨 ${hour} 点`;
-      texts[1] = `道过早安 一起努力到正午`;
+      texts[1] = `道过早安，又是充实的一天`;
     } else if (hour < 14) {
       texts[0] = `中午的 ${hour - 12} 点`;
-      texts[1] = `午饭后要小憩一会儿吗`;
+      texts[1] = `午饭后记得小憩一会儿喔`;
     } else if (hour < 17) {
       texts[0] = `下午的 ${hour - 12} 点`;
-      texts[1] = `道过午安 等太阳落山`;
+      texts[1] = `道过午安，等太阳落山`;
     } else if (hour < 19) {
       texts[0] = `傍晚的 ${hour - 12} 点`;
-      texts[1] = `一天快要过去了`;
+      texts[1] = `黄昏时的暖风轻轻地吹，一天快要过去了`;
     } else {
       texts[0] = `夜晚的 ${hour - 12} 点`;
-      texts[1] = `早点休息 晚安`;
+      texts[1] = `记得要早点休息，晚安`;
     }
 
     return texts;
