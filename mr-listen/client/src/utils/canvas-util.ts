@@ -127,12 +127,10 @@ export default class CanvasUtil {
 
   private async getQRCodeTempPath(holeId, expireIn) {
     const shareHoleId = await apiHub.shareHoleApi.createShareHole(holeId, expireIn);
-    const {nickName = "无名小卒"} = userConfig.getConfig();
     const fileID = await apiHub.shareHoleApi.getQrCode({
       page: "pages/share/hole/hole",
       params: {
         holeId: shareHoleId,
-        userNickname: nickName
       }
     });
     const res = await Taro.cloud.downloadFile({

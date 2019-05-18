@@ -7,6 +7,7 @@ import ShakeIt from "../../components/ShakeIt/ShakeIt";
 
 import homePng from "../../images/home.png";
 import HelpSwiper from "../../components/personal/help/HelpSwiper";
+import LoadingCover from "../../components/common/LoadingCover/LoadingCover";
 
 
 export default class Index extends Component<any, any> {
@@ -37,6 +38,7 @@ export default class Index extends Component<any, any> {
     return (
       <View className={'main-box'}>
         <HelpSwiper checkFirstUse={true}/>
+        <LoadingCover height={"100vh"} backgroundColor={"white"}/>
       </View>
     )
   }

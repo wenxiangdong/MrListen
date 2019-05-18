@@ -19,6 +19,7 @@ import userConfig from "../../utils/user-config";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
 import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
 import HelpSwiper from "../../components/personal/help/HelpSwiper";
+import LoadingCover from "../../components/common/LoadingCover/LoadingCover";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -29,6 +30,7 @@ interface IState {
   lastBubbleId: string,  // 最后一个气泡的dom id 用于scroll view滚过去
   mounted: boolean // 动画效果的bug，确认页面加载完了之后延迟一会再设置动画可以规避这个bug
   shakeItOn: boolean, // 是否开启了 摇一摇
+  loadingBubbles: boolean
 }
 
 class Index extends Component<any, IState> {
@@ -47,7 +49,6 @@ class Index extends Component<any, IState> {
   };
 
 
-
   constructor(props) {
     super(props);
     // systemInfo.
@@ -60,7 +61,8 @@ class Index extends Component<any, IState> {
       lastBubbleId: "",
       top: "0",
       mounted: false,
-      shakeItOn: true
+      shakeItOn: true,
+      loadingBubbles: false
     };
 
     // 订阅键盘行为事件
@@ -69,10 +71,10 @@ class Index extends Component<any, IState> {
   }
 
 
-
   private logger = Logger.getLogger(Index.name);
 
   private SENDING_BUBBLE = "sending";
+  private BUBBLE_ANIMATION_DURATION = 1000;
 
   private resolveBubbleWithTempFile = async (bubble: Bubble) => {
     const url = await apiHub.fileApi.uploadFile(
@@ -80,7 +82,7 @@ class Index extends Component<any, IState> {
       `bubbles/${bubble.type}/${new Date().getTime()}-${Math.random()}`,
       bubble.content
     );
-    bubble =  {...bubble, content: url} as Bubble;
+    bubble = {...bubble, content: url} as Bubble;
     this.logger.info("处理完的bubble", bubble);
     return bubble;
   };
@@ -104,7 +106,7 @@ class Index extends Component<any, IState> {
     },
     [clockPng.toString()]: () => {
       let url = "/pages/holes/holes";
-      Taro.redirectTo({
+      Taro.navigateTo({
         url
       }).catch(() => {
         this.logger.error(`跳转到${url}失败`);
@@ -127,7 +129,7 @@ class Index extends Component<any, IState> {
 
   render() {
 
-    const {bubbleVOList, title, pageHeight, lastBubbleId, shakeItOn, mounted} = this.state;
+    const {bubbleVOList, title, pageHeight, lastBubbleId, shakeItOn, mounted, loadingBubbles} = this.state;
 
     // 构建所有气泡
     let bubbleVOListLength = bubbleVOList.length;
@@ -142,7 +144,6 @@ class Index extends Component<any, IState> {
           bubble={b}
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
-
 
 
     return (
@@ -177,6 +178,7 @@ class Index extends Component<any, IState> {
         {mounted ? <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/> : ''}
         {shakeItOn ? <ShakeIt/> : null}
         <HelpSwiper checkFirstUse={true}/>
+        {loadingBubbles ? <LoadingCover height={"100vh"} tip={"加载气泡中"} backgroundColor={"white"}/> : null}
       </Block>
     );
   }
@@ -324,21 +326,31 @@ class Index extends Component<any, IState> {
     }
   }
 
-  getBubbles(holeId) {
-    Listen.showLoading("加载气泡中...");
-    apiHub.holeApi.getBubblesFromHole(holeId)
-      .then(res => {
-        this.setState({
-          bubbleVOList: res
-        });
-        Listen.hideLoading();
-        Taro.stopPullDownRefresh();
-      }).catch(e => {
-      Listen.message.error("请下拉重试");
+  async getBubbles(holeId) {
+    this.setState({
+      loadingBubbles: true
+    });
+    try {
+      let res = await apiHub.holeApi.getBubblesFromHole(holeId);
+      // @ts-ignore
+      res = res.map(item => ({...item, noAnimation: true}));
+      this.setState({
+        bubbleVOList: res
+      }, () => {
+        // 气泡放完成后，设置一个定时，等动画放完再显示
+        setTimeout(() => {
+          this.setState({
+            loadingBubbles: false
+          });
+        }, this.BUBBLE_ANIMATION_DURATION);
+      });
+    } catch (e) {
+      Listen.message.error("请重新进入");
       this.logger.error(e);
-      Listen.hideLoading();
-      Taro.stopPullDownRefresh();
-    })
+      this.setState({
+        loadingBubbles: false
+      });
+    }
   }
 
   checkShakeIt() {

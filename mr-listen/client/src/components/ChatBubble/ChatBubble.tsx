@@ -189,9 +189,11 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
           </View>
         ));
 
+
     return (
       // 根据bubble.type给气泡加上不同的 类名 以实现不同的冒泡效果
-      <View className={`${BubbleStyleConfig[bubble.style].className}`}>
+      // @ts-ignore
+      <View className={bubble.noAnimation ? "" : `${BubbleStyleConfig[bubble.style].className}`}>
         {rightBubbleWrapper}
         {leftBubblesWrapper}
         <InputModal

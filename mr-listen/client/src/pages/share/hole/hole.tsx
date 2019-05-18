@@ -45,7 +45,7 @@ export default class Hole extends Taro.Component<any, IState> {
     const shareParam = shareUtil.getShareMessage(ShareKeys.SHARE_HOLE);
     this.logger.info("拿到的id", shareParam.holeId);
     Taro.setNavigationBarTitle({
-      title: `${shareParam.userNickname}的分享`
+      title: `分享回放`
     });
     apiHub.holeApi.getBubblesFromHole(shareParam.holeId)
       .then(res => {

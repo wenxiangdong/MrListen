@@ -1,0 +1,39 @@
+@import "../../../app";
+.LBC-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+
+  .LBC-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    @loading-size: 64Px;
+    .LBC-loading {
+      height: @loading-size;
+      width: @loading-size;
+      animation: rotating infinite 3s linear;
+    }
+
+    .LBC-tip {
+      color: @sub-color;
+      font-size: 16Px;
+      margin-top: 32Px;
+    }
+
+    @keyframes rotating {
+      from {
+        transform: rotateZ(0);
+      }
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+  }
+
+}
