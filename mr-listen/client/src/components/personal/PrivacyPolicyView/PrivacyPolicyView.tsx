@@ -38,8 +38,7 @@ export default class PrivacyPolicyView extends Component<IProp> {
       <View className={'privacy-policy-view'}>
         <View className={'cover'}
               onClick={this.handlePrivacyPolicyReturn} />
-        <ScrollView className={'privacy-policy-scroll-view'}
-                    scrollY>
+        <ScrollView className={'privacy-policy-scroll-view'} scrollY>
           {this.privacyPolicyText.map((text, idx) => {
             let className = (idx == 0
               ? 'main-title'
@@ -48,7 +47,7 @@ export default class PrivacyPolicyView extends Component<IProp> {
                 : 'normal-text')
               + ' privacy-policy-text'
             ;
-            return <Text className={className} decode>{text}\n</Text>;
+            return <Text className={className} key={`text-${idx}`} decode>{text}\n</Text>;
           })}
         </ScrollView>
       </View>
