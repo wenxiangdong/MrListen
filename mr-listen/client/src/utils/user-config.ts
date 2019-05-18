@@ -11,7 +11,7 @@ export interface IUserConfig {
   nickName?: string
 }
 class UserConfig {
-  private KEY = "user-config";
+  private KEY = "mr.listen.user_config";
   private defaultConfig: IUserConfig = {
     bubbleColor: "#42A5F5",
     theme: "#42A5F5",

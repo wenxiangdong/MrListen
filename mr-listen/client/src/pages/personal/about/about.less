@@ -1,0 +1,43 @@
+.base-view {
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .app-info-view {
+    width: 100vw;
+    height: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .name-text {
+      font-size: x-large;
+      font-weight: bolder;
+    }
+
+    .intro-text {
+      font-size: small;
+    }
+  }
+
+  .email-view {
+    position: fixed;
+    bottom: 50px;
+
+    width: 100vw;
+
+    text-align: center;
+
+    font-size: x-small;
+    font-weight: lighter;
+
+    .privacy-policy-text-view {
+      display: inline-block;
+    }
+  }
+}

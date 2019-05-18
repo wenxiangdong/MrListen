@@ -8,8 +8,10 @@ interface IProp {
 }
 
 /**
+ * 小程序头像组件
  * @author 张李承
  * @create 2019/5/12 11:06
+ * TODO 头像路径修改
  */
 export default class AppAvatar extends Component<IProp, any> {
 
