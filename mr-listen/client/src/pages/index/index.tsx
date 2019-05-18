@@ -103,7 +103,7 @@ class Index extends Component<any, IState> {
     },
     [clockPng.toString()]: () => {
       let url = "/pages/holes/holes";
-      Taro.navigateTo({
+      Taro.redirectTo({
         url
       }).catch(() => {
         this.logger.error(`跳转到${url}失败`);

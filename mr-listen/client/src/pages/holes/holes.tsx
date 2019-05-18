@@ -95,7 +95,7 @@ export class Holes extends Component<any, IState> {
    * 即 跳转到主页
    */
   private handleCreateHole = () => {
-    Taro.navigateTo({
+    Taro.redirectTo({
       url: this.INDEX_URL
     }).catch((e) => {
       this.logger.error(e);
