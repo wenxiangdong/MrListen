@@ -84,13 +84,16 @@
 
 // 后续转移到VoiceAnimation中
 @animation-time: 6s;
+@animation-delay: 3s;
 
 .column-1 {
-  animation: column-animation-1 @animation-time infinite;
+  opacity: 0;
+  animation: column-animation-1 @animation-time @animation-delay infinite;
 }
 
 @keyframes column-animation-1 {
   0% {
+    opacity: 1;
     height: 0;
   }
   7% {
@@ -127,16 +130,19 @@
     height: 0;
   }
   100% {
+    opacity: 1;
     height: 0;
   }
 }
 
 .column-2 {
-  animation: column-animation-2 @animation-time infinite;
+  opacity: 0;
+  animation: column-animation-2 @animation-time @animation-delay infinite;
 }
 
 @keyframes column-animation-2 {
   0% {
+    opacity: 1;
     height: 0;
   }
   10% {
@@ -173,16 +179,19 @@
     height: 0;
   }
   100% {
+    opacity: 1;
     height: 0;
   }
 }
 
 .column-3 {
-  animation: column-animation-3 @animation-time infinite;
+  opacity: 0;
+  animation: column-animation-3 @animation-time @animation-delay infinite;
 }
 
 @keyframes column-animation-3 {
   0% {
+    opacity: 1;
     height: 0;
   }
   10% {
@@ -219,16 +228,19 @@
     height: 0;
   }
   100% {
+    opacity: 1;
     height: 0;
   }
 }
 
 .column-4 {
-  animation: column-animation-4 @animation-time infinite;
+  opacity: 0;
+  animation: column-animation-4 @animation-time @animation-delay infinite;
 }
 
 @keyframes column-animation-4 {
   0% {
+    opacity: 1;
     height: 0;
   }
   10% {
@@ -265,16 +277,19 @@
     height: 0;
   }
   100% {
+    opacity: 1;
     height: 0;
   }
 }
 
 .column-5 {
-  animation: column-animation-5 @animation-time infinite;
+  opacity: 0;
+  animation: column-animation-5 @animation-time @animation-delay infinite;
 }
 
 @keyframes column-animation-5 {
   0% {
+    opacity: 1;
     height: 0;
   }
   10% {
@@ -311,6 +326,7 @@
     height: 0;
   }
   100% {
+    opacity: 1;
     height: 0;
   }
 }
@@ -321,7 +337,7 @@
   position: absolute;
   bottom: 250px;
   width: calc(100vw - 60px);
-  animation: bubble-animation @animation-time (@animation-time * .75) infinite;
+  animation: bubble-animation @animation-time (@animation-time * .75 + 2.7s) infinite;
 }
 
 .bubble {
