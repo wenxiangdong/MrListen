@@ -178,7 +178,7 @@ export default class Index extends Component<any, IState> {
     return (
       <View className={"page share-container"}>
         {saveTimeSection}
-        {qrCode ? qrCodeSection : null}
+        {qrCode ? (<View className={"share-code-scroll"}>{qrCodeSection}</View>) : null}
       </View>
     );
   }
