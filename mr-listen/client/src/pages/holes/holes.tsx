@@ -156,7 +156,7 @@ export class Holes extends Component<any, IState> {
 
     let holes = this.state.holeVOSet && this.state.holeVOSet.length
       ? this.state.holeVOSet.map((hole, idx) =>
-        <View key={idx} className={`${mounted ? `fly-in-${(idx + 1) % 10}` : ``}`}>
+        <View key={idx} className={`${mounted ? `fly-in-${(idx + 1) % 20}` : ``}`}>
           <HoleSwiperAction
             hole={hole}
             onDelete={() => this.handleDeleteHole(hole)}

@@ -22,14 +22,14 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index',
-      'pages/share/hole/hole',
-      'pages/share/index',
-      'pages/try/try',
-
-      'pages/holes/holes',
-      'pages/holes/update/update',
-      'pages/personal/center',
+      // 'pages/index/index',
+      // 'pages/share/hole/hole',
+      // 'pages/share/index',
+      // 'pages/try/try',
+      //
+      // 'pages/holes/holes',
+      // 'pages/holes/update/update',
+      // 'pages/personal/center',
       'pages/personal/report/report',
       'pages/personal/setting/setting',
       'pages/personal/help/help',
