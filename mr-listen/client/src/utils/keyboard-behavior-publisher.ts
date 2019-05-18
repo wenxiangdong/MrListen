@@ -40,11 +40,10 @@ class KeyboardBehaviorPublisher {
   public unsubscribe(type: KeyboardBehaviorTypes, fn) {
     let subscribers = this.subscriberMap.get(type);
     if (!subscribers) return;
-    subscribers = subscribers.splice(
+    subscribers.splice(
       subscribers.findIndex(item => item === fn),
       1
     );
-    this.subscriberMap.set(type, subscribers);
   }
 
   private notify(type: KeyboardBehaviorTypes, value: any) {

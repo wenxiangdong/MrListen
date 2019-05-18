@@ -51,7 +51,7 @@ export default class AudioContent extends Component<IProp, IState> {
         });
       });
       this.audioContext.onPlay(() => {
-        this.logger.info("start playing");
+        this.logger.info("begin playing");
       });
       this.audioContext.onEnded(() => {
         this.logger.info("结束");

@@ -4,6 +4,7 @@ import Index from './pages/index'
 import './app.less'
 import Logger from "./utils/logger";
 import shareUtil, {ShareKeys} from "./utils/share-util";
+import shakePublisher from "./utils/shake-publisher";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -22,14 +23,14 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      // 'pages/index/index',
-      // 'pages/share/hole/hole',
-      // 'pages/share/index',
-      // 'pages/try/try',
-      //
-      // 'pages/holes/holes',
-      // 'pages/holes/update/update',
-      // 'pages/personal/center',
+      'pages/index/index',
+      'pages/share/hole/hole',
+      'pages/share/index',
+      'pages/try/try',
+
+      'pages/holes/holes',
+      'pages/holes/update/update',
+      'pages/personal/center',
       'pages/personal/report/report',
       'pages/personal/setting/setting',
       'pages/personal/help/help',
@@ -61,9 +62,13 @@ class App extends Component {
     }
   }
 
-  componentDidShow () {}
+  componentDidShow () {
+    shakePublisher.begin();
+  }
 
-  componentDidHide () {}
+  componentDidHide () {
+    shakePublisher.stop();
+  }
 
   componentDidCatchError () {}
 
