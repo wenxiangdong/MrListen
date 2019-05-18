@@ -136,7 +136,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
                 </Swiper>
               </View>
             )
-            : <View/>
+            : null
         )
         : (
           <View className={'base-view'}>

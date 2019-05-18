@@ -18,6 +18,7 @@ import DynamicBackgroundFactory from "../../components/DynamicBackground/Dynamic
 import userConfig from "../../utils/user-config";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
 import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
+import HelpSwiper from "../../components/personal/help/HelpSwiper";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -172,8 +173,10 @@ class Index extends Component<any, IState> {
             onBubbling={this.handleBubbling}
             input-bar-class={'input-bar'}/>
         </ScrollView>
+        {/*一些其他东西*/}
         {mounted ? <DynamicBackgroundFactory type={"ColorStripe"} arg={"candy"}/> : ''}
         {shakeItOn ? <ShakeIt/> : null}
+        <HelpSwiper checkFirstUse={true}/>
       </Block>
     );
   }
