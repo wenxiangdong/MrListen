@@ -34,15 +34,16 @@ export class ShareHoleApi implements IShareHoleApi {
   private cache: Cache = Cache.getInstance();
 
   async createShareHole(holeId: string | number, expireIn: number = -1): Promise<string | number> {
-    let _id = Util.uuid(16);
     let snapShot = {
-        _id,
         detail: (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).get(),
         bubbleVOs: await apiHub.holeApi.getBubblesFromHole(holeId)
       }
     ;
 
+    let _id = Util.uuid(16);
+
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
+      _id,
       expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
