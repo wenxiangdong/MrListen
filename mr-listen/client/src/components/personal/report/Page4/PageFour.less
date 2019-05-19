@@ -1,6 +1,8 @@
 @import "../theme";
 
 .page-4 {
+  max-height: 100vh;
+  overflow: hidden;
   box-sizing: border-box;
   padding: 15vh 30px 0 30px;
   display: flex;
@@ -82,9 +84,8 @@
   position: relative;
 }
 
-// 后续转移到VoiceAnimation中
 @animation-time: 6s;
-@animation-delay: 3s;
+@animation-delay: 1s;
 
 .column-1 {
   opacity: 0;
@@ -337,7 +338,7 @@
   position: absolute;
   bottom: 250px;
   width: calc(100vw - 60px);
-  animation: bubble-animation @animation-time (@animation-time * .75 + 2.7s) infinite;
+  animation: bubble-animation @animation-time (@animation-time * .75 + @animation-delay - .3s) infinite;
 }
 
 .bubble {
@@ -398,3 +399,4 @@
     transform: translateY(0);
   }
 }
+

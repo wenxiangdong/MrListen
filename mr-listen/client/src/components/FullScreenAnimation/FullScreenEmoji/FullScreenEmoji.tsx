@@ -4,9 +4,14 @@ import {Block, View} from "@tarojs/components";
 
 import Taro from "@tarojs/taro";
 import "@tarojs/async-await";
+import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../../utils/keyboard-behavior-publisher";
 
 interface IProp {
   content: string
+}
+
+interface IState {
+  keyboardHeight: string;
 }
 
 interface IPosition {
@@ -15,7 +20,7 @@ interface IPosition {
   y: string
 }
 
-export default class FullScreenEmoji extends Taro.Component<IProp, any> {
+export default class FullScreenEmoji extends Taro.Component<IProp, IState> {
 
   private firstShownGroupPositions: IPosition[];
   private secondShownGroupPositions: IPosition[];
@@ -23,7 +28,15 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
   constructor(props) {
     super(props);
+    this.state = {keyboardHeight: '0px'};
     this.initPositions();
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.POP, (res) => {
+      this.setState({keyboardHeight: res + 'px'});
+      console.log('height: ' + this.state.keyboardHeight)
+    });
+    keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.HIDE, (res) => {
+      this.setState({keyboardHeight: res + 'px'});
+    })
   }
 
   private initPositions() {
@@ -48,10 +61,12 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
   render(): any {
     let content = this.props.content;
+    let {keyboardHeight} = this.state;
+    console.log('渲染键盘高度' + keyboardHeight);
 
     let firstShownGroup = this.firstShownGroupPositions.map(
       (p) => (
-        <View style={{left: p.x, bottom: p.y}} className={'first-group-emoji'}>
+        <View style={{left: p.x, bottom: `calc( ${p.y} + ${keyboardHeight} )`}} className={'first-group-emoji'}>
           {content}
         </View>
       )
@@ -59,7 +74,7 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
     let secondShownGroup = this.secondShownGroupPositions.map(
       (p) => (
-        <View style={{left: p.x, bottom: p.y}} className={'second-group-emoji'}>
+        <View style={{left: p.x, bottom: `calc( ${p.y} + ${keyboardHeight} )`}} className={'second-group-emoji'}>
           {content}
         </View>
       )
@@ -67,7 +82,7 @@ export default class FullScreenEmoji extends Taro.Component<IProp, any> {
 
     let thirdShownGroup = this.thirdShownGroupPositions.map(
       (p) => (
-        <View style={{left: p.x, bottom: p.y}} className={'third-group-emoji'}>
+        <View style={{left: p.x, bottom: `calc( ${p.y} + ${keyboardHeight} )`}} className={'third-group-emoji'}>
           {content}
         </View>
       )

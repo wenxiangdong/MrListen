@@ -32,6 +32,7 @@ export class Report extends Component<any, IState> {
 
   config: Config = {
     navigationBarTitleText: '倾诉报告',
+    disableScroll: true
     // navigationBarBackgroundColor: '#1A237E',
     // navigationBarTextStyle: 'white',
   };

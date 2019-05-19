@@ -78,8 +78,14 @@ export default class InputBar extends Component<IProp, IState> {
               onBlur={this.handleInputBlur}
               adjustPosition={false}
               onConfirm={this.handleConfirmInput}/>
-            <View className={"IB-add-btn IB-btn" + (showTool ? " close" : "")} onClick={this.handleClickShowTool}>
-              +
+            {/*<View className={"IB-add-btn IB-btn" + (showTool ? " close" : "")} onClick={this.handleClickShowTool}>*/}
+              {/*+*/}
+            {/*</View>*/}
+            <View className={"IB-grid"}>
+              <BubbleTypePicture onSend={this.handleSpecialBubbling}/>
+            </View>
+            <View className={"IB-grid"}>
+              <BubbleTypeVoice onSend={this.handleSpecialBubbling}/>
             </View>
           </View>
           {showTool ? toolsPanel : null}
