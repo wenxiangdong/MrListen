@@ -23,6 +23,7 @@ class App extends Component {
    */
   config: Config = {
     pages: [
+      // 'pages/dev/index',
       'pages/index/index',
       'pages/share/hole/hole',
       'pages/share/index',

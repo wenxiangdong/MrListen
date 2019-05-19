@@ -23,7 +23,7 @@ export interface ReportVO extends VO {
 }
 
 export class ReportApi implements IReportApi {
-  private readonly KEY = 'mr.listen.reportConfig';
+  private readonly KEY = 'mr.listen.report_config';
   private base: IHttpRequest = HttpRequest.getInstance();
 
   async getReport(): Promise<ReportVO> {

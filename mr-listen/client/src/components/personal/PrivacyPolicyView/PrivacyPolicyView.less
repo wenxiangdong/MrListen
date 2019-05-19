@@ -1,0 +1,68 @@
+@import "./../../../app";
+
+.privacy-policy-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  z-index: 10;
+
+  .cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: -1;
+
+    background-color: rgba(0, 0, 0, 0.20);
+  }
+
+  .privacy-policy-scroll-view {
+    width: 80vw;
+    height: 80vh;
+
+    margin-top: 3vh;
+
+    background-color: white;
+
+    border: thick solid @border-color;
+    padding: 30px;
+    border-radius: 50px;
+
+    .privacy-policy-text {
+      margin-bottom: 1em;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .main-title {
+      font-size: x-large;
+      font-weight: bolder;
+
+      padding: 0.5em 0;
+      border-bottom: thick double @border-color;
+    }
+
+    .sub-title {
+      font-weight: bold;
+
+      padding-bottom: 0.5em;
+      border-bottom: thin solid @border-color;
+    }
+
+    .normal-text {
+      font-size: small;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { apiHub } from "../../apis/ApiHub";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
 
 import homePng from "../../images/home.png";
+import HelpSwiper from "../../components/personal/help/HelpSwiper";
 
 
 export default class Index extends Component<any, any> {
@@ -35,8 +36,7 @@ export default class Index extends Component<any, any> {
     const foot = (<Image src={homePng} className={"home-icon"} onClick={this.handleClickHome} />)
     return (
       <View className={'main-box'}>
-        <Playback bubbles={bubbles} renderFooter={foot} />
-        <ShakeIt/>
+        <HelpSwiper checkFirstUse={true}/>
       </View>
     )
   }
