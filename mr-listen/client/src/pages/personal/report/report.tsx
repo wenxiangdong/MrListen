@@ -66,7 +66,7 @@ export class Report extends Component<any, IState> {
 
   private setReport(report: ReportVO) {
     this.report = report;
-    this.setState({pageIndex: 5});
+    this.setState({pageIndex: 1});
     Listen.hideLoading();
   }
 

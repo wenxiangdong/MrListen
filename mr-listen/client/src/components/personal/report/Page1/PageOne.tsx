@@ -12,40 +12,50 @@ interface IProp {
   notFound?: boolean
 }
 
+interface IState {
+  mounted: boolean
+}
+
 /**
  * 报告页面第一页
  * TODO 添加背景图片
  * @author 张李承
  * @create 2019/5/14 14:49
  */
-export default class PageOne extends Component<IProp> {
+export default class PageOne extends Component<IProp, IState> {
+  constructor(props) {
+    super(props);
+
+    this.state = {mounted: false};
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({mounted: true});
+    }, 200)
+  }
+
   render() {
-    let promptView = this.props.notFound
-      ? (
-        <View>
-          <Text>倾诉报告暂未生成</Text>
-          <Text>每月 1 号生成倾诉报告</Text>
-        </View>
-      )
-      : (
-        <View>
-          <Image src={enterImg}/>
-          <Text>点击进入</Text>
-        </View>
-      )
-    ;
+    // let promptView = this.props.notFound
+    let promptView = (
+      <View>
+        <Image src={enterImg}/>
+        <Text>点击进入</Text>
+      </View>
+    );
 
     return (
       <View className={'base-style page-1'}>
         <View>
-          <AppAvatar size={24} margin={10}/>
-          <View/>
-          <OpenData type={'userNickName'}/>
+          <View className={'name-bar'}>
+            <AppAvatar size={50} margin={15}/>
+            <OpenData className={'name'} type={'userNickName'}/>
+          </View>
+          <View className={'title'}>
+            <Text>使用报告</Text>
+          </View>
+          {promptView}
         </View>
-        <View>
-          <Text>倾 诉 报 告</Text>
-        </View>
-        {promptView}
       </View>
     )
   }

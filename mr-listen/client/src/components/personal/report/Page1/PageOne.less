@@ -1,98 +1,30 @@
-@import "../../../../app";
+@import "../theme";
 
-.base-page {
-  .user-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+.page-1 {
+  box-sizing: border-box;
+  padding: 0 30px;
+  display: flex;
+  width: 100vw;
 
-    height: 100px;
+  position: relative;
+}
 
-    position: fixed;
-    top: 0;
-    left: 0;
+.name-bar {
+  margin: 0 -30px;
+  display: flex;
+  align-items: center;
+}
 
-    .user-info-vertical-separator {
-      border: thin solid transparent;
-      border-right-color: @border-color;
-      display: inline;
-      height: 50px;
-    }
+.name{
+  padding-left: 30px;
+  border-left: 2px @text-color solid;
+  font-weight: bold;
+  color: #555;
+  font-size: 60px;
+  padding-bottom: 4px;
+}
 
-    .user-nick-name {
-      margin: 20px;
-    }
-  }
-
-  .title-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    position: fixed;
-    top: 100px;
-    right: 50px;
-
-    .report-title-text {
-      font-size: xx-large;
-      font-weight: bold;
-
-      margin-bottom: 20px;
-    }
-
-    .app-name-text {
-      font-weight: bold;
-    }
-
-    .app-intro-text {
-      font-size: x-small;
-    }
-  }
-
-  .prompt-view {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-
-    width: 100vw;
-
-    position: fixed;
-    bottom: 0;
-    left: 0;
-
-    .enter-text {
-      margin-bottom: 40px;
-    }
-
-    .enter-icon {
-      width: 50px;
-      height: 50px;
-      border: white 4Px solid;
-      border-radius: 50%;
-      margin-bottom: 50px;
-      animation: breathing 4s infinite ease-in-out;
-
-      @keyframes breathing {
-        0% {
-          opacity: 0.3;
-        }
-        30% {
-          opacity: 1.0;
-        }
-        100% {
-          opacity: 0.1;
-          transform: scale(1.8);
-        }
-      }
-    }
-
-    .enter-img {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 20px;
-    }
-  }
+.title {
+  margin-top: 5vh;
+  font-size: 100px;
 }

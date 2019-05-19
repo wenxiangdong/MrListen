@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text} from '@tarojs/components'
+import {View, Text, Image} from '@tarojs/components'
 
 import './PageSix.less'
 import './../Report.less'
@@ -9,45 +9,69 @@ interface IProp {
   plusOneCount: number
 }
 
+
+interface IState {
+  mounted: boolean
+}
+
 /**
  * 报告页面第六页
  * TODO 添加背景图片
  * @author 张李承
  * @create 2019/5/14 14:49
  */
-export default class PageSix extends Component<IProp> {
+export default class PageSix extends Component<IProp, IState> {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {mounted: false};
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({mounted: true});
+    }, 200)
+  }
 
   render() {
+    const {mounted} = this.state;
     let shareHoleCount = this.props.shareHoleCount;
     let plusOneCount = this.props.plusOneCount;
 
     let reportInfo = shareHoleCount
       ? (
         <View>
-          <Text>你喜欢分享</Text>
-          <Text>
-            <Text>已经有</Text>
-            <Text>{shareHoleCount}</Text>
-            <Text>次分享树洞的经历</Text>
-          </Text>
-          <Text>
-            <Text>你也在这其中收获了</Text>
-            <Text>{plusOneCount}</Text>
-            <Text>次点赞</Text>
-          </Text>
+          <View className={'first-block'}>
+            <View className={`align-text`}>
+              <View className={`text-align-last word-1 ${mounted ? `word-fly-in-1` : ``}`}>你喜欢分享，已经有</View>
+              <View className={`word-2 ${mounted ? `word-fly-in-3` : ``}`}>
+                <Text className={'strong word-num'}>{shareHoleCount}</Text>
+                <Text>次</Text>
+              </View>
+              <View className={`text-align-last word-3 ${mounted ? `word-fly-in-5` : ``}`}>分享树洞的经历</View>
+              </View>
+            <View className={`text-align-last word-4 ${mounted ? `word-fly-in-8` : ``}`}>
+              <Text>你也在这其中收获了</Text>
+              <Text>{plusOneCount}</Text>
+              <Text>次点赞</Text>
+            </View>
+          </View>
         </View>
       )
       : (
-        <View>
-          <Text>你还没有跟别人分享过树洞</Text>
-          <Text>这些都是我们的小秘密</Text>
+        <View className={`align-text none-block`}>
+          <View className={`text-align-last word-5 ${mounted ? `word-fly-in-1` : ``}`}>你还没有跟别人分享过树洞</View>
+          <View className={`strong text-align-last word-6 ${mounted ? `word-fly-in-3` : ``}`}>这些都是我们的小秘密</View>
         </View>
       )
     ;
 
     return (
-      <View>
-        {reportInfo}
+      <View className={'base-style page-6'}>
+        <View className={'box'}>
+          {reportInfo}
+        </View>
       </View>
     );
   }
