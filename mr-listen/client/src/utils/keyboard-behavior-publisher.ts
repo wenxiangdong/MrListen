@@ -10,10 +10,13 @@ interface IEmitter {
 /**
  * 键盘行为发布
  * 该类实现了在各处可以监听到键盘的事件，如收起弹出
+ *
+ * 每次订阅会先推送现在的键盘高度状态
  */
 class KeyboardBehaviorPublisher {
   // 存储订阅信息
   private subscriberMap = new Map<KeyboardBehaviorTypes, Function[]>();
+  private valueBuffer: any = 0;
 
   constructor() {
     this.subscriberMap.set(KeyboardBehaviorTypes.POP, []);
@@ -30,6 +33,7 @@ class KeyboardBehaviorPublisher {
     const subscribers = this.subscriberMap.get(type);
     if (!subscribers) return;
     subscribers.push(fn);
+    fn(this.valueBuffer);
   }
 
   /**
@@ -62,6 +66,7 @@ class KeyboardBehaviorPublisher {
     return {
       next: (value) => {
         this.notify(type, value);
+        this.valueBuffer = value;
       }
     } as IEmitter;
   }

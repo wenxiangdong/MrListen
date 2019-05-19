@@ -30,32 +30,34 @@ export default class FullScreenEmoji extends Taro.Component<IProp, IState> {
     super(props);
     this.state = {keyboardHeight: '0px'};
     this.initPositions();
+  }
+
+  componentWillMount () {
     keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.POP, (res) => {
-      this.setState({keyboardHeight: res + 'px'});
-      console.log('height: ' + this.state.keyboardHeight)
+      this.setState({keyboardHeight: res ? res + 'px' : '0px'});
     });
     keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.HIDE, (res) => {
-      this.setState({keyboardHeight: res + 'px'});
+      this.setState({keyboardHeight: res ? res + 'px' : '0px'});
     })
   }
 
   private initPositions() {
     this.firstShownGroupPositions = [
-      {x: '10px', y: '3vh'},
-      {x: '100px', y: '-6vh'},
-      {x: '225px', y: '9vh'},
-      {x: '365px', y: '-1vh'},
+      {x: '10px', y: '-2vh'},
+      {x: '100px', y: '-11vh'},
+      {x: '225px', y: '4vh'},
+      {x: '365px', y: '-5vh'},
     ];
     this.secondShownGroupPositions = [
-      {x: '240px', y: '1vh'},
-      {x: '335px', y: '-2vh'},
-      {x: '65px', y: '4vh'},
-      {x: '145px', y: '-5vh'},
+      {x: '240px', y: '-4vh'},
+      {x: '335px', y: '-7vh'},
+      {x: '65px', y: '-1vh'},
+      {x: '145px', y: '-10vh'},
     ];
     this.thirdShownGroupPositions = [
-      {x: '300px', y: '-15vh'},
-      {x: '195px', y: '-18vh'},
-      {x: '25px', y: '-10vh'},
+      {x: '300px', y: '-22vh'},
+      {x: '195px', y: '-16vh'},
+      {x: '25px', y: '-26vh'},
     ];
   }
 
