@@ -19,4 +19,16 @@ export default abstract class Util {
     }
     return copyData;
   }
+
+  private static readonly chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  private static readonly charsLength = Util.chars.length;
+
+  static uuid(length: number = 32): string {
+    let uuid = "";
+    for (let i = 0; i < length; i++) {
+      let index = Math.floor(Math.random() * (Util.charsLength - 1));
+      uuid += Util.chars[index];
+    }
+    return uuid;
+  }
 }

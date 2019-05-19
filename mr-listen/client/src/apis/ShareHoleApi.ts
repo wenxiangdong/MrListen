@@ -3,6 +3,7 @@ import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
 import Const from "./Const";
+import Util from "./Util";
 
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
@@ -33,7 +34,9 @@ export class ShareHoleApi implements IShareHoleApi {
   private cache: Cache = Cache.getInstance();
 
   async createShareHole(holeId: string | number, expireIn: number = -1): Promise<string | number> {
+    let _id = Util.uuid(16);
     let snapShot = {
+        _id,
         detail: (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).get(),
         bubbleVOs: await apiHub.holeApi.getBubblesFromHole(holeId)
       }
