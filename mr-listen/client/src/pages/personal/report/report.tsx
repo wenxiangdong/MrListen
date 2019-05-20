@@ -19,8 +19,7 @@ import {ReportVO} from '../../../apis/ReportApi'
 import {HttpCode, HttpResponse} from "../../../apis/HttpRequest";
 
 interface IState {
-  pageIndex: number,
-  notFound: boolean
+  pageIndex: number
 }
 
 /**
@@ -37,9 +36,22 @@ export class Report extends Component<any, IState> {
     // navigationBarTextStyle: 'white',
   };
 
+  private readonly emptyReport:ReportVO = {
+    _id: 'emptyReport_id',
+    userId: 'emptyReportUserId',
+    meetTime: Date.now(),
+    holeCount: 0,
+    longestDuration: 0,
+    mostUsedWords: [],
+    latestTime: -1,
+    plusOneCount: 0,
+    shareHoleCount: 0
+  };
+
+  private readonly latestTimePageIndex = 5;
+
   private logger = Logger.getLogger(Report.name);
   private report:ReportVO;
-  private PAGE_COUNT = 8;
 
   componentWillMount() {
     Listen.showLoading('生成报告中')
@@ -66,14 +78,15 @@ export class Report extends Component<any, IState> {
 
   private setReport(report: ReportVO) {
     this.report = report;
-    this.setState({pageIndex: 7});
+    this.setState({pageIndex: 1});
     Listen.hideLoading();
   }
 
   private handleReportErrCode(code: HttpCode) {
     switch (code) {
       case HttpCode.NOT_FOUND:
-        this.setState({notFound: true});
+        this.logger.info('not found report');
+        this.setReport(this.emptyReport);
         break;
       default:
         Listen.message.error('出错啦');
@@ -83,8 +96,11 @@ export class Report extends Component<any, IState> {
   }
 
   private jumpToNextPage = () => {
-    (this.state.pageIndex < this.PAGE_COUNT) &&
-      this.setState({pageIndex: this.state.pageIndex + 1});
+    let pageIndex = this.state.pageIndex + 1;
+    if (pageIndex == this.latestTimePageIndex && this.report.latestTime < 0) {
+      pageIndex++;
+    }
+    this.setState({pageIndex});
   };
 
   private returnTop = () => {
@@ -94,75 +110,67 @@ export class Report extends Component<any, IState> {
   render() {
     let view;
 
-    if (this.state.notFound) {
-      view = (
-        <View>
-          <PageOne notFound={this.state.notFound}/>
-        </View>
-      );
-    } else {
-      switch (this.state.pageIndex) {
-        case 1: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageOne/>
-            </View>
-          );
-          break;
-        }
-        case 2: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageTwo meetTime={this.report.meetTime}/>
-            </View>
-          );
-          break;
-        }
-        case 3: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageThree holeCount={this.report.holeCount}/>
-            </View>
-          );
-          break;
-        }
-        case 4: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageFour longestDuration={this.report.longestDuration}/>
-            </View>
-          );
-          break;
-        }
-        case 5: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageFive latestTime={this.report.latestTime}/>
-            </View>
-          );
-          break;
-        }
-        case 6: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageSix shareHoleCount={this.report.shareHoleCount} plusOneCount={this.report.plusOneCount}/>
-            </View>
-          );
-          break;
-        }
-        // case 7: {
-        //   view = (
-        //     <View onClick={this.jumpToNextPage}>
-        //       <PageSeven mostUsedWords={this.report.mostUsedWords}/>
-        //     </View>
-        //   );
-        //   break;
-        // }
-        // case 8: {
-        case 7: {
-          view = (<PageEight onReturnTopClick={this.returnTop}/>);
-          break;
-        }
+    switch (this.state.pageIndex) {
+      case 1: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageOne/>
+          </View>
+        );
+        break;
+      }
+      case 2: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageTwo meetTime={this.report.meetTime}/>
+          </View>
+        );
+        break;
+      }
+      case 3: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageThree holeCount={this.report.holeCount}/>
+          </View>
+        );
+        break;
+      }
+      case 4: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageFour longestDuration={this.report.longestDuration}/>
+          </View>
+        );
+        break;
+      }
+      case 5: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageFive latestTime={this.report.latestTime}/>
+          </View>
+        );
+        break;
+      }
+      case 6: {
+        view = (
+          <View onClick={this.jumpToNextPage}>
+            <PageSix shareHoleCount={this.report.shareHoleCount} plusOneCount={this.report.plusOneCount}/>
+          </View>
+        );
+        break;
+      }
+      // case 7: {
+      //   view = (
+      //     <View onClick={this.jumpToNextPage}>
+      //       <PageSeven mostUsedWords={this.report.mostUsedWords}/>
+      //     </View>
+      //   );
+      //   break;
+      // }
+      // case 8: {
+      case 7: {
+        view = (<PageEight onReturnTopClick={this.returnTop}/>);
+        break;
       }
     }
 

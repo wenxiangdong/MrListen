@@ -1,6 +1,6 @@
 import "@tarojs/async-await";
 import * as Taro from "@tarojs/taro";
-import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
+import {HttpCode, HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
 
 export interface IReportApi {
   getReport(): Promise<ReportVO>;
@@ -71,7 +71,16 @@ export class MockReportApi implements IReportApi {
     };
   }
 
-  getReport(): Promise<ReportVO> {
+  async getReport(): Promise<ReportVO> {
+    let notFind = true;
+    if (notFind) {
+      throw {
+        code: HttpCode.NOT_FOUND,
+        data: null,
+        message: '您的报告还未产生'
+      };
+    }
+
     return this.http.success(MockReportApi.createMockReport());
   }
 

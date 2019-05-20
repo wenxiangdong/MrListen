@@ -8,10 +8,6 @@ import enterImg from './../../../../images/enterImg.png';
 import './PageOne.less'
 import './../Report.less'
 
-interface IProp {
-  notFound?: boolean
-}
-
 interface IState {
   mounted: boolean
 }
@@ -21,7 +17,7 @@ interface IState {
  * @author 张李承
  * @create 2019/5/14 14:49
  */
-export default class PageOne extends Component<IProp, IState> {
+export default class PageOne extends Component<any, IState> {
   constructor(props) {
     super(props);
 

@@ -43,6 +43,7 @@ export class Setting extends Component<any, IState> {
 
   render() {
     const {mounted} = this.state;
+    const {userConfig} = this.state;
 
     return (
       <View className={'main-box'}>
@@ -52,7 +53,7 @@ export class Setting extends Component<any, IState> {
             {
               themeOptions.map((val, idx) =>
                 <ThemeColorPickerOption key={idx} theme={val}
-                                        selected={this.state.userConfig.theme ? val.mode === this.state.userConfig.theme.mode : false}
+                                        selected={userConfig.theme ? val.mode === userConfig.theme.mode : false}
                                         onSelect={() => {
                                           this.setState({userConfig: {...this.state.userConfig, theme: val}});
                                         }}
@@ -68,19 +69,19 @@ export class Setting extends Component<any, IState> {
               bubbleColorOptions.map((val, idx) =>
                 <View key={idx} className={'color-picker-option'}>
                   <ColorPickerOption color={val}
-                                     selected={val === this.state.userConfig.bubbleColor}
-                                     onSelect={() => {this.setState({userConfig: {...this.state.userConfig, bubbleColor: val}})}}
+                                     selected={val === userConfig.bubbleColor}
+                                     onSelect={() => {this.setState({userConfig: {...userConfig, bubbleColor: val}})}}
                   />
                 </View>
               )
             }
           </View>
-          <SampleBubble color={`${this.state.userConfig.bubbleColor}`}/>
+          <SampleBubble color={`${userConfig.bubbleColor}`}/>
         </View>
         <View className={`menu-item-with-switch ${mounted ? `fly-in-4`: ``}`}>
           <Text>摇一摇冲走烦恼</Text>
-          <Switch checked={this.state.userConfig.shakeOff} onChange={(e) => {
-            this.setState({userConfig: {...this.state.userConfig, shakeOff: e.detail.value}});
+          <Switch checked={userConfig.shakeOff} onChange={(e) => {
+            this.setState({userConfig: {...userConfig, shakeOff: e.detail.value}});
           }} />
         </View>
       </View>
