@@ -52,9 +52,9 @@ export class Setting extends Component<any, IState> {
             {
               themeOptions.map((val, idx) =>
                 <ThemeColorPickerOption key={idx} theme={val}
-                                        selected={val === this.state.userConfig.themeColor}
+                                        selected={this.state.userConfig.theme ? val.mode === this.state.userConfig.theme.mode : false}
                                         onSelect={() => {
-                                          this.setState({userConfig: {...this.state.userConfig, themeColor: val}});
+                                          this.setState({userConfig: {...this.state.userConfig, theme: val}});
                                         }}
                 />
               )
