@@ -1,8 +1,123 @@
-.base-page {
-  .report-info {
-    align-items: flex-start;
+@import "../theme";
 
-    top: 50px;
-    left: 50px;
+.page-5 {
+  max-height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 8vh 30px 0 30px;
+  display: flex;
+  width: 100vw;
+  align-items: flex-start;
+  justify-content: left;
+  position: relative;
+}
+
+.word-1 {
+  margin: 20px 0;
+  font-size: 58px;
+}
+
+.word-2 {
+  margin: 20px 0;
+  font-size: 52px;
+}
+
+.word-3 {
+  margin-top: 40px;
+  font-size: 88px;
+}
+
+.word-4 {
+  font-size: 42px;
+}
+
+.word-5 {
+  font-size: 50px;
+}
+
+.word-6 {
+  font-size: 60px;
+}
+
+
+@moon-animation-time: 5s;
+@moon-animation-delay-time: 5.5s;
+
+.bed-box {
+  position: absolute;
+  z-index: 10;
+  bottom: 80px;
+  left: 30px;
+  opacity: 0;
+  animation: bed-animation 4s (@moon-animation-delay-time + 1s) cubic-bezier(0, 0, 0, .5);
+  animation-fill-mode: forwards;
+
+  .bed {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+@keyframes bed-animation {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  30% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.moon-box {
+  position: absolute;
+  bottom: 460px;
+  left: 30px;
+  animation: moon-box-animation @moon-animation-time @moon-animation-delay-time cubic-bezier(0, 0, 0, 1);
+  animation-fill-mode: forwards;
+
+  .moon {
+    opacity: 0;
+    width: 140px;
+    height: 140px;
+
+    animation: moon-animation @moon-animation-time @moon-animation-delay-time linear;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes moon-animation {
+  0% {
+    opacity: 0;
+    transform: translateX(360px);
+  }
+  10% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes moon-box-animation {
+  0% {
+    transform: translateY(170px);
+  }
+  90% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

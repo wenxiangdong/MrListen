@@ -10,7 +10,7 @@ interface IProp {
 }
 
 interface IState {
-  component: object | null
+  component: object | null,
 }
 
 interface IKeyWordMap {
@@ -18,6 +18,11 @@ interface IKeyWordMap {
 }
 
 export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState> {
+
+  constructor(props) {
+    super(props);
+
+  }
 
   // noinspection NonAsciiCharacters
   static keywordMap: IKeyWordMap = {
@@ -33,7 +38,7 @@ export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState
   private logger = Logger.getLogger(FullScreenEmojiFactory.name);
 
   state = {
-    component: null
+    component: null,
   };
 
   render(): any {

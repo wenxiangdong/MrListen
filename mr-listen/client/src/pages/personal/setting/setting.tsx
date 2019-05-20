@@ -48,18 +48,18 @@ export class Setting extends Component<any, IState> {
       <View className={'main-box'}>
         <View className={`menu-item ${mounted ? `fly-in-2`: ``}`}>
           <Text>动态背景</Text>
-          <View className={'theme-picker'}>
+          <ScrollView className={'theme-picker'} scrollX={true}>
             {
               themeOptions.map((val, idx) =>
-                <ThemeColorPickerOption key={idx} color={val}
-                                        selected={val === this.state.userConfig.theme}
+                <ThemeColorPickerOption key={idx} theme={val}
+                                        selected={this.state.userConfig.theme ? val.mode === this.state.userConfig.theme.mode : false}
                                         onSelect={() => {
                                           this.setState({userConfig: {...this.state.userConfig, theme: val}});
                                         }}
                 />
               )
             }
-          </View>
+          </ScrollView>
         </View>
         <View className={`menu-item ${mounted ? `fly-in-3`: ``}`}>
           <Text>气泡颜色</Text>

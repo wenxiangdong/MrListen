@@ -1,31 +1,40 @@
 .color-picker-option {
-  width: 30vw;
-  height: 200px;
+  width: 200px;
+  height: 140px;
 
-  margin: 20px 0;
+  margin: 10px 10px;
+  border-radius: 20px;
+  border: 4px #dddddd solid;
+  text-shadow: 0 0 10px rgba(0, 0, 0, .3);
 
-  border: 2px solid white;
+  box-sizing: border-box;
+  transition: border-color .1s ease-out;
 
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #dcdee2 no-repeat center center;
+  background-size: cover;
+  font-size: 28px;
 }
 
-
 .selected {
-  border-color: white;
+  border-color: #68cfe2;
   position: relative;
-  &:before {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "✓";
-    font-family: sans-serif;
-    text-shadow: 0 0 10px rgba(0,0,0,.3);
-    font-size: 50px;
-    color: white;
-  }
+  //&:before {
+  //  display: flex;
+  //  justify-content: center;
+  //  align-items: center;
+  //  width: 100%;
+  //  height: 100%;
+  //  position: absolute;
+  //  top: 0;
+  //  left: 0;
+  //  content: "✓";
+  //  font-family: sans-serif;
+  //  text-shadow: 0 0 10px rgba(0, 0, 0, .3);
+  //  font-size: 50px;
+  //  color: white;
+  //}
 }

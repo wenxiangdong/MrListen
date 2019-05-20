@@ -32,6 +32,7 @@ export class Report extends Component<any, IState> {
 
   config: Config = {
     navigationBarTitleText: '倾诉报告',
+    disableScroll: true
     // navigationBarBackgroundColor: '#1A237E',
     // navigationBarTextStyle: 'white',
   };
@@ -65,7 +66,7 @@ export class Report extends Component<any, IState> {
 
   private setReport(report: ReportVO) {
     this.report = report;
-    this.setState({pageIndex: 3});
+    this.setState({pageIndex: 1});
     Listen.hideLoading();
   }
 

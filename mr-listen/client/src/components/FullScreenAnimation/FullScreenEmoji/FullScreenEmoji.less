@@ -3,6 +3,7 @@
 // ********************* 第一组动画 ************************* //
 .first-group-box {
   position: absolute;
+  transition: bottom .1s ease-out;
   height: 100%;
   opacity: 0;
   animation: first-group 3s .25s ease-in;
@@ -36,7 +37,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(-1400px);
+    transform: translateY(-130vh);
     opacity: 0;
   }
 }
@@ -45,6 +46,7 @@
 .second-group-box {
   position: absolute;
   height: 100%;
+  transition: bottom .1s ease-out;
   opacity: 0;
   animation: second-group 3s ease-in;
 }
@@ -77,13 +79,14 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(-1200px);
+    transform: translateY(-110vh);
     opacity: 0;
   }
 }
 
 // ********************* 第三组动画 ************************* //
 .third-group-box {
+  transition: bottom .1s ease-out;
   position: absolute;
   height: 100%;
   opacity: 0;
@@ -118,7 +121,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateY(-2000px);
+    transform: translateY(-160vh);
     opacity: 0;
   }
 }

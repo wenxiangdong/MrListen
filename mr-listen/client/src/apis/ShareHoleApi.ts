@@ -3,6 +3,7 @@ import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
 import Const from "./Const";
+import Util from "./Util";
 
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
@@ -39,7 +40,10 @@ export class ShareHoleApi implements IShareHoleApi {
       }
     ;
 
+    let _id = Util.uuid(16);
+
     return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
+      _id,
       expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
