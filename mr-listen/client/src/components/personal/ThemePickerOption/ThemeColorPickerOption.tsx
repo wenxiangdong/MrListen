@@ -3,18 +3,23 @@ import {View} from '@tarojs/components'
 
 import './ThemeColorPickerOption.less'
 
+interface themeOption {
+  mode: string,
+  text: string,
+  coverImg: string
+}
+
+
 interface IProp {
-  color: string,
+  theme: themeOption,
   selected: boolean,
   onSelect: () => void
 }
 
 /**
  * 主题样式预选项组件
- * TODO 选中的组件样式优化 同 颜色预选项 组件
  * @author 张李承
  * @create 2019/5/2 22:32
- * TODO 请 cyf 同学进行美化
  */
 export default class ThemeColorPickerOption extends Component<IProp, any> {
   private clickHandler = (e) => {
@@ -25,7 +30,7 @@ export default class ThemeColorPickerOption extends Component<IProp, any> {
   };
 
   render() {
-    let {color} = this.props;
+    let {theme} = this.props;
 
     let viewClassName = 'color-picker-option';
     let hoverClass = 'hover-color-picker-option';
@@ -35,8 +40,13 @@ export default class ThemeColorPickerOption extends Component<IProp, any> {
     }
 
     return (
-      <View className={viewClassName} hoverClass={hoverClass} onClick={this.clickHandler}
-            style={{backgroundColor: color}} />
+      <View className={viewClassName}
+            hoverClass={hoverClass}
+            onClick={this.clickHandler}
+            style={{backgroundImage: `url("${theme.coverImg}")`}}
+      >
+        {theme.text}
+      </View>
     );
   }
 }
