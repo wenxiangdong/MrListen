@@ -2,6 +2,7 @@ import Taro from "@tarojs/taro";
 import {View} from "@tarojs/components";
 import ColorStripe from "./ColorStripe/ColorStripe";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
+import DynamicBubbles from "./Bubbles/DynamicBubbles";
 
 export default class DynamicBackgroundFactory extends Taro.Component {
 
@@ -30,10 +31,10 @@ export default class DynamicBackgroundFactory extends Taro.Component {
         result = <ColorStripe colorSet={'candy'}/>;
         break;
       }
-      // case "music": {
-      //   result = <Music/>;
-      //   break;
-      // }
+      case "bubbles": {
+        result = <DynamicBubbles/>;
+        break;
+      }
       default: {
         result = <ColorStripe colorSet={'candy'}/>
         break;
