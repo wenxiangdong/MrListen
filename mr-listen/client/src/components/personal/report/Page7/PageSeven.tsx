@@ -12,7 +12,6 @@ interface IProp {
 
 /**
  * 报告页面第七页
- * TODO 添加背景图片
  * @author 张李承
  * @create 2019/5/14 14:49
  */

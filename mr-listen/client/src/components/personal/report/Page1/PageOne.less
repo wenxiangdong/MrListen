@@ -2,17 +2,18 @@
 
 .page-1 {
   box-sizing: border-box;
-  padding: 0 30px;
+  //padding: 0 30px;
   display: flex;
-  width: 100vw;
-
+  min-width: 100vw;
   position: relative;
 }
 
 .name-bar {
-  margin: 0 -30px;
+  width: calc(100vw + 30px);
+  margin: 0 0 0 -30px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .name{
@@ -20,11 +21,33 @@
   border-left: 2px @text-color solid;
   font-weight: bold;
   color: #555;
-  font-size: 60px;
+  font-size: 36px;
   padding-bottom: 4px;
 }
 
 .title {
-  margin-top: 5vh;
-  font-size: 100px;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 40vh 30px 10vh 30px;
+  text-align: center;
+
+  .title-text {
+    font-size: 100px;
+  }
+
+  .subtitle {
+    font-size: 40px;
+  }
+}
+
+.tip {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.transparent {
+  opacity: 0;
 }

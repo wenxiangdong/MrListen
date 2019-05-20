@@ -8,7 +8,7 @@ import {
   PageFour,
   PageFive,
   PageSix,
-  PageSeven,
+  // PageSeven,
   PageEight
 } from './../../../components/personal/report/ReportPages'
 
@@ -66,7 +66,7 @@ export class Report extends Component<any, IState> {
 
   private setReport(report: ReportVO) {
     this.report = report;
-    this.setState({pageIndex: 1});
+    this.setState({pageIndex: 7});
     Listen.hideLoading();
   }
 
@@ -150,15 +150,16 @@ export class Report extends Component<any, IState> {
           );
           break;
         }
+        // case 7: {
+        //   view = (
+        //     <View onClick={this.jumpToNextPage}>
+        //       <PageSeven mostUsedWords={this.report.mostUsedWords}/>
+        //     </View>
+        //   );
+        //   break;
+        // }
+        // case 8: {
         case 7: {
-          view = (
-            <View onClick={this.jumpToNextPage}>
-              <PageSeven mostUsedWords={this.report.mostUsedWords}/>
-            </View>
-          );
-          break;
-        }
-        case 8: {
           view = (<PageEight onReturnTopClick={this.returnTop}/>);
           break;
         }
