@@ -43,12 +43,10 @@ export class Report extends Component<any, IState> {
     holeCount: 0,
     longestDuration: 0,
     mostUsedWords: [],
-    latestTime: -1,
+    latestTime: 0,
     plusOneCount: 0,
     shareHoleCount: 0
   };
-
-  private readonly latestTimePageIndex = 5;
 
   private logger = Logger.getLogger(Report.name);
   private report:ReportVO;
@@ -96,11 +94,7 @@ export class Report extends Component<any, IState> {
   }
 
   private jumpToNextPage = () => {
-    let pageIndex = this.state.pageIndex + 1;
-    if (pageIndex == this.latestTimePageIndex && this.report.latestTime < 0) {
-      pageIndex++;
-    }
-    this.setState({pageIndex});
+    this.setState({pageIndex: this.state.pageIndex + 1});
   };
 
   private returnTop = () => {
