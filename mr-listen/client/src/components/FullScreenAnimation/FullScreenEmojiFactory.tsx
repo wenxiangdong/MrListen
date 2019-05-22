@@ -28,11 +28,12 @@ export default class FullScreenEmojiFactory extends Taro.Component<IProp, IState
   static keywordMap: IKeyWordMap = {
     "😂": ["好笑", "笑死", "哈哈"],
     "🤔": ["我想想", "考虑", "..."],
-    "😮": ["天了", "天呐", "我的天", "my god"],
+    "😮": ["天了", "天呐",  "天啊", "我的天", "my god"],
     "👍": ["赞", "好棒", "真棒"],
     "❄️": ["好冷", "温度低"],
     "💥": ["生气", "怒"],
-    "🌈": ["彩虹", "gay"]
+    "🌈": ["彩虹", "gay"],
+    "💕": ["我爱你", "我爱他", "爱情"]
   };
 
   private logger = Logger.getLogger(FullScreenEmojiFactory.name);

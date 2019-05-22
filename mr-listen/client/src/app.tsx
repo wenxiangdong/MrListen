@@ -52,8 +52,8 @@ class App extends Component {
     // 只能在这里获取到场景值
     this.logger.info(this.$router.params);
     const {query} = this.$router.params;
-    const {holeId, userNickname} = query;
-    shareUtil.setShareMessage(ShareKeys.SHARE_HOLE, {holeId, userNickname});
+    const {holeId} = query;
+    shareUtil.setShareMessage(ShareKeys.SHARE_HOLE, {holeId});
     // 后面如果用分享报告，也可以类似
   }
 

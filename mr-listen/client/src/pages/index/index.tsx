@@ -342,6 +342,15 @@ class Index extends Component<any, IState> {
   }
 
 
+  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IState>, prevContext: any): void {
+    if (this.state.holeId) {
+      // this.onShareAppMessage = this.handleShareAppMessage;
+      Taro.showShareMenu();
+    } else {
+      Taro.hideShareMenu();
+    }
+  }
+
   componentDidHide(): void {
     shakePublisher.stop();
   }
@@ -379,6 +388,19 @@ class Index extends Component<any, IState> {
       });
     }
   }
+
+  async onShareAppMessage(obj: Taro.ShareAppMessageObject): Taro.ShareAppMessageReturn {
+    try {
+      const shareKey = await apiHub.shareHoleApi.createShareHole(this.state.holeId, -1);
+      return {
+        title: "倾诉分享",
+        path: `pages/share/hole/hole?holeId=${shareKey}`
+      }
+    } catch (e) {
+      this.logger.info(e);
+    }
+  }
+
 
   checkShakeIt() {
     let config = userConfig.getConfig();
