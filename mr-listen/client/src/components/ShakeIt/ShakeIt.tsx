@@ -9,7 +9,11 @@ interface IState {
   shake: boolean
 }
 
-export default class ShakeIt extends Taro.Component<any, IState> {
+interface IProp {
+  onShake: () => void
+}
+
+export default class ShakeIt extends Taro.Component<IProp, IState> {
 
   private logger = Logger.getLogger(ShakeIt.name);
 
@@ -43,9 +47,8 @@ export default class ShakeIt extends Taro.Component<any, IState> {
     });
     this.logger.info(JSON.stringify({confirm, cancel}));
     if (confirm) {
-
+      this.props.onShake();
     } else if (cancel) {
-
     }
     this.shaking = false;
   };

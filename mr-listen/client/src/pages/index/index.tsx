@@ -177,7 +177,7 @@ class Index extends Component<any, IState> {
         </ScrollView>
         {/*一些其他东西*/}
         {mounted ? <DynamicBackgroundFactory/> : null}
-        {shakeItOn ? <ShakeIt/> : null}
+        {shakeItOn ? <ShakeIt onShake={this.handleShake}/> : null}
         <HelpSwiper checkFirstUse={true}/>
         {loadingBubbles ? <LoadingCover height={"100vh"} tip={"加载气泡中"} backgroundColor={"white"}/> : null}
       </Block>
@@ -294,6 +294,18 @@ class Index extends Component<any, IState> {
       bubbleVOList
     });
 
+  };
+
+  handleShake = () => {
+    apiHub.holeApi.deleteHole(this.state.holeId)
+      .then(() => {
+        this.setState({
+          holeId: "",
+          bubbleVOList: [],
+          lastBubbleId: ""
+        });
+      })
+      .catch(this.logger.error);
   };
 
   componentDidMount(): void {

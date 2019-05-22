@@ -127,6 +127,7 @@ export default class CanvasUtil {
 
   private async getQRCodeTempPath(holeId, expireIn) {
     const shareHoleId = await apiHub.shareHoleApi.createShareHole(holeId, expireIn);
+    this.logger.info("share hole id", shareHoleId);
     const fileID = await apiHub.shareHoleApi.getQrCode({
       page: "pages/share/hole/hole",
       params: {
