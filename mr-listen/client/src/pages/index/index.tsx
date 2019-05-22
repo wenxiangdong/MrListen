@@ -13,14 +13,12 @@ import clockPng from "../../images/clock.png";
 import mePng from "../../images/me.png";
 import sharePng from "../../images/share.png";
 import WhiteSpace from "../../components/common/WhiteSpace/WhiteSpace";
-import ColorStripe from "../../components/DynamicBackground/ColorStripe/ColorStripe";
 import DynamicBackgroundFactory from "../../components/DynamicBackground/DynamicBackgroundFactory";
 import userConfig from "../../utils/user-config";
 import ShakeIt from "../../components/ShakeIt/ShakeIt";
 import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
 import HelpSwiper from "../../components/personal/help/HelpSwiper";
 import LoadingCover from "../../components/common/LoadingCover/LoadingCover";
-import Music from "../../components/DynamicBackground/Music/Music";
 
 interface IState {
   bubbleVOList: BubbleVO[],
