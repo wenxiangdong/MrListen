@@ -34,7 +34,7 @@ class ShakePublisher {
 
   private handleAccelerometerChange = ({x, y}) => {
     if (!this.running) return;
-    this.logger.info(x, y);
+    // this.logger.info(x, y);
     const edge = 1;
     if (Math.abs(x) > edge && Math.abs(y) > edge) {
       this.subscribers

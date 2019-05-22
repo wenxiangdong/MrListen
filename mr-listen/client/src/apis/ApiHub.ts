@@ -54,7 +54,7 @@ class MockApiHub implements IApiHub {
   reportApi: IReportApi;
 }
 
-const useMock = true;
+const useMock = false;
 const apiHub: IApiHub = useMock ? new MockApiHub() : new ApiHub();
 
 export {apiHub};

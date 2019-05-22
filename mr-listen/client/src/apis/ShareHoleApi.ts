@@ -4,6 +4,7 @@ import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
 import Const from "./Const";
 import Util from "./Util";
+import {BubbleStyle, BubbleType, BubbleVO} from "./BubbleApi";
 
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
@@ -74,7 +75,31 @@ export class MockShareHoleApi implements IShareHoleApi {
 
   // @ts-ignore
   getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
-    return this.http.success(0);
+    return this.http.success({
+      snapShot: JSON.stringify({
+        plusOneCount: 0,
+        bubbleVOs: new Array(10)
+          .fill(
+            {
+              holeId: "holeId",
+              _id: -1,
+              style: BubbleStyle.NORMAL,
+              type: BubbleType.TEXT,
+              replyList: [],
+              content: "",
+              createTime: new Date().getTime(),
+              _openid: ""
+            } as BubbleVO
+          ).map((item, index) =>
+            ({
+              ...item,
+              _id: index,
+              content: Math.random().toString(),
+              style: index % 3
+            })
+          )
+      })
+    });
   }
 
   // @ts-ignore
