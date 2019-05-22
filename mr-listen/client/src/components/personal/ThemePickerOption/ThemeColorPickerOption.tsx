@@ -9,7 +9,6 @@ interface themeOption {
   coverImg: string
 }
 
-
 interface IProp {
   theme: themeOption,
   selected: boolean,
@@ -22,6 +21,7 @@ interface IProp {
  * @create 2019/5/2 22:32
  */
 export default class ThemeColorPickerOption extends Component<IProp, any> {
+
   private clickHandler = (e) => {
     e.stopPropagation();
     if (!this.props.selected && this.props.onSelect) {
@@ -50,3 +50,10 @@ export default class ThemeColorPickerOption extends Component<IProp, any> {
     );
   }
 }
+
+// @ts-ignore
+ThemeColorPickerOption.defaultProps = {
+  theme: {},
+  selected: false,
+  onSelect: () => {}
+};

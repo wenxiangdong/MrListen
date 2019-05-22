@@ -72,7 +72,9 @@ export default class PageFive extends Component<IProp, IState> {
         : (
           <View>
             <Text>你还没在很晚的时候向我倾诉过</Text>
-            <Text>只是不管多晚</Text>
+            <Text>保持良好的作息很棒棒哦</Text>
+            <Text>我不需要休息</Text>
+            <Text>所以不管多晚</Text>
             <Text>我会都在这里安静倾听</Text>
           </View>
         )
