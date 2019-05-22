@@ -66,8 +66,10 @@ export default class ShareCanvas extends Component<IProp, IState> {
   handleClickSave = async () => {
 
     try {
+      Listen.showLoading("保存中...");
       await Taro.authorize({scope: "scope.writePhotosAlbum"});
     } catch (e) {
+      Listen.hideLoading();
       Listen.message.error("授权失败");
       return;
     }
@@ -80,14 +82,14 @@ export default class ShareCanvas extends Component<IProp, IState> {
       await Taro.saveImageToPhotosAlbum({
         filePath: path
       });
+      Listen.showLoading("保存中...");
       Listen.message.success("保存成功");
+
     } catch (e) {
+      Listen.showLoading("保存中...");
       Listen.message.error("图片保存失败");
       return;
     }
-
-
-
   };
 
   render(): any {

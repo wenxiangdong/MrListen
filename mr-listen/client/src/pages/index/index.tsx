@@ -19,6 +19,7 @@ import ShakeIt from "../../components/ShakeIt/ShakeIt";
 import keyboardBehaviorPublisher, {KeyboardBehaviorTypes} from "../../utils/keyboard-behavior-publisher";
 import HelpSwiper from "../../components/personal/help/HelpSwiper";
 import LoadingCover from "../../components/common/LoadingCover/LoadingCover";
+import shakePublisher from "../../utils/shake-publisher";
 
 interface IState {
   bubbleVOList: BubbleVO[],
@@ -336,6 +337,12 @@ class Index extends Component<any, IState> {
     this.logger.info("show");
     // 要在每次show的时候检查一下是不是开启了相关的个人设置，如 摇一摇
     this.checkShakeIt();
+    shakePublisher.begin();
+  }
+
+
+  componentDidHide(): void {
+    shakePublisher.stop();
   }
 
   onPullDownRefresh(): void {
