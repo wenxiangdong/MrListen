@@ -58,31 +58,42 @@ export class Holes extends Component<any, IState> {
     }, 200)
   }
 
+  componentDidShow() {
+    let holeCount = this.state.holeVOSet.length;
+    if (holeCount) {
+      this.queryCentainHoles(0, this.offset);
+    }
+  }
+
+  private queryCentainHoles = (lastHoleId: string | number, offset?: number) => {
+    Listen.showLoading('获取中');
+    apiHub.holeApi.getHoles(lastHoleId, offset)
+      .then((holeVOList) => {
+        if (holeVOList.length === 0) {
+          Listen.hideLoading();
+          Listen.message.info(this.NO_MORE_HOLES);
+        } else {
+          this.lastHoleId = holeVOList[holeVOList.length - 1]._id;
+          this.setState((prev) => {
+            return {holeVOSet: lastHoleId? [...prev.holeVOSet, ...holeVOList]: [...holeVOList]};
+          });
+          Listen.hideLoading();
+        }
+        this.isQuery = false;
+      })
+      .catch((e) => {
+        this.logger.error(e);
+        Listen.hideLoading();
+        Listen.message.error('获取树洞列表失败');
+        this.isQuery = false;
+      })
+    ;
+  };
+
   private queryMoreHoles = () => {
     if (!this.isQuery) {
       this.isQuery = true;
-      Listen.showLoading('获取中');
-      apiHub.holeApi.getHoles(this.lastHoleId, this.offset)
-        .then((holeVOList) => {
-          if (holeVOList.length === 0) {
-            Listen.hideLoading();
-            Listen.message.info(this.NO_MORE_HOLES);
-          } else {
-            this.lastHoleId = holeVOList[holeVOList.length - 1]._id;
-            this.setState((prev) => {
-              return {holeVOSet: [...prev.holeVOSet, ...holeVOList]};
-            });
-            Listen.hideLoading();
-          }
-          this.isQuery = false;
-        })
-        .catch((e) => {
-          this.logger.error(e);
-          Listen.hideLoading();
-          Listen.message.error('获取树洞列表失败');
-          this.isQuery = false;
-        })
-      ;
+      this.queryCentainHoles(this.lastHoleId, this.offset);
     }
   };
 
@@ -95,7 +106,7 @@ export class Holes extends Component<any, IState> {
    * 即 跳转到主页
    */
   private handleCreateHole = () => {
-    Taro.redirectTo({
+    Taro.reLaunch({
       url: this.INDEX_URL
     }).catch((e) => {
       this.logger.error(e);
@@ -103,26 +114,35 @@ export class Holes extends Component<any, IState> {
     });
   };
 
-  private handleDeleteHole = (hole) => {
-    let idx = this.state.holeVOSet.indexOf(hole);
-    if (idx >= 0) {
-      this.logger.info('hole delete', idx);
-      Listen.showLoading('删除中');
-      apiHub.holeApi.deleteHole(hole._id)
-        .then(() => {
-          this.setState((prev) => {
-            prev.holeVOSet.splice(idx, 1);
-            return {holeVOSet: prev.holeVOSet};
-          });
-          Listen.hideLoading();
-          this.forceUpdate();
-        })
-        .catch((e) => {
-          this.logger.error(e);
-          Listen.hideLoading();
-          Listen.message.error('删除树洞失败');
-        });
-    }
+  private handleDeleteHole = (hole:IHoleVO) => {
+    Taro.showModal({
+      title: '提示',
+      content: `确认删除树洞 ${hole.title}`
+    })
+      .then((res) => {
+        if (res.confirm) {
+          let idx = this.state.holeVOSet.indexOf(hole);
+          if (idx >= 0) {
+            this.logger.info('hole delete', idx);
+            Listen.showLoading('删除中');
+            apiHub.holeApi.deleteHole(hole._id)
+              .then(() => {
+                this.setState((prev) => {
+                  prev.holeVOSet.splice(idx, 1);
+                  return {holeVOSet: prev.holeVOSet};
+                });
+                Listen.hideLoading();
+                this.forceUpdate();
+              })
+              .catch((e) => {
+                this.logger.error(e);
+                Listen.hideLoading();
+                Listen.message.error('删除树洞失败');
+              });
+          }
+        }
+      })
+      .catch((reason) => console.error(reason));
   };
 
   private handleClickHole = (hole) => {

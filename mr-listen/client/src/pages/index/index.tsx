@@ -105,7 +105,7 @@ class Index extends Component<any, IState> {
     },
     [clockPng.toString()]: () => {
       let url = "/pages/holes/holes";
-      Taro.navigateTo({
+      Taro.reLaunch({
         url
       }).catch(() => {
         this.logger.error(`跳转到${url}失败`);
@@ -295,6 +295,7 @@ class Index extends Component<any, IState> {
   };
 
   handleShake = () => {
+    (this.state.holeId) &&
     apiHub.holeApi.deleteHole(this.state.holeId)
       .then(() => {
         this.setState({
@@ -314,7 +315,8 @@ class Index extends Component<any, IState> {
     if (holeId) {
       this.logger.info("啊，跳转过来的啦", holeId);
       // 存在这个参数的话，证明是从树洞列表跳转过来的，需要拿所有的气泡
-      this.setState({holeId});
+      const title = params.title;
+      this.setState({holeId, title});
       // TODO 从api拿气泡
       this.getBubbles(holeId);
     }
