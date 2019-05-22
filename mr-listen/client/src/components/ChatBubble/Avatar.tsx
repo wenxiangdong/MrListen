@@ -1,6 +1,7 @@
 import {Component} from "@tarojs/taro";
 import * as Taro from "@tarojs/taro";
 import {Image} from "@tarojs/components";
+import Const from "../../apis/Const";
 // import Logger from "../../utils/logger";
 
 interface IProp {
@@ -23,6 +24,6 @@ export default class Avatar extends Component<IProp> {
 
 // @ts-ignore
 Avatar.defaultProps = {
-  src: "cloud://first-57afbf.6669-first-57afbf/images/avatar.jpeg", size: 150,
+  src: Const.HOLE_DEFAULT_AVATAR_URLS[1], size: 150,
   margin: 0
 };

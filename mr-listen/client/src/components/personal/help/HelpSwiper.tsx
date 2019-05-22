@@ -25,7 +25,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
 
   helpInfoArray: HelpInfoItem[] = [
     {
-      // 主页 1
+      // 主页1倾诉
       imgSrc: 'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
       helpText: [
         '倾诉页面可以发送倾诉消息',
@@ -33,21 +33,21 @@ export default class HelpSwiper extends Component<IProp, IState> {
       ]
     },
     {
-      // 主页 2
+      // 主页2跳转
       imgSrc: 'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
       helpText: [
         '右上角的按钮可跳转到其他页面'
       ]
     },
     {
-      // 主页 3
+      // 主页3冲一冲
       imgSrc: '',
       helpText: [
         '摇一摇即可冲走烦恼'
       ]
     },
     {
-      // 主页 4
+      // 主页4倾诉彩蛋
       imgSrc: '',
       helpText: [
         '倾诉消息解锁更多彩蛋'
@@ -76,7 +76,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
       ]
     },
     {
-      // 分享页面2
+      // 分享页面2 TODO
       imgSrc: '',
       helpText: [
         '图片中的二维码扫描后即可查看你所分享的树洞',
@@ -98,7 +98,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
       ]
     },
     {
-      // 如何使用
+      // 如何使用 TODO
       imgSrc: '',
       helpText: [
         '可以在&nbsp;个人中心&nbsp;-&nbsp;如何使用&nbsp;进入',
