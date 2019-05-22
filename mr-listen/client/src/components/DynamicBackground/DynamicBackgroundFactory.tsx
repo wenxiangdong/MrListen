@@ -35,8 +35,12 @@ export default class DynamicBackgroundFactory extends Taro.Component {
         result = <DynamicBubbles/>;
         break;
       }
+      case "default": {
+        result = <View/>;
+        break;
+      }
       default: {
-        result = <ColorStripe colorSet={'candy'}/>
+        result = <View/>;
         break;
       }
     }
