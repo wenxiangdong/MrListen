@@ -394,7 +394,7 @@ class Index extends Component<any, IState> {
       const shareKey = await apiHub.shareHoleApi.createShareHole(this.state.holeId, -1);
       return {
         title: "倾诉分享",
-        path: `pages/share/hole/hole?holeId=${shareKey}`
+        path: `/pages/share/hole/hole?holeId=${shareKey}`
       }
     } catch (e) {
       this.logger.info(e);
