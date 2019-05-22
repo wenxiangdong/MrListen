@@ -36,7 +36,9 @@
 
       height: 2Px;
 
-      background: linear-gradient(-45deg, @star-color, rgba(0, 0, 255, 0));
+      //background: linear-gradient(-45deg, @star-color, rgba(0, 0, 255, 0));
+      //background: -webkit-linear-gradient(-45deg, @star-color, rgba(0, 0, 255, 0));
+      background: -webkit-linear-gradient(-45deg, rgba(0, 0, 255, 0), @star-color);
       /* background: linear-gradient(-45deg, #ffe75f, rgba(0, 0, 255, 0)); */
 
       filter: drop-shadow(0 0 6px @star-color);
@@ -51,7 +53,8 @@
       top: 0;
       right: 0;
       height: 2Px;
-      background: linear-gradient(-45deg, rgba(0, 0, 255, 0), @star-color, rgba(0, 0, 255, 0));
+      //background: linear-gradient(-45deg, rgba(0, 0, 255, 0), @star-color, rgba(0, 0, 255, 0));
+      background: -webkit-linear-gradient(-45deg, rgba(0, 0, 255, 0), @star-color, rgba(0, 0, 255, 0));
       border-radius: 100%;
 
       animation: shining 3000ms ease-in-out infinite;
