@@ -71,8 +71,8 @@ export default class PageThree extends Component<IProp, IState> {
           <View className={'roll delay-1'}>😡</View>
           <View className={'roll delay-2'}>🙃</View>
           <View className={'roll delay-3'}>🤒</View>
-          <View className={'roll delay-4'}>🤩</View>
-          <View className={'roll delay-5'}>🧐</View>
+          <View className={'roll delay-4'}>😂</View>
+          <View className={'roll delay-5'}>🙄</View>
           <View className={'roll delay-6'}>😙</View>
           <View className={'roll delay-7'}>🤕</View>
         </View>

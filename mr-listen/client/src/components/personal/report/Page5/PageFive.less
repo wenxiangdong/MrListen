@@ -4,7 +4,7 @@
   max-height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
-  padding: 8vh 30px 0 30px;
+  padding: 10vh 30px 0 30px;
   display: flex;
   width: 100vw;
   align-items: flex-start;
@@ -29,19 +29,27 @@
 
 .word-4 {
   font-size: 42px;
+  margin: 30px 0;
 }
 
 .word-5 {
-  font-size: 50px;
+  font-size: 40px;
+  margin: 200px 0 30px 0;
 }
 
 .word-6 {
   font-size: 60px;
+  margin: 30px 0;
+}
+
+.word-7 {
+  font-size: 54px;
+  margin: 30px 0;
 }
 
 
-@moon-animation-time: 5s;
-@moon-animation-delay-time: 5.5s;
+@moon-animation-time: 4s;
+@moon-animation-delay-time: 4.5s;
 
 .bed-box {
   position: absolute;
@@ -49,7 +57,7 @@
   bottom: 80px;
   left: 30px;
   opacity: 0;
-  animation: bed-animation 4s (@moon-animation-delay-time + 1s) cubic-bezier(0, 0, 0, .5);
+  animation: bed-animation 2s (@moon-animation-delay-time + 1.5s) cubic-bezier(0, 0, 0, .5);
   animation-fill-mode: forwards;
 
   .bed {
