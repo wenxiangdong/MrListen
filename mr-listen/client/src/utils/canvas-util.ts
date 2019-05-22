@@ -10,7 +10,8 @@ export default class CanvasUtil {
   private ctx: Taro.CanvasContext;
 
 
-  private TEMPLATE_FILE_ID = "cloud://first-57afbf.6669-first-57afbf/share-template.jpg";
+  // private TEMPLATE_FILE_ID = "cloud://first-57afbf.6669-first-57afbf/share-template.jpg";
+  private TEMPLATE_FILE_ID = "cloud://first-57afbf.6669-first-57afbf/bg.png";
   private PAGE = "pages/share/hole/hole";
 
   private logger = Logger.getLogger(CanvasUtil.name);
@@ -44,12 +45,10 @@ export default class CanvasUtil {
     this.logger.info(url);
     // url = await this.getImage(url);
     this.logger.info(holeId, expireIn, "code url", url);
-    const oX = this.canvasWidth / 2;
-    const oY = 250 * this.unit;
-    const r = 250 * this.unit / 2;
-    const dX = oX - r;
-    const dY = oY - r;
-    this.ctx.drawImage(url, dX, dY, r * 2, r * 2);
+    const r = 80 * this.unit / 2;
+    const oX = this.canvasWidth * 7 / 8 - r;
+    const oY = this.canvasHeigth - 1.5 * r;
+    this.ctx.drawImage(url, oX, oY, r, r);
     this.ctx.draw(true, () => {
       this.logger.info("draw code success");
     });
@@ -88,16 +87,18 @@ export default class CanvasUtil {
     if (!text) {
       text = "窥探你的心"
     }
-    const {nickName} = userConfig.getConfig();
-    if (nickName) {
-      text = nickName + "：" + text;
-    }
+    // const {nickName} = userConfig.getConfig();
+    // if (nickName) {
+    //   text = nickName + "：" + text;
+    // }
     this.ctx.save();
-    const fontSize = 18 * this.unit;
+    const fontSize = 32 * this.unit;
     this.ctx.setFontSize(fontSize);
-    this.ctx.setFillStyle("#000000");
-    const x = 50 * this.unit;
-    const y = 446 * this.unit + fontSize / 2;
+    this.ctx.setFillStyle("#ffffff");
+    this.ctx.font('normal', 'bold', fontSize, 'san-serif');
+
+    const x = 20 * this.unit;
+    const y = 80 * this.unit + fontSize / 2;
     // @ts-ignore
     this.ctx.fillText(text, x, y);
     this.ctx.draw(true);
