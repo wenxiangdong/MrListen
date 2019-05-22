@@ -9,7 +9,7 @@ import {BubbleStyle, BubbleType, BubbleVO} from "./BubbleApi";
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
 
-  getShareHole(shareHoleId: string | number): Promise<ShareHoleVO>;
+  getShareHole(key: string | number): Promise<ShareHoleVO>;
 
   plusOne(shareHoleId: string | number): Promise<void>;
 
@@ -77,7 +77,7 @@ export class MockShareHoleApi implements IShareHoleApi {
   }
 
   // @ts-ignore
-  getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
+  getShareHole(key: string | number): Promise<ShareHoleVO> {
     return this.http.success({
       snapShot: JSON.stringify({
         plusOneCount: 0,
