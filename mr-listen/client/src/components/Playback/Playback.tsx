@@ -12,7 +12,8 @@ import Listen from "../../utils/listen";
 
 interface IProp {
   bubbles: BubbleVO[],
-  renderFooter?: JSX.Element | null
+  renderFooterLeft?: JSX.Element | null
+  renderFooterRight?: JSX.Element | null
 }
 
 interface IState {
@@ -119,7 +120,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
     ));
     const controlBar = (
       <View className={"Playback-control-wrapper"}>
-
+        {this.props.renderFooterLeft}
         <View className={"Playback-control"} hoverClass={"Playback-control-hover"}
               onClick={() => this.handleChangeRate(200)}>
           <Image
@@ -142,6 +143,8 @@ export default class Playback extends Taro.Component<IProp, IState> {
               onClick={() => this.handleChangeRate(-200)}>
           <Image src={forwardPng} className={"Playback-forward Playback-second-control"}/>
         </View>
+
+        {this.props.renderFooterRight}
       </View>
     );
 
@@ -155,7 +158,6 @@ export default class Playback extends Taro.Component<IProp, IState> {
           {controlBar}
         </View>
         <View className={"Playback-footer"}>
-          {this.props.renderFooter}
         </View>
         {/* <Image src={homePng} className={"Playback-home-icon"} onClick={this.handleClickHome} /> */}
       </View>

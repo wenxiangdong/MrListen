@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodejieba": "^2.3.0",
+    "novel-segment": "^2.2.30",
     "wx-server-sdk": "latest"
   }
 }

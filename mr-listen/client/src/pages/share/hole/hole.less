@@ -3,21 +3,29 @@
   //padding: 40px;
 }
 .hole-home-icon {
-  width: 2em;
-  height: 2em;
+  width: 1.5em;
+  height: 1.5em;
   color: white;
   margin: 0 0.5em;
 }
 
+.like-icon {
+  width: 1.2em;
+  height: 1.2em;
+}
+
 .liking {
-  animation: rotating 3s infinite;
+  animation: rotating .3s cubic-bezier(0,0,0,1);
 }
 
 @keyframes rotating {
   from {
-    transform: rotateZ(0);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
   }
   to {
-    transform: rotateZ(360deg);
+    transform: scale(1);
   }
 }

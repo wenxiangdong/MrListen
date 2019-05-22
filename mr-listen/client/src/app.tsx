@@ -5,6 +5,7 @@ import './app.less'
 import Logger from "./utils/logger";
 import shareUtil, {ShareKeys} from "./utils/share-util";
 import shakePublisher from "./utils/shake-publisher";
+import {apiHub} from "./apis/ApiHub";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -58,7 +59,7 @@ class App extends Component {
 
   componentDidMount () {
     if (process.env.TARO_ENV === 'weapp') {
-      Taro.cloud.init()
+      Taro.cloud.init();
     }
   }
 
