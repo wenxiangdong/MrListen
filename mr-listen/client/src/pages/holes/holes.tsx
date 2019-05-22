@@ -146,6 +146,7 @@ export class Holes extends Component<any, IState> {
     });
   };
 
+
   render() {
     // {/*<HoleBar key={hole._id}*/}
     // {/*holeAvatarSrc={hole.avatarUrl}*/}

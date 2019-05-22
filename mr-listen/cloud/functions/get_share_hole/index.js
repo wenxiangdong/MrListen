@@ -16,12 +16,14 @@ const HttpCode = {
 exports.main = async (event) => {
     // const {} = cloud.getWXContext()
     try {
-        const shareHoleId = event.shareHoleId;
+        const key = event.key;
 
-        let shareHole;
+        let shareHoles;
 
-        if ((shareHole = (await db.collection('share_hole').doc(shareHoleId).get()).data)) {
-            if (shareHole.expiryTime > db.serverDate())
+        if ((shareHoles = (await db.collection('share_hole').where({key}).get()).data) && shareHoles.length) {
+            let shareHole = shareHoles[0];
+
+            if (shareHole && (shareHole.expiryTime < 0 || new Date(shareHole.expiryTime) > new Date()))
                 return {
                     code: HttpCode.SUCCESS,
                     data: shareHole,
@@ -32,6 +34,10 @@ exports.main = async (event) => {
                 data: null,
                 message: '该分享树洞已过期'
             }
+        } else return {
+            code: HttpCode.NOT_FOUND,
+            data: null,
+            message: '未找到该分享树洞'
         }
     } catch (e) {
         return {

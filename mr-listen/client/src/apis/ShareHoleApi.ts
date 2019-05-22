@@ -18,6 +18,7 @@ export interface IShareHoleApi {
 
 export interface ShareHoleVO extends VO {
   expiryTime: number;
+  key: string;
   // expireIn: number;
   /**
    *
@@ -41,18 +42,20 @@ export class ShareHoleApi implements IShareHoleApi {
       }
     ;
 
-    let _id = Util.uuid(16);
+    // @ts-ignore
+    let key = new Date().getTime() + '' + Math.floor(Math.random() * 1000);
 
-    return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
-      _id,
+    await this.base.add(Const.SHARE_HOLE_COLLECTION, {
+      key,
       expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
-    })
+    });
+    return key;
   }
 
-  async getShareHole(shareHoleId: string | number): Promise<ShareHoleVO> {
-    return await this.base.callFunction<ShareHoleVO>("get_share_hole", {shareHoleId});
+  async getShareHole(key: string | number): Promise<ShareHoleVO> {
+    return await this.base.callFunction<ShareHoleVO>("get_share_hole", {key});
   }
 
   async plusOne(shareHoleId: string | number): Promise<void> {
