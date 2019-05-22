@@ -28,56 +28,73 @@ export default class HelpSwiper extends Component<IProp, IState> {
       // 主页 1
       imgSrc: 'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
       helpText: [
-        '倾诉页面可以发送消息进行倾诉',
-        '倾诉的方式多种多样：文字&nbsp;图片&nbsp;录音',
-        '可跳转到其他页面',
-        '&nbsp;树洞列表页面\n&nbsp;个人中心页面\n&nbsp;分享页面'
+        '倾诉页面可以发送倾诉消息',
+        '还可以发送图片和录音哦'
       ]
     },
     {
       // 主页 2
+      imgSrc: 'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
+      helpText: [
+        '右上角的按钮可跳转到其他页面'
+      ]
+    },
+    {
+      // 主页 3
       imgSrc: '',
       helpText: [
-        '开启“摇一摇冲走烦恼”后，在倾诉页面摇一摇有特效哦',
-        '发送“哈哈哈”试试？\n——更多彩蛋特效等着你来探索哦'
+        '摇一摇即可冲走烦恼'
+      ]
+    },
+    {
+      // 主页 4
+      imgSrc: '',
+      helpText: [
+        '倾诉消息解锁更多彩蛋'
       ]
     },
     {
       // 倾诉树洞列表页面
       imgSrc: '',
       helpText: [
-        '倾诉树洞列表会显示你已有的树洞',
-        '点击树洞可以使用对该树洞继续倾诉',
-        '也可以新建一个树洞进行倾诉',
-        '树洞向左滑会显示操作按钮：&nbsp;删除&nbsp;编辑',
-        '树洞的头像和名称都可以被编辑'
+        '之前使用过的树洞会保存在树洞列表中',
+        '点击树洞可以使用该树洞继续倾诉'
       ]
     },
     {
-      // 分享页面
+      // 修改树洞信息
       imgSrc: '',
       helpText: [
-        '分享页面可以设置分享时间',
-        '分享需要提供昵称',
-        '生成的分享页面包含二维码可以保存到本地'
+        '树洞的头像和名称是可以编辑的'
+      ]
+    },
+    {
+      // 分享页面1
+      imgSrc: '',
+      helpText: [
+        '设置分享时间和分享信息后即可生成分享图片'
+      ]
+    },
+    {
+      // 分享页面2
+      imgSrc: '',
+      helpText: [
+        '图片中的二维码扫描后即可查看你所分享的树洞',
+        '倾诉特效会被重现哦'
       ]
     },
     {
       // 倾诉报告
       imgSrc: '',
       helpText: [
-        '可以在&nbsp;个人中心&nbsp;-&nbsp;倾诉报告&nbsp;进入',
-        '倾诉报告每月一号生成',
-        '截图到本地后就可以分享哦'
+        '倾诉报告每月一号更新'
       ]
     },
     {
       // 个人设置
       imgSrc: '',
       helpText: [
-        '可以在&nbsp;个人中心&nbsp;-&nbsp;个人设置&nbsp;进入',
-        '个人设置可以修改&nbsp;气泡颜色&nbsp;动态背景&nbsp;开启和关闭“摇一摇冲走烦恼”功能',
-        '动态背景持续更新中~~~敬请期待'
+        '个人设置可以修改气泡颜色，动态背景，开启和关闭“摇一摇冲走烦恼”功能'
       ]
     },
     {
@@ -92,8 +109,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
       // 关于我们
       imgSrc: '',
       helpText: [
-        '可以在&nbsp;个人中心&nbsp;-&nbsp;关于我们&nbsp;进入',
-        '可以在这里看到关于我们的信息&nbsp;隐私策略以及联系方式'
+        '关于我们的信息,隐私策略以及联系方式可以在这里看到'
       ]
     },
   ];
@@ -127,7 +143,7 @@ export default class HelpSwiper extends Component<IProp, IState> {
                 <View className={'cover'}>
                   <View className={'skip-button-view'}>
                     <Button size={'mini'} className={'skip-button'} onClick={this.handleSkipClicked}>
-                      跳过
+                      知道了
                     </Button>
                   </View>
                 </View>

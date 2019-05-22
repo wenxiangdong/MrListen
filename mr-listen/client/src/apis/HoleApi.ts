@@ -59,12 +59,23 @@ export class HoleApi implements IHoleApi {
       .count();
 
     let index: number = count + 1;
+    let avatarUrl = this.getDefaultAvatarUrl();
 
     return await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
       .add({
         title: `树洞${index}号`,
-        avatarUrl: Const.HOLE_DEFAULT_AVATAR_URL
-      })
+        avatarUrl
+      });
+
+    // return await (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION))
+    //   .add({
+    //     title: `树洞${index}号`,
+    //     avatarUrl: Const.HOLE_DEFAULT_AVATAR_URL
+    //   })
+  }
+
+  private getDefaultAvatarUrl(): String {
+    return Const.HOLE_DEFAULT_AVATAR_URLS[(Math.random() * Const.HOLE_DEFAULT_AVATAR_URLS.length) >>> 0];
   }
 
   async deleteHole(holeId: string | number): Promise<void> {
