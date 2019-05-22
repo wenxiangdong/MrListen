@@ -3,6 +3,7 @@ import {View} from "@tarojs/components";
 import ColorStripe from "./ColorStripe/ColorStripe";
 import UserConfig, {IUserConfig} from "../../utils/user-config";
 import DynamicBubbles from "./Bubbles/DynamicBubbles";
+import ShootingStar from "./ShootingStar/ShootingStar";
 
 export default class DynamicBackgroundFactory extends Taro.Component {
 
@@ -35,8 +36,16 @@ export default class DynamicBackgroundFactory extends Taro.Component {
         result = <DynamicBubbles/>;
         break;
       }
+      case "shooting-start": {
+        result = <ShootingStar/>
+        break;
+      }
+      case "default": {
+        result = <View/>;
+        break;
+      }
       default: {
-        result = <ColorStripe colorSet={'candy'}/>
+        result = <View/>;
         break;
       }
     }

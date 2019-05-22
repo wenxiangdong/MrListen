@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, ScrollView, Button, Text, Image} from '@tarojs/components'
+import {View, ScrollView, Button, Text, Image, MovableArea} from '@tarojs/components'
 
 import Logger from './../../utils/logger'
 import Listen from '../../utils/listen'
@@ -10,6 +10,8 @@ import editSVG from "./../../images/add.svg";
 
 import './holes.less'
 import HoleSwiperAction from "../../components/HoleSwiperAction/HoleSwiperAction";
+import {bubbleColorOptions} from "../../utils/user-config";
+// import {bubbleColorOptions} from './../../utils/user-config'
 
 interface IState {
   holeVOSet: IHoleVO[],
@@ -45,6 +47,7 @@ export class Holes extends Component<any, IState> {
       holeVOSet: [],
       mounted: false
     };
+
   }
 
   componentWillMount() {
@@ -163,6 +166,7 @@ export class Holes extends Component<any, IState> {
     });
   };
 
+
   render() {
     // {/*<HoleBar key={hole._id}*/}
     // {/*holeAvatarSrc={hole.avatarUrl}*/}
@@ -183,6 +187,8 @@ export class Holes extends Component<any, IState> {
             onClick={() => this.handleClickHole(hole)}
             onUpdate={() => this.handleUpdateHole(hole)}
           />
+          <View className={'line'} style={{borderColor: bubbleColorOptions[idx % bubbleColorOptions.length]}}/>
+          {/*<View className={'line'}/>*/}
         </View>
       )
       : <View className={'no-more-holes-view'}><Text>{this.NO_MORE_HOLES}</Text></View>

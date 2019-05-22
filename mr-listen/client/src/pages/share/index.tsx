@@ -48,6 +48,10 @@ export default class Index extends Component<any, IState> {
 
   private saveTimes = [
     {
+      label: "永久",
+      value: -1
+    },
+    {
       label: "3小时",
       value: 3 * 60 * 60 * 1000
     },
@@ -134,7 +138,7 @@ export default class Index extends Component<any, IState> {
           </View>
           <View>
             <Input
-              className={"share-input" + (inputText.length > 10 ? " share-input-error" : "")}
+              className={"share-input " + (inputText.length > 10 ? " share-input-error" : "") + " " + (qrCode ? "transparent": "")}
               placeholder={"不超过10字(可留空)"}
               value={inputText}
               onInput={this.handleInputChange}/>
@@ -171,7 +175,10 @@ export default class Index extends Component<any, IState> {
     const qrCodeSection = (
       <View className={"share-code-wrapper"}>
         <ShareCanvas text={inputText} holeId={holeId} expireIn={expireIn} onError={this.handleClickCancel}/>
-        <Image className={"share-cancel-icon"} src={cancelPng} onClick={this.handleClickCancel}/>
+        {/*<Image className={"share-cancel-icon"} src={cancelPng} onClick={this.handleClickCancel}/>*/}
+        <View className={"SC-btn"} onClick={this.handleClickCancel}>
+          取消
+        </View>
       </View>
     );
 
