@@ -24,7 +24,7 @@ export default class ShareCanvas extends Component<IProp, IState> {
   private UNIT = 1;
 
   private canvasWidth = 350;
-  private canvasHeight = 500;
+  private canvasHeight = 200;
 
   private logger = Logger.getLogger(ShareCanvas.name);
   private canvasUtil: CanvasUtil;
@@ -80,7 +80,7 @@ export default class ShareCanvas extends Component<IProp, IState> {
       await Taro.saveImageToPhotosAlbum({
         filePath: path
       });
-      Listen.message.success("快去分享吧");
+      Listen.message.success("保存成功");
     } catch (e) {
       Listen.message.error("图片保存失败");
       return;
@@ -95,10 +95,9 @@ export default class ShareCanvas extends Component<IProp, IState> {
 
     return (
       <View className={"SC-wrapper"}>
-        // @ts-ignore
         <Canvas style={{width: this.canvasWidth + "px", height: this.canvasHeight + "px"}} canvasId={this.CANVAS_ID}/>
-        <View className={"SC-btn"} style={{width: this.canvasWidth + "px"}} onClick={this.handleClickSave}>
-          保存到相册后分享到朋友圈
+        <View className={"SC-btn"} onClick={this.handleClickSave}>
+          保存到相册
         </View>
       </View>
     )

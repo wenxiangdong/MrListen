@@ -164,7 +164,10 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
       <View className={"HSW-hole-wrapper"} onClick={this.handleClickHoleWrapper}>
         <View className={'hole-info-view'}>
           <Avatar src={hole.avatarUrl} size={44} margin={13}/>
-          <Text>{hole.title}</Text>
+          <View>
+            <View className={'title-text'}>{hole.title}</View>
+            <View className={'date-text'}>{new Date(hole.createTime).toLocaleDateString()}</View>
+          </View>
         </View>
       </View>
     );
@@ -174,7 +177,6 @@ export default class HoleSwiperAction extends Taro.Component<IProp, IState> {
           {holeItem}
           {actionItems}
         </MovableView>
-        <View className={'line'}/>
       </MovableArea>
     );
   }

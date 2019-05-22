@@ -71,11 +71,20 @@ export default class PageFive extends Component<IProp, IState> {
         )
         : (
           <View>
-            <Text>你还没在很晚的时候向我倾诉过</Text>
-            <Text>保持良好的作息很棒棒哦</Text>
-            <Text>我不需要休息</Text>
-            <Text>所以不管多晚</Text>
-            <Text>我会都在这里安静倾听</Text>
+            <View>
+              <View className={`align-text`}>
+                <View className={`text-align-last word-5 ${mounted ? `word-fly-in-1` : ``}`}>
+                  你还没有在很晚的时候找过我
+                </View>
+                <View className={`text-align-last word-6 ${mounted ? `word-fly-in-4` : ``}`}>
+                  长夜变清早虽然浪漫
+                </View>
+                <View className={`text-align-last word-7 ${mounted ? `word-fly-in-8` : ``}`}>
+                  我还是希望你
+                  <Text className={'strong'}>好好休息</Text>
+                </View>
+              </View>
+            </View>
           </View>
         )
     ;

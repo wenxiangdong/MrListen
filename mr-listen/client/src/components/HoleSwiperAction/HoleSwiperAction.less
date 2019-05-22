@@ -1,18 +1,18 @@
-@item-height: 150px;
+@item-height: 200px;
 @item-width: 150px;
-@border-color: rgba(0,0,0,.3);
+@border-color: rgba(0, 0, 0, .1);
 
 .HSA-ma {
   width: 750px;
   height: @item-height;
+  box-sizing: border-box;
   //border-bottom: @border-color 1Px solid;
 }
 
 .HSA-mv {
   width: 750px + 2 * @item-width;
   height: @item-height;
-  display: flex;
-
+    display: flex;
 }
 
 .HSA-swiper {
@@ -60,6 +60,8 @@
 .HSW-hole-wrapper {
   width: 750px;
   height: @item-height;
+  display: flex;
+  align-items: center;
   position: relative;
 }
 
@@ -67,15 +69,23 @@
 
   width: 750px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
 
   background-color: white;
+
+  .title-text {
+    font-size: 32px;
+    color: #333333;
+    font-weight: bold;
+  }
+
+  .date-text {
+    font-size: 28px;
+    color: #555555;
+    font-weight: bold;
+  }
 }
 
-.line {
-  height: 0;
-  display: block;
-  border-bottom: 2px @border-color solid;
-}
