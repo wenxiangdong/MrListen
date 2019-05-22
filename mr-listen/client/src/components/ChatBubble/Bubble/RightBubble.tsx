@@ -42,11 +42,9 @@ class RightBubble extends Taro.Component<IProp> {
 
     return (
       <Block>
-        <View onLongPress={this.handleLongPress} className={`Right-wrapper bubble`} style={{backgroundColor: color}}>
+        <View onLongPress={this.handleLongPress} className={`Right-wrapper bubble`} style={bubble.type === BubbleType.PICTURE ? {backgroundColor: 'transparent', boxShadow: 'unset'} : {backgroundColor: color}}>
           {bubbleContent}
-          <View className={'bubble-triangle'} style={{
-            borderLeft: '6px solid '+ color
-          }}/>
+          {bubble.type === BubbleType.PICTURE ? "" : <View className={'bubble-triangle'} style={{borderLeft: '6px solid '+ color}}/>}
           {/*<SendTime time={bubble.createTime} textColor={"black"}/>*/}
         </View>
       </Block>
