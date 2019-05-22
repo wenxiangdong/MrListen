@@ -148,7 +148,7 @@ class Index extends Component<any, IState> {
     return (
       <Block>
         <ScrollView scrollY className={'main-box'} style={{height: pageHeight}} scrollIntoView={lastBubbleId}>
-          <WhiteSpace height={50}/>
+          <WhiteSpace height={60}/>
           <View className={"index-nav-bar"}>
             <View className={"index-avatar-wrapper"}>
               {/*<View>*/}
@@ -158,11 +158,17 @@ class Index extends Component<any, IState> {
               {/*</View>*/}
             </View>
             <View className={"index-icon-group"}>
-              <Image src={clockPng} className={"index-icon"} onClick={() => this.handleClickIcon(clockPng.toString())}/>
+              <View className={'click-area'} onClick={() => this.handleClickIcon(clockPng.toString())}>
+                <Image src={clockPng} className={"index-icon"}/>
+              </View>
               <View className={"index-divider"}/>
-              <Image src={mePng} className={"index-icon"} onClick={() => this.handleClickIcon(mePng.toString())}/>
+              <View className={'click-area'} onClick={() => this.handleClickIcon(mePng.toString())}>
+                <Image src={mePng} className={"index-icon"}/>
+              </View>
               <View className={"index-divider"}/>
-              <Image src={sharePng} className={"index-icon"} onClick={() => this.handleClickIcon(sharePng.toString())}/>
+              <View className={'click-area'} onClick={() => this.handleClickIcon(sharePng.toString())}>
+                <Image src={sharePng} className={"index-icon"}/>
+              </View>
             </View>
           </View>
           {/*<View className={"bubble-area"}>*/}
