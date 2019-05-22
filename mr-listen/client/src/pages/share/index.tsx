@@ -48,6 +48,10 @@ export default class Index extends Component<any, IState> {
 
   private saveTimes = [
     {
+      label: "永久",
+      value: -1
+    },
+    {
       label: "3小时",
       value: 3 * 60 * 60 * 1000
     },
