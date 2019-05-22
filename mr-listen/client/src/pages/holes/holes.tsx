@@ -1,5 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
-import {View, ScrollView, Button, Text, Image, MovableArea} from '@tarojs/components'
+import {View, ScrollView, Button, Text, Image} from '@tarojs/components'
 
 import Logger from './../../utils/logger'
 import Listen from '../../utils/listen'
@@ -150,7 +150,7 @@ export class Holes extends Component<any, IState> {
 
   private handleClickHole = (hole) => {
     Taro.reLaunch({
-      url: `${this.INDEX_URL}?holeId=${hole._id}`
+      url: `${this.INDEX_URL}?holeId=${hole._id}&title=${hole.title}`
     }).catch((e) => {
       this.logger.error(e);
       Listen.message.error('跳转失败');
