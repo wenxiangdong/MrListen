@@ -11,6 +11,7 @@ import Logger from "../../../utils/logger";
 import Playback from "../../../components/Playback/Playback";
 import "./hole.less";
 import {ShareHoleVO} from "../../../apis/ShareHoleApi";
+import Listen from "../../../utils/listen";
 
 interface IState {
   bubbles: BubbleVO[],
@@ -103,6 +104,10 @@ export default class Hole extends Taro.Component<any, IState> {
       })
       .catch(e => {
         this.logger.error(e);
+        Listen.message.error("分享被偷吃掉啦");
+        setTimeout(() => {
+          this.handleClickHome();
+        }, 1000);
       })
     // apiHub.holeApi.getBubblesFromHole(shareParam.holeId)
     //   .then(res => {
