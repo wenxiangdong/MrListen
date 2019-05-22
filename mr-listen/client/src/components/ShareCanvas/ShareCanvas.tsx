@@ -95,9 +95,8 @@ export default class ShareCanvas extends Component<IProp, IState> {
 
     return (
       <View className={"SC-wrapper"}>
-        // @ts-ignore
         <Canvas style={{width: this.canvasWidth + "px", height: this.canvasHeight + "px"}} canvasId={this.CANVAS_ID}/>
-        <View className={"SC-btn"} style={{width: this.canvasWidth + "px"}} onClick={this.handleClickSave}>
+        <View className={"SC-btn"} onClick={this.handleClickSave}>
           保存到相册
         </View>
       </View>

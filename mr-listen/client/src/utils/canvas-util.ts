@@ -47,7 +47,7 @@ export default class CanvasUtil {
     this.logger.info(holeId, expireIn, "code url", url);
     const r = 80 * this.unit / 2;
     const oX = this.canvasWidth * 7 / 8 - r;
-    const oY = this.canvasHeigth - 1.5 * r;
+    const oY = this.canvasHeigth - 1.6 * r;
     this.ctx.drawImage(url, oX, oY, r, r);
     this.ctx.draw(true, () => {
       this.logger.info("draw code success");
@@ -84,21 +84,37 @@ export default class CanvasUtil {
     if (!this.ctx) {
       return;
     }
+
     if (!text) {
-      text = "窥探你的心"
+      const {nickName} = userConfig.getConfig();
+      text = `来自${nickName}的纸条`
+    } else {
+      text = "\u201C" + text + "\u201D";
+
     }
+
+    let fontSize = 0;
+    if (text.length > 8) {
+      fontSize = 24 * this.unit;
+    }
+    else {
+      fontSize = 28 * this.unit;
+    }
+
     // const {nickName} = userConfig.getConfig();
     // if (nickName) {
     //   text = nickName + "：" + text;
     // }
+
     this.ctx.save();
-    const fontSize = 32 * this.unit;
     this.ctx.setFontSize(fontSize);
     this.ctx.setFillStyle("#ffffff");
-    this.ctx.font('normal', 'bold', fontSize, 'san-serif');
 
-    const x = 20 * this.unit;
-    const y = 80 * this.unit + fontSize / 2;
+    // @ts-ignore
+    this.ctx.font = 'normal bold ' +  fontSize + 'px san-serif';
+
+    const x = 34 * this.unit;
+    const y = 100 * this.unit - fontSize / 2;
     // @ts-ignore
     this.ctx.fillText(text, x, y);
     this.ctx.draw(true);
