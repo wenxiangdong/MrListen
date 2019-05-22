@@ -10,6 +10,7 @@ import ShareCanvas from "../../components/ShareCanvas/ShareCanvas";
 import Listen from "../../utils/listen";
 
 import "../../components/common/animation/FlyInAnimation.less"
+import {apiHub} from "../../apis/ApiHub";
 
 interface IState {
   // saveTime: number,
@@ -49,7 +50,8 @@ export default class Index extends Component<any, IState> {
   }
 
   componentDidMount () {
-    this.setState({mounted: true})
+    this.setState({mounted: true});
+    apiHub.userApi.login();
   }
 
   private saveTimes = [
