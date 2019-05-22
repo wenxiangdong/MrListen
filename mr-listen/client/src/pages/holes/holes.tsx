@@ -149,7 +149,7 @@ export class Holes extends Component<any, IState> {
   };
 
   private handleClickHole = (hole) => {
-    Taro.navigateTo({
+    Taro.reLaunch({
       url: `${this.INDEX_URL}?holeId=${hole._id}`
     }).catch((e) => {
       this.logger.error(e);

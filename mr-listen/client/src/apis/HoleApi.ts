@@ -75,7 +75,10 @@ export class HoleApi implements IHoleApi {
   }
 
   private getDefaultAvatarUrl(): String {
-    return Const.HOLE_DEFAULT_AVATAR_URLS[(Math.random() * Const.HOLE_DEFAULT_AVATAR_URLS.length) >>> 0];
+    // return Const.HOLE_DEFAULT_AVATAR_URLS[(Math.random() * Const.HOLE_DEFAULT_AVATAR_URLS.length) >>> 0];
+    let index = Math.round(Math.random() * Const.HOLE_DEFAULT_AVATAR_URLS.length);
+    console.log("======================================", index);
+    return Const.HOLE_DEFAULT_AVATAR_URLS[index];
   }
 
   async deleteHole(holeId: string | number): Promise<void> {
