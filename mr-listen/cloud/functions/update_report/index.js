@@ -1,6 +1,9 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk');
-const nodejieba = require('nodejieba');
+const Segment = require('novel-segment');
+
+let segment = new Segment();
+segment.useDefault();
 
 cloud.init();
 const db = cloud.database();
@@ -11,8 +14,9 @@ exports.main = async () => {
     let reportCollection = db.collection('report');
     let userStart = 0, userLimit = 20;
     let users;
-    while ((users = (await userCollection.skip(userStart).limit(userLimit).get()).data)) {
-        users.forEach(async user => {
+    while ((users = (await userCollection.skip(userStart).limit(userLimit).get()).data) && users.length) {
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
             let reports;
 
             if ((reports = (await reportCollection.where({
@@ -31,13 +35,14 @@ exports.main = async () => {
                     data: report
                 })
             }
-        });
+        }
 
         if (users.length < userLimit)
             break;
 
         userStart += userLimit;
     }
+    return users.length;
 };
 
 async function getReport(userId) {
@@ -90,8 +95,10 @@ async function getReport(userId) {
                 // 统计词频
                 let bubble = bubbles[i];
                 if (bubble.type === 'TEXT') {
-                    let str = bubble.content.replace(/[]/g, ' ');
-                    let words = nodejieba.cut(str, true);
+                    let words = segment.doSegment(bubble.content, {
+                        simple: true,
+                        stripPunctuation: true,
+                    });
                     words.forEach(word => {
                         if (word !== ' ') {
                             bubbleWordsMap.set(word, bubbleWordsMap.has(word) ? bubbleWordsMap.get(word) + 1 : 1);
