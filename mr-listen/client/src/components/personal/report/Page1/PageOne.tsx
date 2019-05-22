@@ -38,7 +38,7 @@ export default class PageOne extends Component<any, IState> {
         <View>
           <View className={'title'}>
             <View className={'align-text'}>
-              <View className={`title-text text-align-last ${mounted ? `word-fly-in-1` : ``}`}>使用报告</View>
+              <View className={`title-text text-align-last ${mounted ? `word-fly-in-1` : ``}`}>倾诉报告</View>
               <View className={`subtitle text-align-last ${mounted ? `word-fly-in-3` : ``}`}>让我们从最初的相遇开始</View>
             </View>
           </View>

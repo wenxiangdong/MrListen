@@ -9,13 +9,15 @@ import userConfig from "../../utils/user-config";
 import ShareCanvas from "../../components/ShareCanvas/ShareCanvas";
 import Listen from "../../utils/listen";
 
+import "../../components/common/animation/FlyInAnimation.less"
+
 interface IState {
   // saveTime: number,
   selectedSaveTimeIndex: number,
   qrCode: boolean,
-  userInfoGot: boolean,
   inputText: string,
-  holeId: string
+  holeId: string,
+  mounted: boolean
 }
 
 export default class Index extends Component<any, IState> {
@@ -40,10 +42,14 @@ export default class Index extends Component<any, IState> {
       // saveTime: this.saveTimes[0].value,
       selectedSaveTimeIndex: 0,
       qrCode: false,
-      userInfoGot: false,
       inputText: "",
-      holeId: holdId
+      holeId: holdId,
+      mounted: false
     };
+  }
+
+  componentDidMount () {
+    this.setState({mounted: true})
   }
 
   private saveTimes = [
@@ -100,7 +106,7 @@ export default class Index extends Component<any, IState> {
     this.logger.info(res);
     const userInfo = res.detail.userInfo;
     userConfig.setConfig(userInfo);
-    this.setState({userInfoGot: true});
+    this.handleClickShare();
   };
 
 
@@ -111,12 +117,12 @@ export default class Index extends Component<any, IState> {
   };
 
   render(): any {
-    const {selectedSaveTimeIndex, qrCode, userInfoGot, inputText, holeId} = this.state;
+    const {selectedSaveTimeIndex, qrCode, inputText, holeId, mounted} = this.state;
     const expireIn = this.saveTimes[selectedSaveTimeIndex].value;
 
     const saveTimeSection = (
       <Block>
-        <View className={"share-save-time-wrapper"}>
+        <View className={`share-save-time-wrapper ${mounted ? `fly-in-1`: ``}`}>
           <View className={"share-title"}>
             <Image src={timePng} className={"share-icon"}/>
             保质期
@@ -131,7 +137,7 @@ export default class Index extends Component<any, IState> {
           </PickerView>
         </View>
 
-        <View className={"share-save-time-wrapper"}>
+        <View className={`share-save-time-wrapper ${mounted ? `fly-in-2`: ``}`}>
           <View className={"share-title"}>
             <Image src={bulbPng} className={"share-icon"}/>
             个性签名
@@ -139,18 +145,14 @@ export default class Index extends Component<any, IState> {
           <View>
             <Input
               className={"share-input " + (inputText.length > 10 ? " share-input-error" : "") + " " + (qrCode ? "transparent": "")}
-              placeholder={"不超过10字(可留空)"}
+              placeholder={"不超过10字（可选）"}
               value={inputText}
               onInput={this.handleInputChange}/>
           </View>
         </View>
 
-        <View>
-          {userInfoGot
-            ? <Button className={"share-btn"} hoverClass={"share-btn-hover"}
-                                 onClick={this.handleClickShare}>开始制作分享</Button>
-            : <Button className={"share-btn"} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>授权使用微信个人信息（昵称）</Button>
-          }
+        <View className={`${mounted ? `fly-in-3`: ``}`}>
+          <Button className={"share-btn"} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>生成链接图片</Button>
         </View>
 
         {/*{userInfoGot*/}
