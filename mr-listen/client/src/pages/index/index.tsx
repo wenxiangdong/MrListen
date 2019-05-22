@@ -55,7 +55,7 @@ class Index extends Component<any, IState> {
     this.state = {
       bubbleVOList: [] as BubbleVO[],
       holeId: "",
-      title: "新会话",
+      title: "新倾诉",
       pageHeight: "100vh",
       lastBubbleId: "",
       top: "0",
