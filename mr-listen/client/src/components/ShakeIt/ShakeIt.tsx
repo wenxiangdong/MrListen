@@ -21,6 +21,13 @@ export default class ShakeIt extends Taro.Component<IProp, IState> {
 
   state = {shake: false};
 
+  constructor(props) {
+    super(props);
+    // @ts-ignore
+    this.handleShake = this.throttle(this.handleShake);
+  }
+
+
   render(): any {
     const {shake} = this.state;
     return shake ? (
@@ -43,7 +50,7 @@ export default class ShakeIt extends Taro.Component<IProp, IState> {
     const {confirm, cancel} = await Taro.showModal({
       title: "冲一冲",
       content: "冲走此次倾诉，不留下任何痕迹",
-      confirmColor: "tomato"
+      confirmColor: "#FF6347"
     });
     this.logger.info(JSON.stringify({confirm, cancel}));
     if (confirm) {
@@ -52,4 +59,19 @@ export default class ShakeIt extends Taro.Component<IProp, IState> {
     }
     this.shaking = false;
   };
+
+  // 节流，能间隔一秒发出
+  private throttle(method: Function, onError?) {
+    const duration = 1000;
+    var pre = 0;
+    return function () {
+      let now = +new Date();
+      if (now - pre > duration) {
+        method(...arguments);
+        pre = now;
+      } else {
+        if (typeof onError === "function") onError();
+      }
+    }
+  }
 }

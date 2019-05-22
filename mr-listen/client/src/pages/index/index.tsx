@@ -308,7 +308,8 @@ class Index extends Component<any, IState> {
         this.setState({
           holeId: "",
           bubbleVOList: [],
-          lastBubbleId: ""
+          lastBubbleId: "",
+          title: "新倾诉"
         });
       })
       .catch(this.logger.error);

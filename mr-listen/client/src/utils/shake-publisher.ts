@@ -7,7 +7,7 @@ class ShakePublisher {
 
   private subscribers: (() => void)[] = [];
 
-  // 是否运转中，可以通过
+  // 是否运转中，可以通过 begin stop
   private running = false;
 
   public begin() {
@@ -41,7 +41,7 @@ class ShakePublisher {
         .filter(s => typeof s === "function")
         .forEach(s => s());
     }
-  }
+  };
 }
 
 
