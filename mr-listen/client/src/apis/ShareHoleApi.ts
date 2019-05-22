@@ -45,12 +45,13 @@ export class ShareHoleApi implements IShareHoleApi {
     // @ts-ignore
     let key = new Date().getTime() + '' + Math.floor(Math.random() * 1000);
 
-    return await this.base.add(Const.SHARE_HOLE_COLLECTION, {
+    await this.base.add(Const.SHARE_HOLE_COLLECTION, {
       key,
       expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
       snapShot,
       plusOneCount: 0,
-    })
+    });
+    return key;
   }
 
   async getShareHole(key: string | number): Promise<ShareHoleVO> {
