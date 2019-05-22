@@ -80,7 +80,7 @@ export default class InputBar extends Component<IProp, IState> {
               onConfirm={this.handleConfirmInput}/>
             {/*<View className={"IB-add-btn IB-btn" + (showTool ? " close" : "")} onClick={this.handleClickShowTool}>*/}
               {/*+*/}
-            {/*</View>*/}
+            {/*margin</View>*/}
             <View className={"IB-grid"}>
               <BubbleTypePicture onSend={this.handleSpecialBubbling}/>
             </View>

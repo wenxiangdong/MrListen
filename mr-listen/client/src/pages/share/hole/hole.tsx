@@ -73,15 +73,21 @@ export default class Hole extends Taro.Component<any, IState> {
   render(): any {
     const {bubbles, like, liking} = this.state;
     // const foot = (<Image src={homePng} className={"hole-home-icon"} onClick={this.handleClickHome}/>);
-    const foot = (
+    const footLeft = (
       <View>
         <Image src={homePng} className={"hole-home-icon"} onClick={this.handleClickHome}/>
-        <Image src={this.likePngs[String(like)]} className={`hole-home-icon ${!like && liking ? "liking" : ""}`} onClick={this.handleClickLike}/>
       </View>
     );
+    const footRight = (
+      <View>
+        <Image src={this.likePngs[String(like)]} className={`hole-home-icon like-icon ${!like && liking ? "liking" : ""}`}
+               onClick={this.handleClickLike}/>
+      </View>
+    )
+
     return (
       <View className={'main-box'}>
-        <Playback bubbles={bubbles} renderFooter={foot}/>
+        <Playback bubbles={bubbles} renderFooterLeft={footLeft} renderFooterRight={footRight}/>
       </View>
     )
   }
