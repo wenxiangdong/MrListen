@@ -24,30 +24,18 @@ interface IState {
 export default class HelpSwiper extends Component<IProp, IState> {
 
   helpImgSrcs: string[] = [
-    // 主页1倾诉
-    'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
-    // 主页2跳转
-    'cloud://first-57afbf.6669-first-57afbf/mrlisten-logo-red2.png',
-    // 主页3冲一冲
-    '',
-    // 主页4倾诉彩蛋
-    '',
-    // 倾诉树洞列表页面
-    '',
-    // 修改树洞信息
-    '',
-    // 分享页面1
-    '',
-    // 分享页面2 TODO
-    '',
-    // 倾诉报告
-    '',
-    // 个人设置
-    '',
-    // 如何使用 TODO
-    '',
-    // 关于我们
-    '',
+    'cloud://first-57afbf.6669-first-57afbf/help/主页1倾诉.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/主页3冲一冲.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/主页4倾诉彩蛋.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/切换情绪模式.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/对过去的自己说.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/分享-1.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/分享-2.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/倾诉树洞列表页面.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/修改树洞信息-2.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/个人设置.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/倾诉报告.png',
+    'cloud://first-57afbf.6669-first-57afbf/help/关于我们-1.png',
   ];
 
   private handleSkipClicked = (e) => {
