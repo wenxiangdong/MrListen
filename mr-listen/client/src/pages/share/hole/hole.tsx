@@ -95,8 +95,10 @@ export default class Hole extends Taro.Component<any, IState> {
     });
     apiHub.shareHoleApi.getShareHole(shareParam.holeId)
       .then(res => {
-        const hole = JSON.parse(res.snapShot);
+        this.logger.info(res);
+        const hole = res.snapShot;
         this.logger.info(hole);
+        // @ts-ignore
         this.setState({
           bubbles: hole.bubbleVOs,
           shareHole: hole
