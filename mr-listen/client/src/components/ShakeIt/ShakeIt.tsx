@@ -41,6 +41,11 @@ export default class ShakeIt extends Taro.Component<IProp, IState> {
     shakePublisher.subscribe(this.handleShake);
   }
 
+  componentWillUnmount() {
+    this.logger.info("unmount");
+    shakePublisher.unsubscribe(this.handleShake);
+  }
+
 
   handleShake = async () => {
     if (this.shaking) {
