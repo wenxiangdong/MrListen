@@ -3,7 +3,7 @@
     {
       "name": "update_report",
       "type": "timer",
-      "config": "0 0 0 1 1 * *"
+      "config": "0 0 0 1 * * *"
     }
   ]
 }
