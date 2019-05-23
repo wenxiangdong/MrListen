@@ -3,7 +3,6 @@ import Cache from "./Cache";
 import {IHoleVO} from "./HoleApi";
 import {apiHub} from "./ApiHub";
 import Const from "./Const";
-import Util from "./Util";
 import {BubbleStyle, BubbleType, BubbleVO} from "./BubbleApi";
 
 export interface IShareHoleApi {

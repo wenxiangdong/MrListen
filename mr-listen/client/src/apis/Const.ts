@@ -10,4 +10,5 @@ export default class Const {
   static readonly REPLY_COLLECTION: string = "reply";
   static readonly USER_COLLECTION: string = "user";
   static readonly REPORT_COLLECTION: string = "report";
+  static readonly EMOJI_COLLECTION: string = "emoji";
 }
