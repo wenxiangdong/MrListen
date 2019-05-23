@@ -19,7 +19,7 @@ export interface IUserConfig {
 class UserConfig {
   private KEY = "mr.listen.user_config";
   private defaultConfig: IUserConfig = {
-    bubbleColor: "#42A5F5",
+    bubbleColor: "#03A9F4",
     theme: {mode: "color-stripe-candy", text: "糖果条纹", coverImg: candyImgBase64},
     shakeOff: true,
     avatarUrl: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1557061508&di=55b378f85ecea0d581a6b61c11ea2258&src=http://www.uedsc.com/wp-content/uploads/2015/12/2012122836181345.jpg",

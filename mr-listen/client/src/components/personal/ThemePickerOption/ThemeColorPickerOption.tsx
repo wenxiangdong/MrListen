@@ -43,7 +43,7 @@ export default class ThemeColorPickerOption extends Component<IProp, any> {
       <View className={viewClassName}
             hoverClass={hoverClass}
             onClick={this.clickHandler}
-            style={{backgroundImage: `url("${theme.coverImg}")`}}
+            style={{backgroundImage: `url("${theme.coverImg? theme.coverImg: ""}")`}}
       >
         {theme.text}
       </View>

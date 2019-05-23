@@ -37,7 +37,7 @@ export default class DynamicBackgroundFactory extends Taro.Component {
         break;
       }
       case "shooting-start": {
-        result = <ShootingStar/>
+        result = <ShootingStar/>;
         break;
       }
       case "default": {

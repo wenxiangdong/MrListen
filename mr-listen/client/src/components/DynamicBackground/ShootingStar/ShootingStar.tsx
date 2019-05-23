@@ -1,6 +1,7 @@
 import Taro from "@tarojs/taro";
 import {View} from "@tarojs/components";
 
+import './ShootingStar.less'
 
 export default class ShootingStar extends Taro.Component {
   render(): any {
