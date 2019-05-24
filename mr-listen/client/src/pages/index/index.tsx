@@ -68,6 +68,9 @@ class Index extends Component<any, IState> {
     // 订阅键盘行为事件
     keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.POP, this.handleFocus);
     keyboardBehaviorPublisher.subscribe(KeyboardBehaviorTypes.HIDE, this.handleBlur);
+
+    // can i use
+    this.loadCanIUse();
   }
 
 
@@ -113,17 +116,17 @@ class Index extends Component<any, IState> {
         Listen.message.error("跳转失败");
       });
     },
-    [sharePng.toString()]: () => {
-      const {holeId} = this.state;
-      let url = `/pages/share/index${holeId ? ("?holeId=" + holeId) : ""}`;
-      this.logger.info("url", url);
-      Taro.navigateTo({
-        url
-      }).catch(() => {
-        this.logger.error(`跳转到${url}失败`);
-        Listen.message.error("跳转失败");
-      });
-    }
+    // [sharePng.toString()]: () => {
+    //   const {holeId} = this.state;
+    //   let url = `/pages/share/index${holeId ? ("?holeId=" + holeId) : ""}`;
+    //   this.logger.info("url", url);
+    //   Taro.navigateTo({
+    //     url
+    //   }).catch(() => {
+    //     this.logger.error(`跳转到${url}失败`);
+    //     Listen.message.error("跳转失败");
+    //   });
+    // }
   };
 
 
@@ -145,6 +148,16 @@ class Index extends Component<any, IState> {
           onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
         />);
 
+    let icons = Object.keys(this.iconToAction);
+    const iconComponents = icons.map((icon, idx) => (
+        <Block>
+          <View className={'click-area'} onClick={() => this.handleClickIcon(icon.toString())}>
+            <Image src={icon} className={"index-icon"}/>
+          </View>
+          {idx === icons.length - 1 ? null : <View className={"index-divider"}/>}
+        </Block>
+      ));
+
 
     return (
       <Block>
@@ -159,17 +172,18 @@ class Index extends Component<any, IState> {
               {/*</View>*/}
             </View>
             <View className={"index-icon-group"}>
-              <View className={'click-area'} onClick={() => this.handleClickIcon(clockPng.toString())}>
-                <Image src={clockPng} className={"index-icon"}/>
-              </View>
-              <View className={"index-divider"}/>
-              <View className={'click-area'} onClick={() => this.handleClickIcon(mePng.toString())}>
-                <Image src={mePng} className={"index-icon"}/>
-              </View>
-              <View className={"index-divider"}/>
-              <View className={'click-area'} onClick={() => this.handleClickIcon(sharePng.toString())}>
-                <Image src={sharePng} className={"index-icon"}/>
-              </View>
+              {/*<View className={'click-area'} onClick={() => this.handleClickIcon(clockPng.toString())}>*/}
+                {/*<Image src={clockPng} className={"index-icon"}/>*/}
+              {/*</View>*/}
+              {/*<View className={"index-divider"}/>*/}
+              {/*<View className={'click-area'} onClick={() => this.handleClickIcon(mePng.toString())}>*/}
+                {/*<Image src={mePng} className={"index-icon"}/>*/}
+              {/*</View>*/}
+              {/*<View className={"index-divider"}/>*/}
+              {/*<View className={'click-area'} onClick={() => this.handleClickIcon(sharePng.toString())}>*/}
+                {/*<Image src={sharePng} className={"index-icon"}/>*/}
+              {/*</View>*/}
+              {iconComponents}
             </View>
           </View>
           {/*<View className={"bubble-area"}>*/}
@@ -407,6 +421,34 @@ class Index extends Component<any, IState> {
     this.setState({
       shakeItOn: !!config.shakeOff
     });
+  }
+
+
+  loadCanIUse() {
+    const SHARE_KEY = "share";
+    apiHub.userApi.canIUse(SHARE_KEY)
+      .then(res => {
+        if (res) {
+          this.iconToAction[sharePng.toString()] = () => {
+            const {holeId} = this.state;
+            let url = `/pages/share/index${holeId ? ("?holeId=" + holeId) : ""}`;
+            // this.logger.info("url", url);
+            Taro.navigateTo({
+              url
+            }).catch(() => {
+              this.logger.error(`跳转到${url}失败`);
+              Listen.message.error("跳转失败");
+            });
+          };
+          try {
+            this.forceUpdate();
+          } catch (e) {}
+        } else {
+          this.logger.info("不能使用" + SHARE_KEY);
+        }
+      }).catch(e => {
+        this.logger.error(e);
+    })
   }
 
 }
