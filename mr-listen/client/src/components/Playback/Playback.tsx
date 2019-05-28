@@ -120,7 +120,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
     ));
     const controlBar = (
       <View className={"Playback-control-wrapper"}>
-        {this.props.renderFooterLeft}
+        <View style={{width: '100px'}}/>
         <View className={"Playback-control"} hoverClass={"Playback-control-hover"}
               onClick={() => this.handleChangeRate(200)}>
           <Image
@@ -144,6 +144,8 @@ export default class Playback extends Taro.Component<IProp, IState> {
           <Image src={forwardPng} className={"Playback-forward Playback-second-control"}/>
         </View>
 
+        <View style={{width: '50px'}}/>
+
         {this.props.renderFooterRight}
       </View>
     );
@@ -158,6 +160,7 @@ export default class Playback extends Taro.Component<IProp, IState> {
           {controlBar}
         </View>
         <View className={"Playback-footer"}>
+          {this.props.renderFooterLeft}
         </View>
         {/* <Image src={homePng} className={"Playback-home-icon"} onClick={this.handleClickHome} /> */}
       </View>

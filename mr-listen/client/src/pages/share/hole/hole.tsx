@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import {Image, View} from "@tarojs/components";
+import {Button, Image, View, Text} from "@tarojs/components";
 import homePng from "../../../images/home.png";
 import likePng from "../../../images/like.png";
 import likePngWhite from "../../../images/like_white.png";
@@ -74,9 +74,12 @@ export default class Hole extends Taro.Component<any, IState> {
     const {bubbles, like, liking} = this.state;
     // const foot = (<Image src={homePng} className={"hole-home-icon"} onClick={this.handleClickHome}/>);
     const footLeft = (
-      <View>
-        <Image src={homePng} className={"hole-home-icon"} onClick={this.handleClickHome}/>
-      </View>
+      <Button className={'full-width'} onClick={this.handleClickHome}>
+        <View className={'home-button-content'}>
+          <Image src={homePng} className={"hole-home-icon"}/>
+          <Text className={'home-button-text'}>回到 Mr Listen</Text>
+        </View>
+      </Button>
     );
     const footRight = (
       <View>
