@@ -20,7 +20,7 @@ exports.main = async (event) => {
 
         let shareHoles;
 
-        if ((shareHoles = (await db.collection('share_hole').where({key}).get()).data) && shareHoles.length) {
+        if (key && (shareHoles = (await db.collection('share_hole').where({key}).get()).data) && shareHoles.length) {
             let shareHole = shareHoles[0];
 
             if (shareHole && (shareHole.expiryTime < 0 || new Date(shareHole.expiryTime) > new Date()))
