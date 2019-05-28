@@ -3,7 +3,7 @@ import "./ChatBubble.less";
 import {BubbleVO} from "../../apis/BubbleApi";
 import {View} from "@tarojs/components";
 import RightBubble from "./Bubble/RightBubble";
-import UserConfig, {IUserConfig} from "../../utils/user-config";
+import UserConfig, {defaultBubbleColor, IUserConfig} from "../../utils/user-config";
 import LeftBubble from "./Bubble/LeftBubble";
 import Logger from "../../utils/logger";
 import Taro from "@tarojs/taro";
@@ -96,7 +96,8 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     Listen.showLoading("删除中...");
     apiHub.bubbleApi.deleteBubble(id)
       .then(() => {
-        this.props.onUpdate(undefined);
+        const {onUpdate = () => {}} = this.props;
+        onUpdate(undefined);
         Listen.hideLoading();
       })
       .catch(e => {
@@ -112,7 +113,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     apiHub.bubbleApi.deleteReply(id)
       .then(() => {
         Listen.hideLoading();
-        const {bubble, onUpdate} = this.props;
+        const {bubble, onUpdate = () => {}} = this.props;
         bubble.replyList = bubble.replyList.filter(r => id != r._id);
         // this.logger.info("删除后", bubble);
         this.logger.info("删除后", bubble);
@@ -129,7 +130,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     this.logger.info("ok", text);
     this.handleInputModalHide();
     // 先放上去
-    const {bubble, onUpdate} = this.props;
+    const {bubble, onUpdate = () => {}} = this.props;
     const replyVO = {
       bubbleId: bubble._id,
       content: text,
@@ -162,7 +163,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
   render(): any {
     const {bubble, hideAvatar} = this.props;
     const {showInputModal} = this.state;
-    const {bubbleColor} = this.userConfig;
+    const {bubbleColor = defaultBubbleColor} = this.userConfig;
 
     this.logger.info("render bubble", bubble);
 

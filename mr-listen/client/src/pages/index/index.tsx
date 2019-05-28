@@ -139,18 +139,22 @@ class Index extends Component<any, IState> {
     const bubbles = bubbleVOList
       .filter(b => !!b)
       .map((b, index) =>
-        // @ts-ignore
-        <ChatBubble
-          chat-bubble-class={index === bubbleVOListLength - 1 ? "chat-bubble" : ""}
-          id={"bubble" + index}
-          key={index}
-          bubble={b}
-          onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
-        />);
+        b
+        ? (
+          // @ts-ignore
+          <ChatBubble
+            chat-bubble-class={index === bubbleVOListLength - 1 ? "chat-bubble" : ""}
+            id={"bubble" + index}
+            key={`chat-bubble-${index}`}
+            bubble={b}
+            onUpdate={(bubble) => this.handleUpdateBubble(bubble, index)}
+          />)
+          : null
+      );
 
     let icons = Object.keys(this.iconToAction);
     const iconComponents = icons.map((icon, idx) => (
-        <Block>
+        <Block key={`icon-block-${idx}`}>
           <View className={'click-area'} onClick={() => this.handleClickIcon(icon.toString())}>
             <Image src={icon} className={"index-icon"}/>
           </View>
@@ -211,11 +215,9 @@ class Index extends Component<any, IState> {
       pageHeight,
       top: `${keyboardHeight}px`
     }, () => {
-      // todo 不知道为什么这里并不会触发
+      // 键盘弹起 滑到底部
       console.log('键盘弹起，触发滚动键盘高度效果');
-      Taro.pageScrollTo({
-        scrollTop: 1000000000,
-      });
+      this.scrollToBottom();
     });
   };
 
@@ -271,11 +273,7 @@ class Index extends Component<any, IState> {
       holeId,
       lastBubbleId: `bubble${pre.bubbleVOList.length}`,
       lastBubble: {...bubble}
-    }), () => { //  滚动到最下方
-      Taro.pageScrollTo({
-        scrollTop: 100000000
-      });
-    });
+    }));
 
     // 发送气泡
     try {
@@ -356,7 +354,7 @@ class Index extends Component<any, IState> {
   }
 
 
-  componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IState>, prevContext: any): void {
+  componentDidUpdate(): void {
     if (this.state.holeId) {
       // this.onShareAppMessage = this.handleShareAppMessage;
       Taro.showShareMenu();
@@ -376,32 +374,55 @@ class Index extends Component<any, IState> {
     }
   }
 
-  async getBubbles(holeId) {
+  getBubbles(holeId) {
     this.setState({
       loadingBubbles: true
-    });
-    try {
-      let res = await apiHub.holeApi.getBubblesFromHole(holeId);
-      // @ts-ignore
-      res = res.map(item => ({...item, noAnimation: true}));
-      this.setState({
-        bubbleVOList: res
-      }, () => {
-        // 气泡放完成后，设置一个定时，等动画放完再显示
-        setTimeout(() => {
+    }, () => {
+      this.getBubbleAsync(holeId, this.scrollToBottom)
+        .catch((e) => {
+          Listen.message.error("请重新进入");
+          this.logger.error(e);
           this.setState({
             loadingBubbles: false
           });
-        }, this.BUBBLE_ANIMATION_DURATION);
-      });
-    } catch (e) {
-      Listen.message.error("请重新进入");
-      this.logger.error(e);
-      this.setState({
-        loadingBubbles: false
-      });
-    }
+        })
+    });
   }
+
+  async getBubbleAsync(holeId, callback) {
+    let res = (await apiHub.holeApi.getBubblesFromHole(holeId))
+      .map(item => ({...item, noAnimation: true}));
+
+    this.setState({
+      bubbleVOList: res
+    }, () => {
+      callback();
+      // 气泡放完成后，设置一个定时，等动画放完再显示
+      setTimeout(() => {
+        this.setState({
+          loadingBubbles: false,
+          lastBubbleId: this.getDefaultLatBubbleId()
+        });
+      }, this.BUBBLE_ANIMATION_DURATION);
+    });
+  }
+
+  scrollToBottom = () => {
+    setTimeout(() => {
+      this.setState({
+        lastBubbleId: ''
+      }, () => {
+        this.setState({
+          lastBubbleId: this.getDefaultLatBubbleId()
+        })
+      });
+    }, 0);
+  };
+
+  getDefaultLatBubbleId = () => {
+    let {bubbleVOList = []} = this.state;
+    return `bubble${bubbleVOList.length - 1}`;
+  };
 
   // async onShareAppMessage(obj: Taro.ShareAppMessageObject): Taro.ShareAppMessageReturn {
   //   try {
