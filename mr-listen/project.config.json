@@ -32,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "从别人分享的树洞进来",
 					"pathName": "pages/share/hole/hole",
-					"query": "holeId=1558531262273905",
+					"query": "scene=holeId%3D1559035650176549",
 					"scene": 1012
 				},
 				{

@@ -6,6 +6,7 @@ import Logger from "./utils/logger";
 import shareUtil, {ShareKeys} from "./utils/share-util";
 import shakePublisher from "./utils/shake-publisher";
 import {apiHub} from "./apis/ApiHub";
+import parseQueryParams from './utils/parse-query-params';
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -52,8 +53,9 @@ class App extends Component {
     // 只能在这里获取到场景值
     this.logger.info(this.$router.params);
     const {query} = this.$router.params;
-    const {holeId} = query;
-    shareUtil.setShareMessage(ShareKeys.SHARE_HOLE, {holeId});
+    let {scene} = query;
+    const params = parseQueryParams(scene);
+    shareUtil.setShareMessage(ShareKeys.SHARE_HOLE, params);
     // 后面如果用分享报告，也可以类似
   }
 

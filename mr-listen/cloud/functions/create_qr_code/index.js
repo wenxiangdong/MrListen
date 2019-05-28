@@ -33,7 +33,7 @@ exports.main = async (event, context) => {
   }
 
   let scene = Object.keys(params)
-      .map(key => `${key}=${encodeURIComponent(params[key])}`)
+      .map(key => `${key}=${params[key]}`)
       .join("&");
   console.log("scene", scene);
   try {
