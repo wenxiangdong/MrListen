@@ -17,6 +17,7 @@ import Listen from '../../../utils/listen'
 import {apiHub} from '../../../apis/ApiHub'
 import {ReportVO} from '../../../apis/ReportApi'
 import {HttpCode, HttpResponse} from "../../../apis/HttpRequest";
+import reportHelper from "../../../utils/report-helper";
 
 interface IState {
   pageIndex: number
@@ -34,18 +35,6 @@ export class Report extends Component<any, IState> {
     disableScroll: true
     // navigationBarBackgroundColor: '#1A237E',
     // navigationBarTextStyle: 'white',
-  };
-
-  private readonly emptyReport:ReportVO = {
-    _id: 'emptyReport_id',
-    userId: 'emptyReportUserId',
-    meetTime: Date.now(),
-    holeCount: 0,
-    longestDuration: 0,
-    mostUsedWords: [],
-    latestTime: 0,
-    plusOneCount: 0,
-    shareHoleCount: 0
   };
 
   private logger = Logger.getLogger(Report.name);
@@ -84,7 +73,7 @@ export class Report extends Component<any, IState> {
     switch (code) {
       case HttpCode.NOT_FOUND:
         this.logger.info('not found report');
-        this.setReport(this.emptyReport);
+        this.setReport(reportHelper.getEmptyReport());
         break;
       default:
         Listen.message.error('出错啦');
