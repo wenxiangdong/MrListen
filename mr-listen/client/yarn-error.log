@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add voice.png --silent --no-progress
+  /usr/local/bin/node /usr/local/bin/yarn add Report.less --silent --no-progress
 
 PATH: 
-  /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/var/folders/5h/qdyf9gvd631cxfghxgw23t880000gn/T/yarn--1558183120545-0.8860331812570994:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/Users/chen/.config/yarn/link/node_modules/.bin:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/Users/chen/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Users/chen/apache-maven-3.5.4/bin:/usr/local/mysql/bin
+  /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/var/folders/5h/qdyf9gvd631cxfghxgw23t880000gn/T/yarn--1559090502215-0.31132009872267963:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/Users/chen/.config/yarn/link/node_modules/.bin:/Users/chen/Library/Mobile Documents/com~apple~CloudDocs/文稿/代码/MrListen/mr-listen/client/node_modules/.bin:/Users/chen/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/opt/local/bin:/opt/local/sbin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Users/chen/apache-maven-3.5.4/bin:/usr/local/mysql/bin
 
 Yarn version: 
   1.13.0
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/voice.png: Not found
+  Error: https://registry.yarnpkg.com/Report.less: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66255:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:129397:22)
       at Request.emit (events.js:188:13)

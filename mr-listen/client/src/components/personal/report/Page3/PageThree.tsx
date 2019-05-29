@@ -3,6 +3,7 @@ import {View, Text} from '@tarojs/components'
 
 import './PageThree.less'
 import './../Report.less'
+import NextPageTip from "../NextPageTip";
 
 interface IProp {
   holeCount: number
@@ -76,6 +77,7 @@ export default class PageThree extends Component<IProp, IState> {
           <View className={'roll delay-6'}>😙</View>
           <View className={'roll delay-7'}>🤕</View>
         </View>
+        <NextPageTip flyInTime={"9"}/>
       </View>
     );
   }

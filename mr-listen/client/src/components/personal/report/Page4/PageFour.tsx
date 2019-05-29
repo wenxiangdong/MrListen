@@ -4,6 +4,7 @@ import {View, Text, Image} from '@tarojs/components'
 import './PageFour.less'
 import './../Report.less'
 import VoicePNG from './voice.png';
+import NextPageTip from "../NextPageTip";
 
 interface IProp {
   longestDuration: number
@@ -68,12 +69,15 @@ export default class PageFour extends Component<IProp, IState> {
               </View>
             </View>
             <View className={`word-4 ${mounted ? `word-fly-in-8` : ``}`}>我还想多听听你的故事</View>
+            <NextPageTip flyInTime={"10"}/>
+
           </View>
         )
         : (
           <View className={`align-text`}>
             <View className={`text-align-last word-5 ${mounted ? `word-fly-in-1` : ``}`}>你还没有给我发过语音消息</View>
             <View className={`text-align-last strong word-6 ${mounted ? `word-fly-in-4` : ``}`}>我其实很想听你讲故事</View>
+            <NextPageTip flyInTime={"6"}/>
           </View>
         )
     ;

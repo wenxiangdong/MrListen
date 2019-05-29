@@ -3,6 +3,7 @@ import {View, Text, Image} from '@tarojs/components'
 
 import './PageSix.less'
 import './../Report.less'
+import NextPageTip from "../NextPageTip";
 
 interface IProp {
   shareHoleCount: number,
@@ -56,12 +57,14 @@ export default class PageSix extends Component<IProp, IState> {
               <Text>次点赞</Text>
             </View>
           </View>
+          <NextPageTip flyInTime={"10"}/>
         </View>
       )
       : (
         <View className={`align-text none-block`}>
           <View className={`text-align-last word-5 ${mounted ? `word-fly-in-1` : ``}`}>你还没有跟别人分享过树洞</View>
           <View className={`strong text-align-last word-6 ${mounted ? `word-fly-in-3` : ``}`}>这些都是我们的小秘密</View>
+          <NextPageTip flyInTime={"5"}/>
         </View>
       )
     ;

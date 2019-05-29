@@ -5,6 +5,7 @@ import './PageTwo.less'
 import './../Report.less'
 
 import paperPlanePNG from './paper-plane.png'
+import NextPageTip from "../NextPageTip";
 
 interface IProp {
   meetTime: number
@@ -78,7 +79,7 @@ export default class PageTwo extends Component<IProp, IState> {
             <View className={'align-text'}>
               <View className={`text-align-last word-1 ${mounted ? `word-fly-in-1` : ``}`}>还记得</View>
               <View className={`text-align-last word-2 ${mounted ? `word-fly-in-3` : ``}`}>我们的初次相遇</View>
-              <View className={`text-align-last word-3  ${mounted ? `word-fly-in-6` : ``}`}>
+              <View className={`text-align-last word-3  ${mounted ? `word-fly-in-5` : ``}`}>
                 <Text decode>那是在&nbsp;</Text>
                 <Text className={'strong'} decode>
                   {meetDate.getFullYear()}&nbsp;年的
@@ -89,14 +90,15 @@ export default class PageTwo extends Component<IProp, IState> {
           </View>
           <View className={'second-block'}>
             <View>
-              <View className={'word-4 ${mounted ? `word-fly-in-9` : ``} strong'}>{texts[0]}</View>
-              <View className={'word-5 ${mounted ? `word-fly-in-12` : ``}'}>{texts[1]}</View>
+              <View className={`word-4 ${mounted ? `word-fly-in-8` : ``} strong`}>{texts[0]}</View>
+              <View className={`word-5 ${mounted ? `word-fly-in-11` : ``}`}>{texts[1]}</View>
             </View>
           </View>
         </View>
         <View className={'paper-plane'}>
           <Image className={'paper-plane-img'} src={paperPlanePNG}/>
         </View>
+        <NextPageTip flyInTime={"13"}/>
       </View>
     )
   }

@@ -7,6 +7,7 @@ import enterImg from './../../../../images/enterImg.png';
 
 import './PageOne.less'
 import './../Report.less'
+import NextPageTip from "../NextPageTip";
 
 interface IState {
   mounted: boolean
@@ -47,7 +48,7 @@ export default class PageOne extends Component<any, IState> {
             <OpenData className={'name'} type={'userNickName'}/>
           </View>
         </View>
-        <View className={`tip ${mounted ? `word-fly-in-6` : ``}`}>点击进入</View>
+        <NextPageTip flyInTime={"7"}/>
       </View>
     )
   }
