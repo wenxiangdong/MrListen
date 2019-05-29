@@ -1,4 +1,5 @@
 import Taro, {Component, Config} from '@tarojs/taro'
+import "@tarojs/async-await";
 import {View, Input, Button} from '@tarojs/components'
 
 import Avatar from './../../../components/ChatBubble/Avatar'
@@ -35,15 +36,22 @@ export class Update extends Component<any, IState> {
 
   private TITLE_INPUT_PLACEHOLDER = '标题1-7个字';
   private TITLE_MAX_LEN = 7;
+  private readonly originAvatarUrl: string;
+
+  static createHoleAvatarUrl = (hole: IHoleVO) => {
+    return `hole_avatars/${hole._openid}/${Date.now()}`;
+  };
 
   constructor(props) {
     super(props);
     if (this.$router.params.hole) {
       this.hole = JSON.parse(this.$router.params.hole);
+      this.originAvatarUrl = this.hole.avatarUrl;
       this.state = {
         avatarUrl: this.hole.avatarUrl,
         title: this.hole.title
-      }
+      };
+      this.logger.info(this.state);
     } else {
       Taro.navigateBack()
         .then(() => {
@@ -63,9 +71,14 @@ export class Update extends Component<any, IState> {
       .then(res => {
         this.logger.info(res);
         const {tempFilePaths = []} = res || {};
-        // 触发事件
-        this.setState({avatarUrl: tempFilePaths[0]});
-        Listen.hideLoading();
+        if (tempFilePaths.length === 0) {
+          Listen.hideLoading();
+          Listen.message.error('未找到图片');
+        } else {
+          this.setState({avatarUrl: tempFilePaths[0]}, () => {
+            Listen.hideLoading();
+          });
+        }
       })
       .catch(e => {
         const {errMsg = ''} = e;
@@ -75,27 +88,54 @@ export class Update extends Component<any, IState> {
         if (!errMsg.includes('cancel')) {
           Listen.message.error('请重新选择图片');
         }
-      })
+      });
   };
 
-  private handleSaveChange = () => {
+  private handleSaveChange = async () => {
     let titleLen = this.state.title.length;
     this.logger.info(this.state);
     if (titleLen > 0 && titleLen <= this.TITLE_MAX_LEN) {
-      Listen.showLoading('保存中');
-      apiHub.holeApi.updateHole(this.hole._id, {...this.hole, avatarUrl: this.state.avatarUrl, title: this.state.title})
-        .then(() => {
-          Listen.hideLoading();
-          Listen.message.success('保存修改成功');
-        })
-        .catch((e) => {
+      let url = this.state.avatarUrl;
+      if (this.originAvatarUrl !== this.state.avatarUrl) {
+        // 上传新头像
+        try {
+          url = await apiHub.fileApi.uploadFile(
+            Update.createHoleAvatarUrl(this.hole),
+            this.state.avatarUrl
+          );
+          this.deleteOriginAvatar(this.hole);
+        } catch (e) {
           this.logger.error(e);
-          Listen.hideLoading();
-          Listen.message.error('保存失败');
-        })
+          Listen.message.error("上传头像失败");
+          return;
+        }
+      }
+      this.updateHoleInfo(url);
     } else {
       Listen.message.error(this.TITLE_INPUT_PLACEHOLDER);
     }
+  };
+
+  private deleteOriginAvatar = (hole) => {
+    if (this.originAvatarUrl && this.originAvatarUrl.includes(`hole_avatars/${hole._openid}/`)) {
+      apiHub.fileApi.deleteFile([this.originAvatarUrl]);
+    }
+  };
+
+  private updateHoleInfo = (avatarUrl) => {
+    Listen.showLoading('保存树洞信息');
+    apiHub.holeApi.updateHole(this.hole._id,
+      {...this.hole, avatarUrl, title: this.state.title})
+      .then(() => {
+        Listen.hideLoading();
+        Listen.message.success('保存修改成功');
+      })
+      .catch((e) => {
+        this.logger.error(e);
+        Listen.hideLoading();
+        Listen.message.error('保存失败');
+      })
+    ;
   };
 
   render() {
