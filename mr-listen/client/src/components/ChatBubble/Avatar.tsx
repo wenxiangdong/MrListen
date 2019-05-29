@@ -15,9 +15,10 @@ export default class Avatar extends Component<IProp> {
     const {src, size, margin} = this.props;
     return (
       <Image
+        mode={"aspectFill"}
         // @ts-ignore
         src={src}
-        style={{width: size + "px", height: size + "px", borderRadius: "50%", border: "#e8eaec 1px solid", margin: margin + "px"}}/>
+        style={{width: size + "px", height: size + "px", borderRadius: "50%", border: "#e8eaec thin solid", margin: margin + "px"}}/>
     );
   }
 }
