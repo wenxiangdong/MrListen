@@ -36,14 +36,13 @@ export class Update extends Component<any, IState> {
 
   private TITLE_INPUT_PLACEHOLDER = '标题1-7个字';
   private TITLE_MAX_LEN = 7;
-  private readonly originAvatarUrl: string;
+  private originAvatarUrl: string;
 
   static createHoleAvatarUrl = (hole: IHoleVO) => {
     return `hole_avatars/${hole._openid}/${Date.now()}`;
   };
 
-  constructor(props) {
-    super(props);
+  componentWillMount(): void {
     if (this.$router.params.hole) {
       this.hole = JSON.parse(this.$router.params.hole);
       this.originAvatarUrl = this.hole.avatarUrl;
