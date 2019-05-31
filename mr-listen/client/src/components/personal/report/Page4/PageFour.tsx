@@ -71,7 +71,6 @@ export default class PageFour extends Component<IProp, IState> {
             </View>
             <View className={`word-4 ${mounted ? `word-fly-in-8` : ``}`}>我还想多听听你的故事</View>
             <NextPageTip flyInTime={"10"} bottom={'120rpx'}/>
-
           </View>
         )
         : (

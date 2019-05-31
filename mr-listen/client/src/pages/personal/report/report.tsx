@@ -54,11 +54,7 @@ export class Report extends Component<any, IState> {
 
               api.setLocalReportSync(report);
             })
-            .catch((e:HttpResponse<ReportVO>) => {
-              this.logger.error(e);
-
-              this.handleReportErrCode(e.code);
-            });
+            .catch((e:HttpResponse<ReportVO>) => this.handleReportErrCode(e));
         }
       });
   }
@@ -69,13 +65,15 @@ export class Report extends Component<any, IState> {
     Listen.hideLoading();
   }
 
-  private handleReportErrCode(code: HttpCode) {
+  private handleReportErrCode(e:HttpResponse<ReportVO>) {
+    let code: HttpCode = e.code;
     switch (code) {
       case HttpCode.NOT_FOUND:
         this.logger.info('not found report');
         this.setReport(reportHelper.getEmptyReport());
         break;
       default:
+        this.logger.error(e);
         Listen.message.error('出错啦');
         break;
     }
