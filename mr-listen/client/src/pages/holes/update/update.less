@@ -1,15 +1,32 @@
-.hole-title-input {
-  text-align: center;
-  border: thin solid transparent;
-  border-bottom-color: lightgray;
-  padding-bottom: 4px;
-}
+.base-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 
-.save-change-button {
-  width:100vw;
+  .avatar-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  z-index: 2;
-  position:fixed;
-  bottom:0;
-  left:0;
+    width: 100vw;
+    height: 100vw;
+  }
+
+  .hole-title-input {
+    text-align: center;
+    border: thin solid transparent;
+    border-bottom-color: lightgray;
+    padding-bottom: 4px;
+  }
+
+  .save-change-button {
+    width:100vw;
+
+    z-index: 2;
+    position:fixed;
+    bottom:0;
+    left:0;
+  }
 }

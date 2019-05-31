@@ -5,7 +5,7 @@ import './PageFive.less'
 import './../Report.less'
 import bedPNG from './bed.png'
 import moonPNG from './moon.png'
-import NextPageTip from "../NextPageTip";
+import NextPageTip from "../NextPageTip/NextPageTip";
 
 interface IProp {
   latestTime: number

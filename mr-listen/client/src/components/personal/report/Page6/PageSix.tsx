@@ -1,9 +1,9 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text, Image} from '@tarojs/components'
+import {View, Text} from '@tarojs/components'
 
 import './PageSix.less'
 import './../Report.less'
-import NextPageTip from "../NextPageTip";
+import NextPageTip from "../NextPageTip/NextPageTip";
 
 interface IProp {
   shareHoleCount: number,

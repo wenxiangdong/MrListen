@@ -5,7 +5,7 @@ import './PageTwo.less'
 import './../Report.less'
 
 import paperPlanePNG from './paper-plane.png'
-import NextPageTip from "../NextPageTip";
+import NextPageTip from "../NextPageTip/NextPageTip";
 
 interface IProp {
   meetTime: number

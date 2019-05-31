@@ -3,7 +3,7 @@ import {View, Text} from '@tarojs/components'
 
 import './PageThree.less'
 import './../Report.less'
-import NextPageTip from "../NextPageTip";
+import NextPageTip from "../NextPageTip/NextPageTip";
 
 interface IProp {
   holeCount: number

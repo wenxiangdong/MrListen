@@ -1,13 +1,11 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text, OpenData, Image} from '@tarojs/components'
+import {View, OpenData} from '@tarojs/components'
 
 import AppAvatar from '../../../common/AppAvatar/AppAvatar'
 
-import enterImg from './../../../../images/enterImg.png';
-
 import './PageOne.less'
 import './../Report.less'
-import NextPageTip from "../NextPageTip";
+import NextPageTip from "../NextPageTip/NextPageTip";
 
 interface IState {
   mounted: boolean
@@ -48,7 +46,7 @@ export default class PageOne extends Component<any, IState> {
             <OpenData className={'name'} type={'userNickName'}/>
           </View>
         </View>
-        <NextPageTip flyInTime={"7"}/>
+        <NextPageTip flyInTime={"7"} showDate/>
       </View>
     )
   }

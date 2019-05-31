@@ -9,7 +9,6 @@ import Listen from '../../../utils/listen'
 import {apiHub} from '../../../apis/ApiHub'
 import {IHoleVO} from '../../../apis/HoleApi'
 
-import './../../../components/common/common-zlc.less'
 import './update.less'
 
 interface IState {
@@ -139,8 +138,8 @@ export class Update extends Component<any, IState> {
 
   render() {
     return (
-      <View className={'flex-column-start-center'}>
-        <View className={'flex-column-center vw-rect'}>
+      <View className={'base-view'}>
+        <View className={'avatar-view'}>
           <Avatar src={this.state.avatarUrl} size={100} margin={20}/>
           <Button type={'primary'} plain={true} size={'mini'} onClick={this.handleAvatarClick}>修改头像</Button>
         </View>
