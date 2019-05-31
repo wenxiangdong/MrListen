@@ -20,7 +20,8 @@ interface IState {
 export class Setting extends Component<any, IState> {
 
   config: Config = {
-    navigationBarTitleText: '个人设置'
+    navigationBarTitleText: '个人设置',
+    disableScroll: true
   };
 
   constructor(props) {

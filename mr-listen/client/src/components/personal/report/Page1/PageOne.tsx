@@ -46,7 +46,7 @@ export default class PageOne extends Component<any, IState> {
             <OpenData className={'name'} type={'userNickName'}/>
           </View>
         </View>
-        <NextPageTip flyInTime={"7"} showDate/> 
+        <NextPageTip flyInTime={"7"} showDate/>
       </View>
     )
   }

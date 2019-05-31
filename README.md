@@ -7,9 +7,13 @@
 
 > A Taro project
 
-## Build Setup
+## 运行设置
 
-首先，你需要使用 npm 或者 yarn 全局安装`@tarojs/cli`，或者直接使用 [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b):
+若仅仅需要运行代码，请将根目录MrListen下的mr-listen文件夹导入微信开发者工具，编译运行即可
+
+## 构建设置
+
+若需要重新编译源码，首先，你需要使用 npm 或者 yarn 全局安装`@tarojs/cli`，或者直接使用 [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b):
 
 ~~~shell
 # 使用 npm 安装 CLI
