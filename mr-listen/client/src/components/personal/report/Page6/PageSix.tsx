@@ -51,11 +51,16 @@ export default class PageSix extends Component<IProp, IState> {
               </View>
               <View className={`text-align-last word-3 ${mounted ? `word-fly-in-5` : ``}`}>分享树洞的经历</View>
               </View>
-            <View className={`text-align-last word-4 ${mounted ? `word-fly-in-8` : ``}`}>
-              <Text>你也在这其中收获了</Text>
-              <Text>{plusOneCount}</Text>
-              <Text>次点赞</Text>
-            </View>
+            {
+              plusOneCount > 0 ?
+                <View className={`text-align-last word-4 ${mounted ? `word-fly-in-8` : ``}`}>
+                  <Text>你也在这其中收获了</Text>
+                  <Text>{plusOneCount}</Text>
+                  <Text>次点赞</Text>
+                </View>
+                :
+                <></>
+            }
           </View>
           <NextPageTip flyInTime={"10"}/>
         </View>
