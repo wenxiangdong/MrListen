@@ -60,7 +60,7 @@ export default class PageFour extends Component<IProp, IState> {
         ? (
           <View>
             <View className={`align-text`}>
-              <View className={`text-align-last word-1 ${mounted ? `word-fly-in-1` : ``}`}>你发过最长的消息</View>
+              <View className={`text-align-last word-1 ${mounted ? `word-fly-in-1` : ``}`}>你倾诉最长的一次</View>
               <View className={`text-align-last word-2 ${mounted ? `word-fly-in-3` : ``}`}>
                 <Text>也不过说了{'\n'}</Text>
               </View>

@@ -59,7 +59,7 @@ export default class PageSix extends Component<IProp, IState> {
                   <Text>次点赞</Text>
                 </View>
                 :
-                <></>
+                <View></View>
             }
           </View>
           <NextPageTip flyInTime={"10"}/>

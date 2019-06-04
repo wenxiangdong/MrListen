@@ -68,7 +68,7 @@ export default class PageFive extends Component<IProp, IState> {
               </View>
             </View>
             <View className={`word-4 ${mounted ? `word-fly-in-10` : ``}`}>还没有睡的你想起了我</View>
-            <NextPageTip flyInTime={"12"}/>
+            <NextPageTip flyInTime={"15"}/>
           </View>
         )
         : (
@@ -87,7 +87,7 @@ export default class PageFive extends Component<IProp, IState> {
                 </View>
               </View>
             </View>
-            <NextPageTip flyInTime={"10"}/>
+            <NextPageTip flyInTime={"15"}/>
           </View>
         )
     ;
