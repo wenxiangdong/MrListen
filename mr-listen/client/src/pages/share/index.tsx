@@ -73,7 +73,7 @@ export default class Index extends Component<any, IState> {
     },
     {
       label: "3天",
-      value: 7 * 24 * 60 * 60 * 1000
+      value: 3 * 24 * 60 * 60 * 1000
     },
   ];
 

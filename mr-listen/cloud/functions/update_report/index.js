@@ -103,7 +103,7 @@ async function getReport(userId) {
 
             for (let i = 0; i < bubbles.length; i++) {
                 // 计算最长倾诉时间
-                if ((i !== 0) && (bubbles[i].createTime.getTime() - bubbles[i - 1].createTime.getTime()) > (minutes * 60 * 1000)) {
+                if ((i !== 0) && (bubbles[i].createTime - bubbles[i - 1].createTime) > (minutes * 60 * 1000)) {
                     longestDuration = Math.max(bubbles[i - 1].createTime - bubbles[start].createTime, longestDuration);
                     start = i;
                 }
@@ -123,7 +123,7 @@ async function getReport(userId) {
                 }
 
                 // 最晚倾诉时间
-                let time = bubble.createTime;
+                let time = new Date(bubble.createTime);
                 if (time.getHours() >= latestEndHour || time.getHours() < latestStartHour) {
                     if (!latestTime) {
                         latestTime = time;

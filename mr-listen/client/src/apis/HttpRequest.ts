@@ -90,9 +90,9 @@ export class HttpRequest implements IHttpRequest {
       delete data['_id'];
       delete data['_openid'];
 
-      data['createTime'] = this.database.serverDate();
+      data['createTime'] = new Date().getTime();
 
-      let result = await this.database.collection(collectionName).add({data}) as IAddResult;
+      let result = await this.database.collection(collectionName).add({ data }) as IAddResult;
 
       if (result) {
         return result._id;
@@ -125,7 +125,7 @@ export class HttpRequest implements IHttpRequest {
       delete data['_id'];
       delete data['_openid'];
 
-      let result = await this.database.collection(collectionName).doc(docId).update({data}) as IUpdateResult;
+      let result = await this.database.collection(collectionName).doc(docId).update({ data }) as IUpdateResult;
 
       if (!result) {
         const errMsg = `更新 ${collectionName} ${docId} ${JSON.stringify(data)} 失败`;

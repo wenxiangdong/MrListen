@@ -1,9 +1,9 @@
-import {HttpRequest, IHttpRequest, MockRequest, VO} from "./HttpRequest";
+import { HttpRequest, IHttpRequest, MockRequest, VO } from "./HttpRequest";
 import Cache from "./Cache";
-import {IHoleVO} from "./HoleApi";
-import {apiHub} from "./ApiHub";
+import { IHoleVO } from "./HoleApi";
+import { apiHub } from "./ApiHub";
 import Const from "./Const";
-import {BubbleStyle, BubbleType, BubbleVO} from "./BubbleApi";
+import { BubbleStyle, BubbleType, BubbleVO } from "./BubbleApi";
 
 export interface IShareHoleApi {
   createShareHole(holeId: string | number, expireIn?: number): Promise<string | number>;
@@ -36,17 +36,16 @@ export class ShareHoleApi implements IShareHoleApi {
 
   async createShareHole(holeId: string | number, expireIn: number = -1): Promise<string | number> {
     let snapShot = {
-        detail: (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).get(),
-        bubbleVOs: await apiHub.holeApi.getBubblesFromHole(holeId)
-      }
-    ;
+      detail: (await this.cache.collection<IHoleVO>(Const.HOLE_COLLECTION)).doc(holeId).get(),
+      bubbleVOs: await apiHub.holeApi.getBubblesFromHole(holeId)
+    };
 
     // @ts-ignore
     let key = new Date().getTime() + '' + Math.floor(Math.random() * 1000);
 
     await this.base.add(Const.SHARE_HOLE_COLLECTION, {
       key,
-      expiryTime: expireIn >= 0 ? this.base.serverDate({offset: expireIn}) : -1,
+      expiryTime: expireIn >= 0 ? new Date().getTime() + expireIn : expireIn,
       snapShot,
       plusOneCount: 0,
     });
@@ -54,11 +53,11 @@ export class ShareHoleApi implements IShareHoleApi {
   }
 
   async getShareHole(key: string | number): Promise<ShareHoleVO> {
-    return await this.base.callFunction<ShareHoleVO>("get_share_hole", {key});
+    return await this.base.callFunction<ShareHoleVO>("get_share_hole", { key });
   }
 
   async plusOne(shareHoleId: string | number): Promise<void> {
-    await this.base.callFunction<void>("plus_one", {shareHoleId});
+    await this.base.callFunction<void>("plus_one", { shareHoleId });
   }
 
   getQrCode(params: any): Promise<string> {
