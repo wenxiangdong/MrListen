@@ -61,11 +61,11 @@ export class MockReportApi implements IReportApi {
     return {
       _id: '',
       userId: 'userId',
-      meetTime: new Date().getTime(),
+      meetTime: Date.now(),
       holeCount: (Math.random() * 10) >>> 0,
       longestDuration: ((Math.random() * 10 * 1000) >>> 0),
       mostUsedWords: [['测试1',20],['测试2',10],['测试3',5],['测试4',2],['测试5',1],],
-      latestTime: new Date().getTime(),
+      latestTime: Date.now(),
       plusOneCount: (Math.random() * 10) >>> 0,
       shareHoleCount: (Math.random() * 10) >>> 0
     };

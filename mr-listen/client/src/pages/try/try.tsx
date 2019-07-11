@@ -33,13 +33,13 @@ export default class Try extends Component<any, IState> {
   //   type: BubbleType.TEXT,
   //   style: BubbleStyle.NORMAL,
   //   content: "内容内容内容内容内容内容内容内容内容内容内容内容内容内容内内容内容内容",
-  //   sendTime: new Date().getTime(),
+  //   sendTime: Date.now(),
   //   replyList: [{
   //     content: "内容内容内容内容内容内",
-  //     sendTime: new Date().getTime()
+  //     sendTime: Date.now()
   //   },{
   //     content: "内容内容内容内容内容内容内容内容内容内容内容内",
-  //     sendTime: new Date().getTime()
+  //     sendTime: Date.now()
   //   }]
   // };
 

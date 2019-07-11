@@ -161,7 +161,7 @@ export class MockHoleApi implements IHoleApi {
             type: BubbleType.TEXT,
             replyList: [],
             content: "",
-            createTime: new Date().getTime(),
+            createTime: Date.now(),
             _openid: ""
           } as BubbleVO
         ).map((item, index) =>
@@ -184,7 +184,7 @@ export class MockHoleApi implements IHoleApi {
       holeVOList.push({
         _id: id,
         _openid: id,
-        createTime: new Date().getTime(),
+        createTime: Date.now(),
         title: `树洞 ${id} 号`,
         avatarUrl: ''
       })

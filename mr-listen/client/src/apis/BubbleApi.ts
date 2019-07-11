@@ -100,7 +100,7 @@ export class MockBubbleApi implements IBubbleApi {
 
   // @ts-ignore
   sendBubble(bubble: Bubble): Promise<number> {
-    return this.http.success(new Date().getTime());
+    return this.http.success(Date.now());
   }
 
   // @ts-ignore

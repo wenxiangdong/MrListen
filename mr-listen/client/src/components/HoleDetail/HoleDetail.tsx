@@ -61,7 +61,7 @@ export default class HoleDetail extends Component<IProp, IState> {
     bubble = {
       holeId: bubble.holeId,
       content: bubble.content,
-      sendTime: new Date().getTime(),
+      sendTime: Date.now(),
       _id: "",
       type: bubble.type,
       style: bubble.style,

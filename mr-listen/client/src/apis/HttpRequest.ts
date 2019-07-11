@@ -90,7 +90,7 @@ export class HttpRequest implements IHttpRequest {
       delete data['_id'];
       delete data['_openid'];
 
-      data['createTime'] = new Date().getTime();
+      data['createTime'] = Date.now();
 
       let result = await this.database.collection(collectionName).add({ data }) as IAddResult;
 

@@ -41,11 +41,11 @@ export class ShareHoleApi implements IShareHoleApi {
     };
 
     // @ts-ignore
-    let key = new Date().getTime() + '' + Math.floor(Math.random() * 1000);
+    let key = Date.now() + '' + Math.floor(Math.random() * 1000);
 
     await this.base.add(Const.SHARE_HOLE_COLLECTION, {
       key,
-      expiryTime: expireIn >= 0 ? new Date().getTime() + expireIn : expireIn,
+      expiryTime: expireIn >= 0 ? Date.now() + expireIn : expireIn,
       snapShot,
       plusOneCount: 0,
     });
@@ -88,7 +88,7 @@ export class MockShareHoleApi implements IShareHoleApi {
               type: BubbleType.TEXT,
               replyList: [],
               content: "",
-              createTime: new Date().getTime(),
+              createTime: Date.now(),
               _openid: ""
             } as BubbleVO
           ).map((item, index) =>

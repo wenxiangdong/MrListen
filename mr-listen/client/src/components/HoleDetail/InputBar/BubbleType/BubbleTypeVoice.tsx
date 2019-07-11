@@ -40,7 +40,7 @@ export default class BubbleTypeVoice extends Taro.Component<IProp, IState> {
       _id: "",
       holeId: "",
       content: content,
-      sendTime: new Date().getTime(),
+      sendTime: Date.now(),
       style: BubbleStyle.NORMAL,
       type: BubbleType.VOICE
     }

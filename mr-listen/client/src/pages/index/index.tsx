@@ -82,7 +82,7 @@ class Index extends Component<any, IState> {
   private resolveBubbleWithTempFile = async (bubble: Bubble) => {
     const url = await apiHub.fileApi.uploadFile(
       // 路径最后增加随机数，防止重复
-      `bubbles/${bubble.type}/${new Date().getTime()}-${Math.random()}`,
+      `bubbles/${bubble.type}/${Date.now()}-${Math.random()}`,
       bubble.content
     );
     bubble = {...bubble, content: url} as Bubble;
@@ -264,7 +264,7 @@ class Index extends Component<any, IState> {
       type: bubble.type,
       style: bubble.style,
       content: bubble.content,
-      createTime: new Date().getTime(),
+      createTime: Date.now(),
       replyList: []
     };
     // @ts-ignore

@@ -134,7 +134,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     const replyVO = {
       bubbleId: bubble._id,
       content: text,
-      createTime: new Date().getTime()
+      createTime: Date.now()
     };
     // @ts-ignore
     bubble.replyList.push(replyVO);
