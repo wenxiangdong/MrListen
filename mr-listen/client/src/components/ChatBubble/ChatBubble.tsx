@@ -58,7 +58,7 @@ export default class ChatBubble extends Taro.Component<IProp, IState> {
     let tapIndex = -1;
     try {
       tapIndex = (await Taro.showActionSheet({
-        itemList: ["对过去的自己说", "删除"]
+        itemList: ["批注", "删除"]
       })).tapIndex;
     } catch (e) {
       this.logger.info("取消");

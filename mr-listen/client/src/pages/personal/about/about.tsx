@@ -14,7 +14,6 @@ interface IState {
  * 关于我们
  * @author 张李承
  * @create 2019/5/2 22:13
- * TODO 美化
  */
 export class About extends Component<any, IState> {
 

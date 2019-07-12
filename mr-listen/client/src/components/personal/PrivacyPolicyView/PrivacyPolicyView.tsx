@@ -11,7 +11,6 @@ interface IProp {
  * 隐私策略组件
  * @author 张李承
  * @create 2019/5/18 17:06
- * TODO 美化
  */
 export default class PrivacyPolicyView extends Component<IProp> {
 

@@ -11,10 +11,8 @@ interface IProp {
 
 /**
  * 颜色预选项组件
- * TODO 选中的组件样式优化
  * @author 张李承
  * @create 2019/4/26 15:44
- * TODO 请 cyf 同学进行美化
  */
 export default class ColorPickerOption extends Component<IProp, any> {
   private clickHandler = (e) => {

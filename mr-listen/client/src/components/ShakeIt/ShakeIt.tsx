@@ -53,8 +53,8 @@ export default class ShakeIt extends Taro.Component<IProp, IState> {
     }
     this.shaking = true;
     const {confirm, cancel} = await Taro.showModal({
-      title: "冲一冲",
-      content: "冲走此次倾诉，不留下任何痕迹",
+      title: "摇一摇",
+      content: "确定要清空此次倾诉吗？",
       confirmColor: "#FF6347"
     });
     this.logger.info(JSON.stringify({confirm, cancel}));

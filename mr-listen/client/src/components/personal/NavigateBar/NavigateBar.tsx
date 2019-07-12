@@ -15,7 +15,6 @@ export interface NavigatorBarProp {
  * 个人中心跳转条组件
  * @author 张李承
  * @create 2019/4/26 0:22
- * TODO 请 cyf 同学进行美化
  */
 export default class NavigateBar extends Component<NavigatorBarProp, any> {
 

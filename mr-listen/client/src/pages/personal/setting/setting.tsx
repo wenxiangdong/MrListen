@@ -80,7 +80,7 @@ export class Setting extends Component<any, IState> {
           <SampleBubble color={`${userConfig.bubbleColor}`}/>
         </View>
         <View className={`menu-item-with-switch ${mounted ? `fly-in-4`: ``}`}>
-          <Text>摇一摇冲走烦恼</Text>
+          <Text>摇一摇清空倾诉信息</Text>
           <Switch checked={userConfig.shakeOff} onChange={(e) => {
             this.setState({userConfig: {...userConfig, shakeOff: e.detail.value}});
           }} />

@@ -4,7 +4,6 @@ import {View, PickerView, PickerViewColumn, Image, Button, Block, Input} from "@
 import Logger from "../../utils/logger";
 import timePng from "../../images/time.png";
 import bulbPng from "../../images/bulb.png";
-import cancelPng from "../../images/cancel.png";
 import userConfig from "../../utils/user-config";
 import ShareCanvas from "../../components/ShareCanvas/ShareCanvas";
 import Listen from "../../utils/listen";
@@ -127,7 +126,7 @@ export default class Index extends Component<any, IState> {
         <View className={`share-save-time-wrapper ${mounted ? `fly-in-1`: ``}`}>
           <View className={"share-title"}>
             <Image src={timePng} className={"share-icon"}/>
-            保质期
+            分享有效时间
           </View>
           <PickerView value={[selectedSaveTimeIndex]} className={"share-picker-view"}
                       indicatorClass={"share-picker-indicator"} onChange={this.handleChangePickerTime}>
@@ -179,7 +178,6 @@ export default class Index extends Component<any, IState> {
     const qrCodeSection = (
       <View className={"share-code-wrapper"}>
         <ShareCanvas text={inputText} holeId={holeId} expireIn={expireIn} onError={this.handleClickCancel}/>
-        {/*<Image className={"share-cancel-icon"} src={cancelPng} onClick={this.handleClickCancel}/>*/}
         <View className={"SC-btn"} onClick={this.handleClickCancel}>
           取消
         </View>

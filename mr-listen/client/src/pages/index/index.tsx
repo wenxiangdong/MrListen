@@ -337,7 +337,6 @@ class Index extends Component<any, IState> {
       // 存在这个参数的话，证明是从树洞列表跳转过来的，需要拿所有的气泡
       const title = params.title;
       this.setState({holeId, title});
-      // TODO 从api拿气泡
       this.getBubbles(holeId);
     }
     setTimeout(() => {

@@ -8,7 +8,6 @@ import './UserInfoBar.less'
  * 用户信息条组件
  * @author 张李承
  * @create 2019/4/25 23:53
- * TODO 请 cyf 同学进行美化
  */
 export default class UserInfoBar extends Component {
   render() {

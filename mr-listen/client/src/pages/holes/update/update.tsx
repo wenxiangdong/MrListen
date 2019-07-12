@@ -20,8 +20,6 @@ interface IState {
  * 更新树洞信息页面
  * @author 张李承
  * @create 2019/5/5 19:06
- * TODO 可以进行美化
- * TODO 在树洞 title 的 input 后面加个 icon
  */
 export class Update extends Component<any, IState> {
 

@@ -17,7 +17,6 @@ interface IState {
 
 /**
  * 帮助页面 Swiper
- * TODO 帮助图片
  * @author 张李承
  * @create 2019/5/18 19:54
  */
